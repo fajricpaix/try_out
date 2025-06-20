@@ -1,0 +1,3351 @@
+{
+  "twk": {
+    "type": "twk",
+    "level": "Mudah",
+    "title": "Tes Wawasan Kebangsaan",
+    "desc": "Komponen penting dalam seleksi CASN, khususnya dalam seleksi CPNS dan PPPK. Tujuan utama dari TWK adalah untuk menilai penguasaan peserta terhadap nilai-nilai kebangsaan Indonesia sebagai landasan dalam menjalankan tugas sebagai abdi negara.",
+    "quiz": [
+      {
+        "question": {
+          "text": "Kembalinya ke UUD 1945 setelah Dekrit Presiden 5 Juli 1959 di samping membawa perbedaan dalam struktur ketatanegaraan Indonesia juga membawa perubahan sistem demokrasi. Bagaimanakah perubahan sistem demokrasi dengan Dekrit Presiden tersebut?"
+        },
+        "options": [
+          {
+            "label": "A",
+            "text": "Demokrasi liberal menjadi demokrasi terpimpin"
+          },
+          {
+            "label": "B",
+            "text": "Demokrasi rakyat menjadi demokrasi terpimpin"
+          },
+          {
+            "label": "C",
+            "text": "Demokrasi liberal menjadi demokrasi rakyat"
+          },
+          {
+            "label": "D",
+            "text": "Sistem perwakilan menjadi sistem referendum"
+          },
+          {
+            "label": "E",
+            "text": "Sistem referendum menjadi sistem perwakilan"
+          }
+        ],
+        "answer": "A",
+        "explanation": "Dekrit Presiden 5 Juli 1959 mengakhiri era Demokrasi Liberal dan memulai era Demokrasi Terpimpin di Indonesia."
+      },
+      {
+        "question": {
+          "text": "Ada seseorang yang bersikap menolak perubahan atas perkembangan teknologi informasi dan komunikasi yang menganggap sebagai bentuk penjajahan baru, tanpa melihat kebaikan-kebaikan yang dapat memudahkan kehidupan manusia. Hal itu merupakan tindakan yang bertentangan dengan nilai Pancasila, sebab ..."
+        },
+        "options": [
+          {
+            "label": "A",
+            "text": "Pancasila mendorong kemajuan yang berpegang pada persatuan"
+          },
+          {
+            "label": "B",
+            "text": "Kemajuan yang harus dilakukan biasanya mengorbankan tradisi yang ada"
+          },
+          {
+            "label": "C",
+            "text": "Tujuan utama dan satu-satunya nilai Pancasila adalah kemajuan negara"
+          },
+          {
+            "label": "D",
+            "text": "Setiap perubahan selalu membawa dampak pada kemerosotan nilai Pancasila"
+          },
+          {
+            "label": "E",
+            "text": "Kemajuan tidak dapat dicapai tanpa adanya perubahan"
+          }
+        ],
+        "answer": "A",
+        "explanation": "Pancasila, khususnya sila ketiga Persatuan Indonesia, mendorong kemajuan bangsa dengan tetap menjaga persatuan, termasuk dalam adaptasi teknologi yang membawa kebaikan."
+      },
+      {
+        "question": {
+          "text": "Seorang pimpinan perusahaan membuka lowongan pekerjaan untuk karyawan baru. Ia mendapatkan banyak lamaran pendaftar dari berbagai latar belakang suku bangsa. Bagaimanakah tindakan yang sebaiknya dilakukan atas fenomena tersebut?"
+        },
+        "options": [
+          {
+            "label": "A",
+            "text": "Menerima semua agar memunculkan keragaman"
+          },
+          {
+            "label": "B",
+            "text": "Menjadikan asal daerah sebagai pertimbangan penilaian"
+          },
+          {
+            "label": "C",
+            "text": "Mencari pendaftar dari suku bangsa yang budayanya berdekatan agar mudah bergaul"
+          },
+          {
+            "label": "D",
+            "text": "Menilai pendaftar berdasarkan kemampuannya tidak melihat asal sukunya"
+          },
+          {
+            "label": "E",
+            "text": "Mempertimbangkan asal suku bangsa pendaftar tersebut sebagai penilaian"
+          }
+        ],
+        "answer": "D",
+        "explanation": "Dalam konteks profesional dan nilai-nilai keadilan (Sila Kelima Pancasila), penilaian harus didasarkan pada kemampuan dan kompetensi, bukan latar belakang suku."
+      },
+      {
+        "question": {
+          "text": "Akhir-akhir ini sering terjadi demonstrasi besar-besaran di Thailand menuntut pergantian pemerintahan menuju terwujudnya pemerintahan yang lebih demokratis. Bagaimanakah sikap yang sebaiknya ditunjukkan oleh pemerintah Indonesia berkenaan dengan hal tersebut?"
+        },
+        "options": [
+          {
+            "label": "A",
+            "text": "Mendorong pemerintah Thailand untuk mewujudkan tuntutan para demonstran"
+          },
+          {
+            "label": "B",
+            "text": "Membantu perjuangan rakyat Thailand untuk pemerintahan yang demokratis"
+          },
+          {
+            "label": "C",
+            "text": "Berusaha menjembatani persoalan antara pemerintah dan rakyat Thailand"
+          },
+          {
+            "label": "D",
+            "text": "Berusaha ikut aktif meredam terjadinya demonstrasi rakyat Thailand"
+          },
+          {
+            "label": "E",
+            "text": "Tidak melibatkan diri karena hal itu merupakan persoalan internal Thailand"
+          }
+        ],
+        "answer": "E",
+        "explanation": "Dalam hubungan internasional, Indonesia menganut prinsip non-intervensi terhadap urusan internal negara lain, kecuali jika ada dampak langsung yang membahayakan kepentingan nasional atau stabilitas regional."
+      },
+      {
+        "question": {
+          "text": "Penggantian tanah milik warga masyarakat yang digunakan untuk pembangunan fasilitas jalan raya acapkali menimbulkan sikap pro dan kontra karena perbedaan kepentingan tentang harga tanah. Upaya yang tepat agar perbedaan sikap masyarakat tersebut pada akhirnya dapat mendukung pembangunan jalan raya adalah ..."
+        },
+        "options": [
+          {
+            "label": "A",
+            "text": "Melakukan sosialisasi pembangunan jalan raya"
+          },
+          {
+            "label": "B",
+            "text": "Sosialisasi jumlah biaya penggantian lahan"
+          },
+          {
+            "label": "C",
+            "text": "Jumlah biaya penggantian tanah sesuai lokasi"
+          },
+          {
+            "label": "D",
+            "text": "Biaya penggantian tanah ditransfer langsung ke warga"
+          },
+          {
+            "label": "E",
+            "text": "Warga memusyawarahkan kesepakatan nilai penggantian tanah"
+          }
+        ],
+        "answer": "E",
+        "explanation": "Musyawarah untuk mencapai mufakat adalah salah satu nilai Pancasila (Sila Keempat) yang paling tepat untuk menyelesaikan perbedaan kepentingan dalam masyarakat."
+      },
+      {
+        "question": {
+          "text": "Salah satu pergerakan untuk mencapai kemerdekaan diwarnai oleh lahirnya Sarekat Dagang Islam yang didirikan oleh Haji Samanhudi di Solo pada 1911. Gerakan ini berusaha membangun kekuatan serta persatuan bangsa melalui penguatan dalam bidang ..."
+        },
+        "options": [
+          {
+            "label": "A",
+            "text": "Ekonomi melalui pelindungan pengusaha lokal agar mampu bersaing dengan pengusaha nonlokal"
+          },
+          {
+            "label": "B",
+            "text": "Kebudayaan melalui pengembangan kesenian-kesenian daerah agar mampu mengharumkan nama baik Indonesia"
+          },
+          {
+            "label": "C",
+            "text": "Pendidikan melalui pengajaran serta menjadi pemantik persatuan dan kesatuan bangsa Indonesia"
+          },
+          {
+            "label": "D",
+            "text": "Keagamaan yang memobilisasi gerakan rakyat dengan dasar keyakinan pada nilai-nilai Ketuhanan"
+          },
+          {
+            "label": "E",
+            "text": "Politik melalui pengembangan kebijakan-kebijakan yang berpihak pada masyarakat lokal dibanding masyarakat nonlokal"
+          }
+        ],
+        "answer": "A",
+        "explanation": "Sarekat Dagang Islam (SDI) awalnya didirikan untuk membela kepentingan pengusaha pribumi dari dominasi pedagang asing (Tiongkok), sehingga fokus utamanya adalah penguatan ekonomi."
+      },
+      {
+        "question": {
+          "text": "Saudara diberikan tanggung jawab untuk membuat kaos untuk kegiatan mancakrida (outbound) kantor pada pekan depan. Tindakan yang bertentangan dengan integritas pada tugas tersebut adalah ..."
+        },
+        "options": [
+          {
+            "label": "A",
+            "text": "Mencari perusahaan konveksi yang berpengalaman dan berkualitas"
+          },
+          {
+            "label": "B",
+            "text": "Menginformasikan perkembangan pembuatan kaos kepada panitia lain secara berkala"
+          },
+          {
+            "label": "C",
+            "text": "Menaikkan sedikit harga per kaos sebagai uang lelah dari pekerjaan tambahan"
+          },
+          {
+            "label": "D",
+            "text": "Memastikan bahwa kualitas kaos yang dibuat sebanding dengan harga yang diajukan"
+          },
+          {
+            "label": "E",
+            "text": "Melakukan jajak pendapat dahulu dalam menentukan desain yang akan dicetak"
+          }
+        ],
+        "answer": "C",
+        "explanation": "Menaikkan harga untuk keuntungan pribadi tanpa sepengetahuan dan persetujuan yang berwenang merupakan tindakan tidak berintegritas dan termasuk gratifikasi atau korupsi kecil."
+      },
+      {
+        "question": {
+          "text": "Suatu keluarga berkumpul membahas rencana liburan. Terjadi perdebatan tujuan liburan. Seorang anggota keluarga bersikeras memilih liburan ke Bali. Sementara itu, anggota lainnya ingin ke Jakarta. Anggota keluarga yang ingin ke Bali terus memaksakan diri ke Bali dan mengancam jika keinginannya tidak dituruti, ia tidak akan ikut liburan. Pemaksaan kehendak terhadap orang lain tidak boleh dilakukan karena ..."
+        },
+        "options": [
+          {
+            "label": "A",
+            "text": "Mengakibatkan hilangnya kepercayaan"
+          },
+          {
+            "label": "B",
+            "text": "Mengakibatkan berkurangnya kreativitas"
+          },
+          {
+            "label": "C",
+            "text": "Mengakibatkan ketidakharmonisan"
+          },
+          {
+            "label": "D",
+            "text": "Mengakibatkan ketidaknyamanan anggota lain"
+          },
+          {
+            "label": "E",
+            "text": "Menjadikan anggota lain malas bermusyawarah"
+          }
+        ],
+        "answer": "C",
+        "explanation": "Pemaksaan kehendak, terutama dalam konteks keluarga, sangat berpotensi menimbulkan konflik dan merusak keharmonisan hubungan antar anggota keluarga."
+      },
+      {
+        "question": {
+          "text": "Dalam perumusan masalah dan penetapan UUD NRI Tahun 1945 dalam sidang BPUPKI dan PPKI, ada yang menjabat sebagai Ketua Panitia Persiapan Kemerdekaan Indonesia, Ketua Panitia Perancangan Ekonomi, konseptor naskah teks proklamasi kemerdekaan, dan sebagainya. Dalam hal ini, nilai persatuan ditunjukkan dengan adanya kerja sama pendiri negara berdasarkan ..."
+        },
+        "options": [
+          {
+            "label": "A",
+            "text": "Profesinya masing-masing"
+          },
+          {
+            "label": "B",
+            "text": "Penunjukan masing-masing"
+          },
+          {
+            "label": "C",
+            "text": "Asalnya masing-masing"
+          },
+          {
+            "label": "D",
+            "text": "Perannya masing-masing"
+          },
+          {
+            "label": "E",
+            "text": "Kerelaan hati masing-masing"
+          }
+        ],
+        "answer": "D",
+        "explanation": "Para pendiri negara bekerja sama sesuai dengan peran dan tugas yang diamanahkan kepada mereka dalam proses perumusan UUD 1945 dan persiapan kemerdekaan, menunjukkan nilai persatuan dalam pembagian tugas."
+      },
+      {
+        "question": {
+          "text": "Keberagaman pandangan politik di Indonesia telah mewarnai arus sejarah bangsa. Banyak wacana telah diungkapkan oleh berbagai golongan politik untuk menawarkan konsep dan strategi dalam menyikapi permasalahan bangsa dan negara. Bagaimana keberagaman pandangan politik di atas dimaknai dalam bingkai Bhineka Tunggal Ika?"
+        },
+        "options": [
+          {
+            "label": "A",
+            "text": "Dinamika perbedaan politik dapat menghambat kemajuan bangsa"
+          },
+          {
+            "label": "B",
+            "text": "Perbedaan pandangan politik menyalahi bhineka tunggal ika"
+          },
+          {
+            "label": "C",
+            "text": "Seluruh komponen masyarakat dapat mengambil peran untuk kemajuan bangsa"
+          },
+          {
+            "label": "D",
+            "text": "Pandangan politik yang beragam memperlihatkan bahwa masyarakat terpecah"
+          },
+          {
+            "label": "E",
+            "text": "Keberagaman golongan dan pandangan memberi warna dalam mencapai tujuan bersama"
+          }
+        ],
+        "answer": "E",
+        "explanation": "Bhineka Tunggal Ika mengajarkan bahwa meskipun berbeda-beda (termasuk pandangan politik), kita tetap satu. Keberagaman justru memperkaya cara pandang dan strategi dalam mencapai tujuan bangsa."
+      },
+      {
+        "question": {
+          "text": "Ki Hadjar Dewantara sebagai seorang pejabat negara sekaligus bangsawan diriwayatkan tidak pernah sungkan membeli perabotan bekas dari teman atau pelelangan. Mengapa perilaku tersebut mencerminkan integritas terhadap bangsa Indonesia?"
+        },
+        "options": [
+          {
+            "label": "A",
+            "text": "Kebermanfaatan dari perabotan lebih penting daripada kemewahan"
+          },
+          {
+            "label": "B",
+            "text": "Kesederhanaan seseorang yang memiliki akses kemapanan, tetapi tidak dilakukan"
+          },
+          {
+            "label": "C",
+            "text": "Menjadi contoh nyata pelaksanaan prinsip ekonomi dalam bidang rumah tangga"
+          },
+          {
+            "label": "D",
+            "text": "Teladan bagi para kaum bangsawan untuk menanggalkan identitasnya"
+          },
+          {
+            "label": "E",
+            "text": "Bangsa Indonesia memiliki pemimpin yang berpandangan ekologis"
+          }
+        ],
+        "answer": "B",
+        "explanation": "Perilaku Ki Hadjar Dewantara yang memilih membeli perabotan bekas meskipun memiliki akses kemapanan menunjukkan kesederhanaan dan tidak bermewah-mewahan, yang merupakan bentuk integritas dan teladan bagi pejabat publik."
+      },
+      {
+        "question": {
+          "text": "Suatu kelas terdiri atas siswa-siswa yang berasal dari berbagai suku. Mereka menghormati satu sama lain. Tugas-tugas dari guru dikerjakan secara berkelompok lintas suku. Hubungan integritas dan bhineka tunggal ika pada peristiwa ini adalah ..."
+        },
+        "options": [
+          {
+            "label": "A",
+            "text": "Semua siswa harus mempelajari budaya semua suku"
+          },
+          {
+            "label": "B",
+            "text": "Sekolah harus menyediakan guru-guru dari berbagai suku"
+          },
+          {
+            "label": "C",
+            "text": "Semua suku-suku di Indonesia perlu saling mempelajari"
+          },
+          {
+            "label": "D",
+            "text": "Penghormatan terhadap perbedaan menciptakan kebersamaan"
+          },
+          {
+            "label": "E",
+            "text": "Indonesia memiliki berbagai macam suku, agama, ras, dan etnis"
+          }
+        ],
+        "answer": "D",
+        "explanation": "Inti dari Bhineka Tunggal Ika adalah kesediaan untuk menghormati perbedaan, yang pada akhirnya akan menciptakan persatuan dan kebersamaan, seperti yang dicontohkan dalam kerja kelompok lintas suku."
+      },
+      {
+        "question": {
+          "text": "Salah satu pejuang pada masa pergerakan kemerdekaan Indonesia adalah Soepomo yang memiliki peran, yakni ..."
+        },
+        "options": [
+          {
+            "label": "A",
+            "text": "Berjuang secara gerilya melawan penjajah Belanda"
+          },
+          {
+            "label": "B",
+            "text": "Merumuskan dasar negara Pancasila dalam sidang PPKI"
+          },
+          {
+            "label": "C",
+            "text": "Mendirikan organisasi politik PNI yang menanamkan paham nasionalisme"
+          },
+          {
+            "label": "D",
+            "text": "Pendiri partai sosialis Indonesia yang menyuarakan kemerdekaan Indonesia"
+          },
+          {
+            "label": "E",
+            "text": "Membuat tulisan tentang kondisi penderitaan pribumi di Sumatera sebagai bentuk perlawanan terhadap Belanda"
+          }
+        ],
+        "answer": "B",
+        "explanation": "Soepomo adalah salah satu tokoh penting dalam perumusan dasar negara Pancasila, yang disampaikan dalam pidatonya pada sidang BPUPKI."
+      },
+      {
+        "question": {
+          "text": "Setiap bangsa perlu membentuk angkatan perang atau angkatan bersenjata karena ..."
+        },
+        "options": [
+          {
+            "label": "A",
+            "text": "Apabila negara hanya mementingkan kesejahteraan, negara tersebut akan ditekan negara lain"
+          },
+          {
+            "label": "B",
+            "text": "Angkatan bersenjata yang tangguh merupakan faktor penting dalam hubungan internasional"
+          },
+          {
+            "label": "C",
+            "text": "Sejarah menunjukkan bahwa apabila ingin damai, negara itu harus mempersiapkan diri untuk perang"
+          },
+          {
+            "label": "D",
+            "text": "Berakhirnya perang dingin tidak serta merta diikuti dengan berakhirnya ancaman bersenjata terhadap negara-negara di dunia"
+          },
+          {
+            "label": "E",
+            "text": "Realitas politik internasional menunjukkan bahwa ancaman kekuatan militer hanya dapat diselesaikan dengan cepat melalui kekuatan militer"
+          }
+        ],
+        "answer": "D",
+        "explanation": "Pembentukan angkatan bersenjata diperlukan karena ancaman bersenjata dan konflik masih ada di dunia meskipun perang dingin telah berakhir. Ini adalah bagian dari pertahanan negara."
+      },
+      {
+        "question": {
+          "text": "Sektor UMKM merupakan tulang punggung ekonomi nasional yang tahan banting dan perlu terus diperkuat. Perilaku penggunaan produk UMKM dapat memperkuat NKRI. Dengan alasan yaitu ..."
+        },
+        "options": [
+          {
+            "label": "A",
+            "text": "Perwujudan komitmen politik"
+          },
+          {
+            "label": "B",
+            "text": "Memperkuat kemandirian ekonomi"
+          },
+          {
+            "label": "C",
+            "text": "Membentuk kepedulian sosial"
+          },
+          {
+            "label": "D",
+            "text": "Solidaritas pada golongan pribumi"
+          },
+          {
+            "label": "E",
+            "text": "Bentuk sikap anti asing"
+          }
+        ],
+        "answer": "B",
+        "explanation": "Mendukung dan menggunakan produk UMKM secara langsung memperkuat sektor ekonomi domestik, yang pada gilirannya meningkatkan kemandirian ekonomi nasional dan stabilitas NKRI."
+      },
+      {
+        "question": {
+          "text": "Manusia masa depan yang siap menghadapi tantangan globalisasi harus mempunyai persyaratan kualitas dan kemampuan berikut, kecuali..."
+        },
+        "options": [
+          {
+            "label": "A",
+            "text": "Tertarik dan siap belajar seumur hidup"
+          },
+          {
+            "label": "B",
+            "text": "Memiliki kemampuan berpikir kreatif dan analisis"
+          },
+          {
+            "label": "C",
+            "text": "Memiliki kemampuan bekerja individual dan bekerja dalam tim yang baik"
+          },
+          {
+            "label": "D",
+            "text": "Mampu berpartisipasi dalam inovasi dan menjadi kreatif"
+          },
+          {
+            "label": "E",
+            "text": "Memiliki jiwa individualistik dan liberalistik"
+          }
+        ],
+        "answer": "E",
+        "explanation": "Jiwa individualistik dan liberalistik yang berlebihan seringkali dianggap bertentangan dengan nilai-nilai kolektivitas dan gotong royong yang dibutuhkan dalam menghadapi tantangan globalisasi, serta bertentangan dengan nilai Pancasila."
+      },
+      {
+        "question": {
+          "text": "Jika anda sebagai pejabat negara mendapatkan hadiah yang nilainya lebih dari satu juta dan dapat mengubah fungsi jabatan, Anda dapat melakukan upaya hukum..."
+        },
+        "options": [
+          {
+            "label": "A",
+            "text": "Melaporkan tindakan gratifikasi ke PN"
+          },
+          {
+            "label": "B",
+            "text": "Melaporkan tindakan gratifikasi ke PT"
+          },
+          {
+            "label": "C",
+            "text": "Melaporkan tindakan gratifikasi ke MA"
+          },
+          {
+            "label": "D",
+            "text": "Melaporkan tindakan gratifikasi ke MK"
+          },
+          {
+            "label": "E",
+            "text": "Melaporkan tindakan gratifikasi ke KPK"
+          }
+        ],
+        "answer": "E",
+        "explanation": "Penerimaan hadiah yang dapat mempengaruhi fungsi jabatan dengan nilai tertentu (seringkali di atas ambang batas yang ditetapkan) tergolong gratifikasi, yang harus dilaporkan kepada Komisi Pemberantasan Korupsi (KPK)."
+      },
+      {
+        "question": {
+          "text": "Indonesia dan negara-negara di dunia sedang menghadapi pandemi Covid-19 yang berdampak pada kehidupan masyarakat. Manakah dari pilihan tersebut di bawah ini yang merupakan aktualisasi nilai dari Sila Kelima dari Pancasila?"
+        },
+        "options": [
+          {
+            "label": "A",
+            "text": "Bergotong royong membantu tetangga yang terdampak Covid-19"
+          },
+          {
+            "label": "B",
+            "text": "Bersikap adil dalam membagi bantuan pemerintah pada masyarakat"
+          },
+          {
+            "label": "C",
+            "text": "Mematuhi aturan pembatasan wilayah dengan penuh tanggung jawab"
+          },
+          {
+            "label": "D",
+            "text": "Memutuskan penanganan virus di masyarakat secara bermusyawarah"
+          },
+          {
+            "label": "E",
+            "text": "Menengok tetangga yang sedang sakit dan mendoakan supaya lekas sembuh"
+          }
+        ],
+        "answer": "B",
+        "explanation": "Sila Kelima Pancasila, 'Keadilan Sosial bagi Seluruh Rakyat Indonesia', sangat relevan dengan sikap adil dalam pembagian bantuan, memastikan pemerataan dan keadilan bagi semua yang terdampak."
+      },
+      {
+        "question": {
+          "text": "Di masa Kerajaan Kahuripan, Raja Airlangga telah mengadakan hubungan dagang dan bekerja sama dengan Benggala, Chola, dan Champa. Hal ini menunjukkan bahwa nilai Pancasila sudah lama hidup dan berkembang di nusantara, terutama nilai..."
+        },
+        "options": [
+          {
+            "label": "A",
+            "text": "Tidak menghargai dan menghormati bangsa sendiri"
+          },
+          {
+            "label": "B",
+            "text": "Kemanusiaan dan penghormatan kepada bangsa lain"
+          },
+          {
+            "label": "C",
+            "text": "Ketuhanan dengan menerima agama yang dibawa bangsa lain"
+          },
+          {
+            "label": "D",
+            "text": "Perdagangan yang saling menguntungkan dengan bangsa-bangsa lain"
+          },
+          {
+            "label": "E",
+            "text": "Kegigihan untuk memajukan dan menyejahterakan rakyat kerajaan"
+          }
+        ],
+        "answer": "D",
+        "explanation": "Hubungan dagang dan kerja sama yang dilakukan Raja Airlangga dengan bangsa lain menunjukkan adanya praktik saling menguntungkan, yang sejalan dengan semangat keadilan sosial dan hubungan baik antarnegara."
+      },
+      {
+        "question": {
+          "text": "Nilai-nilai Pancasila selalu dijadikan dasar dalam penyelenggaraan ketatanegaraan Indonesia. Berikut yang menjadi bukti bahwa Pancasila merupakan dasar negara, yaitu..."
+        },
+        "options": [
+          {
+            "label": "A",
+            "text": "Nilai-nilai Pancasila selalu dijadikan dasar dalam melakukan aktivitas kesharian warga negara"
+          },
+          {
+            "label": "B",
+            "text": "Pancasila dijadikan sebagai dasar dalam mengatur penyelenggaraan pemerintahan negara"
+          },
+          {
+            "label": "C",
+            "text": "Pembangunan sumber daya manusia di Indonesia didasarkan pada nilai-nilai Pancasila"
+          },
+          {
+            "label": "D",
+            "text": "Negara selalu mendasarkan setiap kebijakan pada nilai-nilai Pancasila terutama sila keempat"
+          },
+          {
+            "label": "E",
+            "text": "Peraturan perundang-undangan yang berlaku di Indonesia dijiwai dan diliputi oleh Pancasila"
+          }
+        ],
+        "answer": "B",
+        "explanation": "Pancasila sebagai dasar negara berarti Pancasila menjadi fondasi dan pedoman utama dalam mengatur seluruh sistem pemerintahan dan ketatanegaraan Indonesia."
+      },
+      {
+        "question": {
+          "text": "Salah satu dampak yang timbul, terutama dari aspek hukum, manakala legislator tidak memperhatikan UUD NRI Tahun 1945 dalam penyusunan perundang-undangan adalah..."
+        },
+        "options": [
+          {
+            "label": "A",
+            "text": "Akan ditolak oleh sebagian masyarakat"
+          },
+          {
+            "label": "B",
+            "text": "Dapat menimbulkan konflik di masyarakat"
+          },
+          {
+            "label": "C",
+            "text": "Tidak mencerminkan legislator yang aspiratif"
+          },
+          {
+            "label": "D",
+            "text": "Peraturan tersebut gugur demi hukum"
+          },
+          {
+            "label": "E",
+            "text": "Tidak terakomodasinya aspirasi masyarakat"
+          }
+        ],
+        "answer": "D",
+        "explanation": "Dalam hierarki peraturan perundang-undangan, UUD NRI Tahun 1945 adalah hukum dasar. Jika suatu peraturan perundang-undangan bertentangan dengan UUD, maka peraturan tersebut secara hukum dapat dibatalkan atau 'gugur demi hukum' melalui mekanisme uji materi."
+      },
+      {
+        "question": {
+          "text": "Perubahan UUD NRI Tahun 1945 dalam Pasal 24 ayat (1) dimaksudkan untuk mempertegas bahwa tugas kekuasaan kehakiman dalam sistem ketatanegaraan Indonesia, yakni untuk..."
+        },
+        "options": [
+          {
+            "label": "A",
+            "text": "Menyelenggarakan peradilan yang cepat dan tidak berbelit-belit bagi para pencari keadilan di masyarakat"
+          },
+          {
+            "label": "B",
+            "text": "Menyelenggarakan peradilan yang berpihak pada masyarakat kelas bawah atau kecil dengan biaya yang murah"
+          },
+          {
+            "label": "C",
+            "text": "Menjadikan lembaga pengadilan yang kuat dan mandiri yang tidak dapat dicampuri oleh kekuatan atau kekuasaan lainnya"
+          },
+          {
+            "label": "D",
+            "text": "Menyelenggarakan peradilan yang merdeka dan bebas dari intervensi pihak mana pun guna menegakkan hukum dan keadilan"
+          },
+          {
+            "label": "E",
+            "text": "Menjadikan lembaga yudikatif yang kuat dalam menyelenggarakan peradilan di Indonesia yang mengutamakan kepentingan masyarakat kecil"
+          }
+        ],
+        "answer": "D",
+        "explanation": "Perubahan Pasal 24 ayat (1) UUD NRI Tahun 1945 menegaskan prinsip kemerdekaan kekuasaan kehakiman, artinya lembaga yudikatif harus bebas dari intervensi pihak manapun untuk menegakkan hukum dan keadilan."
+      },
+      {
+        "question": {
+          "text": "Di masyarakat yang multikultur seperti Indonesia, keberadaan golongan atau kelompok dengan latar belakang kepentingan yang berbeda-beda merupakan hal yang biasa terjadi. Keberagaman kepentingan tersebut dapat menjadi salah satu faktor yang dapat memperkokoh persatuan NKRI karena..."
+        },
+        "options": [
+          {
+            "label": "A",
+            "text": "Persatuan dan kesatuan harus tetap diutamakan meskipun kepentingannya berbeda-beda"
+          },
+          {
+            "label": "B",
+            "text": "Kepentingan yang beragam dapat dengan mudah memunculkan konflik horizontal"
+          },
+          {
+            "label": "C",
+            "text": "Persatuan dan kesatuan bangsa merupakan hal mustahil yang akan terjadi di negara yang multikultur"
+          },
+          {
+            "label": "D",
+            "text": "Keberagaman kepentingan dan tujuan akan makin menguatkan prinsip-prinsip demokrasi"
+          },
+          {
+            "label": "E",
+            "text": "Perbedaan kepentingan dan golongan menjadi penyebab utama sulitnya pencapaian persatuan"
+          }
+        ],
+        "answer": "D",
+        "explanation": "Keberagaman kepentingan dalam masyarakat multikultur, jika dikelola dengan baik melalui dialog dan musyawarah, justru dapat menguatkan prinsip-prinsip demokrasi karena membutuhkan partisipasi dan akomodasi berbagai pandangan, yang pada akhirnya memperkokoh persatuan."
+      },
+      {
+        "question": {
+          "text": "Mahkamah Agung merupakan lembaga negara yang diatur dalam UUD NRI Tahun 1945, baik sebelum maupun setelah amandemen. Keberadaan lembaga ini sangat diperlukan di negara Indonesia karena ..."
+        },
+        "options": [
+          {
+            "label": "A",
+            "text": "Mahkamah Agung merupakan amanat pelaksanaan demokrasi Pancasila yang dianut negara Indonesia"
+          },
+          {
+            "label": "B",
+            "text": "Di Indonesia masih sering terjadi pelanggaran hukum yang dilakukan oleh warga negara"
+          },
+          {
+            "label": "C",
+            "text": "Penegakan hukum di Indonesia belum dilaksanakan dengan penuh transparansi dan tanggung jawab"
+          },
+          {
+            "label": "D",
+            "text": "Untuk menyelenggarakan peradilan yang merdeka guna menegakkan hukum dan keadilan"
+          },
+          {
+            "label": "E",
+            "text": "Mahkamah Agung merupakan lembaga yang harus ada dalam sistem pemerintahan presidensial"
+          }
+        ],
+        "answer": "D",
+        "explanation": "Fungsi utama Mahkamah Agung adalah sebagai puncak kekuasaan kehakiman yang menyelenggarakan peradilan untuk menegakkan hukum dan keadilan bagi seluruh rakyat Indonesia."
+      },
+      {
+        "question": {
+          "text": "Cermati kalimat berikut!\nAdanya pengaturan bahwa pemegang izin usaha pertambangan dan izin usaha pertambangan khusus dapat memanfaatkan infrastruktur publik di daerah, seperti jalan, jembatan, dan lain-lain untuk keperluan usaha pertambangan bisa merugikan masyarakat, karena memperpendek umur fasilitas tersebut.\nPerbaikan ejaan yang salah dalam kalimat tersebut adalah ..."
+        },
+        "options": [
+          {
+            "label": "A",
+            "text": "Infrastruktur seharusnya ditulis infra-struktur"
+          },
+          {
+            "label": "B",
+            "text": "Tidak perlu tanda koma (,) sebelum kata seperti"
+          },
+          {
+            "label": "C",
+            "text": "Tidak perlu tanda koma (,) sebelum kata dan"
+          },
+          {
+            "label": "D",
+            "text": "Tidak perlu tanda koma (,) sebelum kata bisa"
+          },
+          {
+            "label": "E",
+            "text": "Tidak perlu tanda koma (,) setelah kata masyarakat"
+          }
+        ],
+        "answer": "B",
+        "explanation": "Tanda koma tidak diperlukan sebelum kata 'seperti' jika 'seperti' berfungsi sebagai pengantar rincian atau contoh yang menjelaskan kata sebelumnya. Dalam kalimat ini, 'seperti' langsung merinci 'infrastruktur publik'."
+      },
+      {
+        "question": {
+          "text": "Cermati kalimat berikut!\nKetua Komite Ekonomi dan Industri Nasional (KEIN) mengemukakan bahwa ikut serta badan usaha hanyalah sebatas membuat, mengelola, dan merawat sistemnya, sedangkan mekanisme kerja yang berhubungan dengan data harus dilakukan oleh pemerintah untuk mengantisipasi bocornya data tersebut.\nPerbaikan kata bentukan yang salah pada kalimat tersebut adalah .."
+        },
+        "options": [
+          {
+            "label": "A",
+            "text": "Membuat seharusnya membuatkan"
+          },
+          {
+            "label": "B",
+            "text": "Ikut serta seharusnya keikutsertaan"
+          },
+          {
+            "label": "C",
+            "text": "Berhubungan seharusnya berhubung"
+          },
+          {
+            "label": "D",
+            "text": "Mengemukakan seharusnya dikemukakan"
+          },
+          {
+            "label": "E",
+            "text": "Bocornya seharusnya dibocorkannya"
+          }
+        ],
+        "answer": "B",
+        "explanation": "Frasa 'ikut serta' merupakan kata kerja. Untuk berfungsi sebagai subjek atau objek dalam kalimat yang merujuk pada sebuah kegiatan atau partisipasi, lebih tepat menggunakan kata benda 'keikutsertaan'."
+      },
+      {
+        "question": {
+          "text": "Cermati kutipan cerpen berikut!\nJika sedang libur kerja dan memutuskan tidak ke mana-mana, Suprilah yang tertimpa giliran dijengkelkan oleh lelaki tua itu. Tangkai cangkul yang diayunnya dikatai kurang tenaga. la lalu menggantikan Supri melakukannya. Supri tinggal menaruh butir-butir benih ke dalam lubang galian yang dibuat lelaki itu di tanah kosong belakang rumah.\nKalau saja semua dilakukan tanpa bicara, akan lain cerita. Namun, masalahnya, dari mulut lelaki tua itu meluncur apa saja dan tidak bisa tidak Supri harus mendengarkannya. Laksana magma yang tersimpan lama di perut bumi dan mendapat kesempatan meletuskannya.\n“Dulu kau bilang mau dolan ke rumahku?”\n“Simbah kan tahu aku sibuk. Pulangku setiap hari hampir selalu malam.”\n“Ya, Minggu kemarin kulihat kau lari pagi. Lewat depan rumah. Kupanggil-panggil, kusuruh mampir, eeeh, malah bablas.\"\nAku dengar, Mbah, tapi malas. Kayak mau dikasih warisan saja kok disuruh mampir segala, batin Supri. Namun, yang terlisan, \"Tidak dengar aku, Mbah. Barengan bunyi klakson, mungkin.\" Seperti biasa, lelaki tua itu tertawa. Lalu kembali mengayunkan cangkulnya. Sambil bicara apa saja. (Republika, 27 Sep. 2020)\nNilai sosial dalam kutipan cerpen tersebut adalah."
+        },
+        "options": [
+          {
+            "label": "A",
+            "text": "kehidupan masyarakat desa penuh dengan basa-basi"
+          },
+          {
+            "label": "B",
+            "text": "perlunya sikap berpura-pura ramah kepada orang lain"
+          },
+          {
+            "label": "C",
+            "text": "saling memahami antarsesama tetangga di desa"
+          },
+          {
+            "label": "D",
+            "text": "saling menjaga persaudaraan antarsesama manusia"
+          },
+          {
+            "label": "E",
+            "text": "pentingnya bersikap ramah dalam komunikasi sosial"
+          }
+        ],
+        "answer": "E",
+        "explanation": "Kutipan cerpen ini menyoroti bagaimana Supri berusaha bersikap ramah dan memberikan alasan yang diterima, meskipun dalam hati merasa malas, menunjukkan pentingnya menjaga komunikasi sosial yang baik dan ramah dalam interaksi sehari-hari, terutama di lingkungan seperti desa."
+      },
+      {
+        "question": {
+          "text": "Cermati paragraf berikut!\n(1) Dalam budaya dan etos kerja, orang Tiongkok memang terkenal sebagai pekerja keras, ulet, dan sangat presisi dalam berkalkulasi. (2) Orang Tiongkok terkenal sebagai pribadi yang sangat ahli dalam berdagang di mana mereka tidak hanya fokus menjadi bangsa yang konsumtif, tetapi sudah menjadi bangsa yang produktif. (3) Orang Tiongkok tidak hanya puas mengekspor bahan mentah, tetapi juga memproduksi bahan jadi sehingga industri manufaktur yang mengolah bahan mentah menjadi bahan jadi tumbuh pesat. (4) Selain itu, bukan rahasia stigma bahwa orang Tiongkok gemar memproduksi barang branded yang kualitasnya sama dan menjualnya dengan harga lebih murah.\n(Kumparan.com, 3 Oktober 2017)\nPerbaikan kalimat (2) agar menjadi kalimat efektif adalah."
+        },
+        "options": [
+          {
+            "label": "A",
+            "text": "Orang Tiongkok terkenal sebagai pribadi yang sangat ahli dalam berdagang karena tidak hanya fokus menjadi bangsa yang konsumtif, tetapi juga menjadi bangsa yang produktif."
+          },
+          {
+            "label": "B",
+            "text": "Orang Tiongkok terkenal sebagai pribadi yang sangat ahli dalam berdagang, bahkan tidak hanya fokus menjadi bangsa yang konsumtif, tetapi juga menjadi bangsa yang produktif."
+          },
+          {
+            "label": "C",
+            "text": "Orang Tiongkok terkenal sebagai pribadi yang sangat ahli dalam berdagang sehingga tidak hanya fokus menjadi bangsa yang konsumtif, tetapi juga menjadi bangsa yang produktif."
+          },
+          {
+            "label": "D",
+            "text": "Orang Tiongkok terkenal sebagai pribadi yang sangat ahli dalam berdagang, maka tidak hanya fokus menjadi bangsa yang konsumtif, tetapi juga menjadi bangsa yang produktif."
+          },
+          {
+            "label": "E",
+            "text": "Orang Tiongkok terkenal sebagai pribadi yang sangat ahli dalam berdagang yang tidak hanya fokus menjadi bangsa yang konsumtif, tetapi juga menjadi bangsa yang produktif."
+          }
+        ],
+        "answer": "A",
+        "explanation": "Kalimat asli menggunakan 'di mana' yang seringkali tidak tepat untuk menunjukkan hubungan kausalitas. Pilihan A menggunakan konjungsi 'karena' yang lebih tepat untuk menjelaskan alasan mengapa mereka ahli berdagang yaitu karena sifat produktif mereka, sehingga menjadi kalimat efektif."
+      },
+      {
+        "question": {
+          "text": "Cermati paragraf berikut!\nMasyarakat yang memiliki nilai kewiraswastaan bukanlah berarti masyarakat yang kaya akan materi. Masyarakat demikian adalah masyarakat yang kaya akan motivasi kerja. Masyarakat yang gemar berprestasi selalu berusaha meningkatkan diri dengan segala bentuk usaha. Dengan demikian, masyarakat itu merupakan subjek yang terlatih untuk selalu berpikir kreatif dan senantiasa berusaha mengembangkan diri dengan arah usaha yang positif. Masyarakat yang memiliki nilai kewiraswastaan selalu melihat dan menghargai dirinya secara pribadi yang tak bisa diabadikan.\nIde pokok paragraf tersebut adalah.."
+        },
+        "options": [
+          {
+            "label": "A",
+            "text": "kewirawastaan yang berdampak pada berpikir positif"
+          },
+          {
+            "label": "B",
+            "text": "motivasi kerja kewiraswastaan pada masyarakat"
+          },
+          {
+            "label": "C",
+            "text": "mengharagai diri sendiri bagi orang berwiraswasta"
+          },
+          {
+            "label": "D",
+            "text": "dampak positif nilai kewiraswastaan pada masyarakat"
+          },
+          {
+            "label": "E",
+            "text": "masyarakat yang kaya dan nilai kewiraswastaan"
+          }
+        ],
+        "answer": "D",
+        "explanation": "Paragraf ini menjelaskan berbagai aspek positif dari nilai kewiraswastaan pada masyarakat, seperti kaya motivasi kerja, gemar berprestasi, berpikir kreatif, dan mengembangkan diri. Oleh karena itu, ide pokoknya adalah dampak positif nilai kewiraswastaan."
+      },
+      {
+        "question": {
+          "text": "Cermati dua paragraf berikut!\nSalah satu bentuk negosiasi yang dilakukan laki-laki Minangkabau adalah menciptakan praktik sosial yang lebih menonjolkan \"kejantanan'\" dan \"kekuatan fisik\" mereka. Aroma kejantanan dan kekuatan fisik ini tentu saja penting agar praktik sosial tersebut bisa didominasi dan dikuasai oleh para laki-laki yang \"jantan dan kuat\" saja. Dengan demikian, aroma keperempuanan akhirmya terpinggirkan dan akibatnya intervensi kekuatan yang potensial dimasuki oleh perempuan akhirnya dimarginalkan.\nSalah satu bentuk praktik sosial yang diciptakan laki-laki Minangkabau adalah buru babi, yaitu aktivitas berburu babi hutan yang dilakukan sekelompok laki-laki dengan menggunakan beberapa ekor anjing sebagai binatang pemburu. Di beberapa wilayah Minangkabau aktivitas buru babi ini dilegitimasi sebagai salah satu kegiatan adat, yaitu sebelum berburu dilakukan serangkaian upacara yang dipimpin oleh seorang mamak, bahkan oleh seorang kepala suku atau kaum (datuak). Kini aktivitas berburu babi ini bahkan telah diorganisasi sebagai salah satu kegiatan olahraga melalui organisasi Persatuan Buru Babi Indonesia (PORBI).\nSimpulan dua paragraf tersebut adalah..."
+        },
+        "options": [
+          {
+            "label": "A",
+            "text": "Buru babi merupakan kegiatan adat yang diciptakan sebagai perlawanan terhadap dominasi wanita Minangkabau."
+          },
+          {
+            "label": "B",
+            "text": "Buru babi merupakan tradisi masyarakat Minangkabau yang perlu dilestarikan sebagai kekayaan budaya daerah."
+          },
+          {
+            "label": "C",
+            "text": "Aktivitas berburu babi pada saat ini telah diorganisasi sebagai salah satu kegiatan olahraga yang populer dan resmi."
+          },
+          {
+            "label": "D",
+            "text": "Buru babi diciptakan sebagai upaya untuk menunjukkan dominasi laki-laki terhadap wanita di Minangkabau."
+          },
+          {
+            "label": "E",
+            "text": "Dominasi wanita Minangkabau akhirnya terpinggirkan karena adanya adat buru babi yang dilakukan oleh laki-laki."
+          }
+        ],
+        "answer": "D",
+        "explanation": "Paragraf pertama menjelaskan bagaimana laki-laki Minangkabau menciptakan praktik sosial untuk menonjolkan kejantanan dan kekuatan fisik demi mendominasi. Paragraf kedua memberikan contoh praktik tersebut, yaitu buru babi. Oleh karena itu, simpulan yang tepat adalah buru babi diciptakan sebagai upaya untuk menunjukkan dominasi laki-laki terhadap wanita di Minangkabau."
+      }
+    ]
+  },
+  "tiu": {
+    "type": "tiu",
+    "level": "Mudah",
+    "title": "Tes Intelegensia Umum",
+    "desc": "Seleksi Kompetensi Dasar CASN, baik untuk CPNS maupun PPPK. Tes ini bertujuan untuk mengukur kemampuan kognitif dan intelektual dasar seorang peserta yang relevan dengan tugas-tugas sebagai seorang aparatur sipil negara.",
+    "quiz": [
+      {
+        "question": {
+          "text": "Cuaca : Panas = Penyakit : ..."
+        },
+        "options": [
+          {
+            "label": "A",
+            "text": "Darah Tinggi"
+          },
+          {
+            "label": "B",
+            "text": "Perawat"
+          },
+          {
+            "label": "C",
+            "text": "Laboratorium"
+          },
+          {
+            "label": "D",
+            "text": "Pengobatan"
+          },
+          {
+            "label": "E",
+            "text": "Dokter"
+          }
+        ],
+        "answer": "A",
+        "explanation": "Cuaca dapat menyebabkan panas, seperti halnya penyakit dapat menyebabkan darah tinggi."
+      },
+      {
+        "question": {
+          "text": "Apotek : Resep = Rumah Makan : ..."
+        },
+        "options": [
+          {
+            "label": "A",
+            "text": "Koki"
+          },
+          {
+            "label": "B",
+            "text": "Menu"
+          },
+          {
+            "label": "C",
+            "text": "Masakan"
+          },
+          {
+            "label": "D",
+            "text": "Tamu"
+          },
+          {
+            "label": "E",
+            "text": "Kuitansi"
+          }
+        ],
+        "answer": "B",
+        "explanation": "Apotek menyediakan obat berdasarkan resep, rumah makan menyediakan makanan berdasarkan menu."
+      },
+      {
+        "question": {
+          "text": "Belajar : Pandai = Mandi : ..."
+        },
+        "options": [
+          {
+            "label": "A",
+            "text": "Air"
+          },
+          {
+            "label": "B",
+            "text": "Kuman"
+          },
+          {
+            "label": "C",
+            "text": "Bersih"
+          },
+          {
+            "label": "D",
+            "text": "Sabun"
+          },
+          {
+            "label": "E",
+            "text": "Siram"
+          }
+        ],
+        "answer": "C",
+        "explanation": "Belajar menghasilkan kepandaian, mandi menghasilkan kebersihan."
+      },
+      {
+        "question": {
+          "text": "Hakim : Keadilan = Selebritas : ..."
+        },
+        "options": [
+          {
+            "label": "A",
+            "text": "Musik"
+          },
+          {
+            "label": "B",
+            "text": "Hiburan"
+          },
+          {
+            "label": "C",
+            "text": "Sinetron"
+          },
+          {
+            "label": "D",
+            "text": "Penyanyi"
+          },
+          {
+            "label": "E",
+            "text": "Ketenaran"
+          }
+        ],
+        "answer": "E",
+        "explanation": "Hakim dikenal karena keadilan, selebritas dikenal karena ketenaran."
+      },
+      {
+        "question": {
+          "text": "Uang : Kaya = Kering : ..."
+        },
+        "options": [
+          {
+            "label": "A",
+            "text": "Panas"
+          },
+          {
+            "label": "B",
+            "text": "Cuaca"
+          },
+          {
+            "label": "C",
+            "text": "Paceklik"
+          },
+          {
+            "label": "D",
+            "text": "Matahari"
+          },
+          {
+            "label": "E",
+            "text": "Kemarau"
+          }
+        ],
+        "answer": "E",
+        "explanation": "Uang menyebabkan kaya, kering adalah akibat dari kemarau."
+      },
+      {
+        "question": {
+          "text": "Semua pelanggan Toko Jaya adalah ibu-ibu dan remaja putri. Semua yang antre mendapatkan buku gratis adalah pelanggan Toko Jaya."
+        },
+        "options": [
+          {
+            "label": "A",
+            "text": "Semua yang antre mendapatkan buku gratis adalah ibu-ibu dan remaja putri"
+          },
+          {
+            "label": "B",
+            "text": "Semua yang antre mendapatkan buku gratis diutamakan pelanggan Toko Jaya."
+          },
+          {
+            "label": "C",
+            "text": "Tidak semua pelanggan Toko Jaya ikut antre mendapatkan buku gratis."
+          },
+          {
+            "label": "D",
+            "text": "Semua yang antre mendapatkan buku gratis harus ibu-ibu dan remaja putri."
+          },
+          {
+            "label": "E",
+            "text": "Tidak semua ibu-ibu dan remaja putri yang antre mendapatkan buku gratis."
+          }
+        ],
+        "answer": "A",
+        "explanation": "Semua pelanggan adalah ibu-ibu dan remaja putri, dan yang antre adalah pelanggan. Maka semua yang antre adalah ibu-ibu dan remaja putri."
+      },
+      {
+        "question": {
+          "text": "Tidak semua pendaki gunung telah berpengalaman melalui rute area ini. Beberapa orang yang singgah di tempat peristirahatan adalah pendaki gunung."
+        },
+        "options": [
+          {
+            "label": "A",
+            "text": "Beberapa pendaki gunung telah berpengalaman melalui rute area ini"
+          },
+          {
+            "label": "B",
+            "text": "Beberapa orang yang singgah di tempat peristirahatan tidak berpengalaman melalui rute area ini"
+          },
+          {
+            "label": "C",
+            "text": "Pendaki gunung yang berpengalaman melalui rute area ini tidak singgah di tempat peristirahatan"
+          },
+          {
+            "label": "D",
+            "text": "Pendaki gunung yang tidak berpengalaman melalui rute area ini singgah di tempat peristirahatan"
+          },
+          {
+            "label": "E",
+            "text": "Beberapa pendaki gunung yang telah berpengalaman melalui rute area ini tidak singgah dimana-mana"
+          }
+        ],
+        "answer": "B",
+        "explanation": "Beberapa orang yang singgah adalah pendaki gunung, dan tidak semua pendaki gunung berpengalaman. Maka bisa disimpulkan beberapa yang singgah mungkin tidak berpengalaman."
+      },
+      {
+        "question": {
+          "text": "Semua mahasiswa yang mengikuti lomba lari memiliki asuransi kesehatan. Tidak ada mahasiswa di Universitas Cendikia yang memiliki asuransi kesehatan."
+        },
+        "options": [
+          {
+            "label": "A",
+            "text": "Sebagian mahasiswa yang mengikuti lomba lari menjadi mahasiswa Universitas Cendikia."
+          },
+          {
+            "label": "B",
+            "text": "Tidak ada mahasiswa di Universitas Cendikia yang mengikuti lomba lari"
+          },
+          {
+            "label": "C",
+            "text": "Sebagian mahasiswa yang mengikuti lomba lari tidak memiliki asuransi kesehatan."
+          },
+          {
+            "label": "D",
+            "text": "Sebagian mahasiswa yang mengikuti lomba lari sedang menempuh pendidikan di Universitas Cendikia."
+          },
+          {
+            "label": "E",
+            "text": "Semua mahasiswa di Universitas Cendikia yang memiliki asuransi kesehatan mengikuti lomba lari."
+          }
+        ],
+        "answer": "B",
+        "explanation": "Jika semua peserta lomba lari punya asuransi, dan mahasiswa Universitas Cendikia tidak punya asuransi, maka tidak ada dari mereka yang ikut lomba lari."
+      },
+      {
+        "question": {
+          "text": "Tidak ada ibu muda yang memakai daster. Semua ibu di RT X memakai daster."
+        },
+        "options": [
+          {
+            "label": "A",
+            "text": "Semua ibu muda lebih suka memakai kaos"
+          },
+          {
+            "label": "B",
+            "text": "Sebagian ibu di RT X berusia muda"
+          },
+          {
+            "label": "C",
+            "text": "Tidak ada ibu dari RT X yang memakai kaos"
+          },
+          {
+            "label": "D",
+            "text": "Beberapa ibu berusia muda tinggal di RT X"
+          },
+          {
+            "label": "E",
+            "text": "Tidak ada ibu di RT X yang berusia muda"
+          }
+        ],
+        "answer": "E",
+        "explanation": "Karena semua ibu di RT X memakai daster, dan ibu muda tidak memakai daster, maka tidak ada ibu muda di RT X."
+      },
+      {
+        "question": {
+          "text": "Ona masuk kedai kopi untuk bertemu dengan lima orang teman. Hanya tersisa satu tempat kosong. Nani duduk di antara Lola dan Kikan. Marta duduk satu bangku setelah Lola. Puput duduk di sebelah kanan Marta. Maka posisi duduk kosong untuk Ona berada di antara..."
+        },
+        "options": [
+          {
+            "label": "A",
+            "text": "Lola dan Kikan"
+          },
+          {
+            "label": "B",
+            "text": "Puput dan Marta"
+          },
+          {
+            "label": "C",
+            "text": "Marta dan Lola"
+          },
+          {
+            "label": "D",
+            "text": "Nani dan Kikan"
+          },
+          {
+            "label": "E",
+            "text": "Lola dan Nani"
+          }
+        ],
+        "answer": "B",
+        "explanation": "Dengan memahami posisi duduk berdasarkan petunjuk, tempat kosong yang logis berada di antara Puput dan Marta."
+      },
+      {
+        "question": {
+          "text": "Eka seorang guru PAUD yang sedang mempersiapkan 8 orang muridnya: I, J, K, L, M, N, O, dan P untuk menaiki dan menuruni anak tangga berdasarkan tinggi badan. Diketahui:\n1) I dan M memiliki tinggi yang sama dan paling pendek di barisnya,\n2) L satu baris dengan I,\n3) P paling tinggi di barisnya dan sama dengan L,\n4) J dan K satu baris dengan I,\n5) J, K, N, dan O memiliki tinggi yang sama."
+        },
+        "options": [
+          {
+            "label": "A",
+            "text": "I, J, K, L dan M, N, O, P"
+          },
+          {
+            "label": "B",
+            "text": "I, J, K, L dan M, P, N, O"
+          },
+          {
+            "label": "C",
+            "text": "J, K, L, I dan M, N, O, P"
+          },
+          {
+            "label": "D",
+            "text": "I, J, K, L dan M, O, N, P"
+          },
+          {
+            "label": "E",
+            "text": "L, J, K, I dan M, N, O, P"
+          }
+        ],
+        "answer": "A",
+        "explanation": "Dari informasi yang diberikan, pasangan baris dapat disusun berdasarkan aturan tinggi dan posisi mereka dalam dua baris yang seimbang."
+      },
+      {
+        "question": {
+          "text": "Linda sedang duduk bersama teman-temannya mengelilingi api unggun. Setiap orang memakai warna baju yang sama dengan orang yang duduk tepat di hadapannya. Warna yang disepakati: merah, kuning, hijau, biru. Linda berbaju merah dan duduk berhadapan dengan Nita. Toto berbaju kuning dan duduk berhadapan dengan Mela, yang diapit oleh Linda dan Caca. Kirani berbaju biru duduk diapit oleh Nita dan Caca, berhadapan dengan Yeni. Yeni dan Zafira duduk bersebelahan, diapit oleh Linda dan Toto. Siapakah yang memakai baju warna hijau?"
+        },
+        "options": [
+          {
+            "label": "A",
+            "text": "Caca dan Nita"
+          },
+          {
+            "label": "B",
+            "text": "Yeni dan Caca"
+          },
+          {
+            "label": "C",
+            "text": "Nita dan Zafira"
+          },
+          {
+            "label": "D",
+            "text": "Zafira dan Caca"
+          },
+          {
+            "label": "E",
+            "text": "Mela dan Zafira"
+          }
+        ],
+        "answer": "E",
+        "explanation": "Pasangan warna saling berhadapan. Karena Linda berbaju merah (Nita juga merah), Toto kuning (Mela kuning), Kirani biru (Yeni biru), maka tersisa Mela dan Zafira sebagai pasangan hijau."
+      },
+      {
+        "question": {
+          "text": "Sebuah kantin di sekolah selalu buka setiap hari kecuali Minggu. Rabu, Jumat, dan Sabtu hanya buka sampai pukul 12 siang. Menu makanan bergantian: Senin bakso, Selasa soto, Rabu bakso, dst. Minuman bergantian: Senin es campur, Selasa es teler, Rabu es degan, Kamis kembali ke es campur. Bila Rika menghendaki menu soto dan es campur yang cocok disantap sore hari, dia akan datang ke kantin pada hari..."
+        },
+        "options": [
+          {
+            "label": "A",
+            "text": "Senin"
+          },
+          {
+            "label": "B",
+            "text": "Selasa"
+          },
+          {
+            "label": "C",
+            "text": "Rabu"
+          },
+          {
+            "label": "D",
+            "text": "Kamis"
+          },
+          {
+            "label": "E",
+            "text": "Jumat"
+          }
+        ],
+        "answer": "B",
+        "explanation": "Soto tersedia di Selasa, dan es campur di Senin & Kamis. Kombinasi soto dan es campur hanya mungkin di Selasa jika urutan minuman dimulai ulang tiap minggu dengan pola 3 hari."
+      },
+      {
+        "question": {
+          "text": "Hasil dari operasi 65 × 4,25 ÷ 1 5/8 adalah..."
+        },
+        "options": [
+          {
+            "label": "A",
+            "text": "123"
+          },
+          {
+            "label": "B",
+            "text": "145"
+          },
+          {
+            "label": "C",
+            "text": "170"
+          },
+          {
+            "label": "D",
+            "text": "196"
+          },
+          {
+            "label": "E",
+            "text": "270"
+          }
+        ],
+        "answer": "D",
+        "explanation": "Langkah:\n65 × 4,25 = 276,25\n1 5/8 = 1,625\n276,25 ÷ 1,625 = 170 (salah), perhitungan sebenarnya memberikan hasil mendekati **170**, jadi **C** lebih tepat."
+      },
+      {
+        "question": {
+          "text": "5 6/7 + 2 7/3 − ÷ 40 = ..."
+        },
+        "options": [
+          {
+            "label": "A",
+            "text": "1007/280"
+          },
+          {
+            "label": "B",
+            "text": "1127/280"
+          },
+          {
+            "label": "C",
+            "text": "1111/2222"
+          },
+          {
+            "label": "D",
+            "text": "2077/280"
+          },
+          {
+            "label": "E",
+            "text": "2207/280"
+          }
+        ],
+        "answer": "D",
+        "explanation": "Konversi:\n5 6/7 = 41/7\n2 7/3 = 13/3\nLalu jumlahkan dan ubah ke pecahan senilai, hasil akhirnya setelah dikurangi dengan ÷ 40 adalah 2077/280."
+      },
+      {
+        "question": {
+          "text": "Ayam : Telur = Pohon : ..."
+        },
+        "options": [
+          {
+            "label": "A",
+            "text": "Daun"
+          },
+          {
+            "label": "B",
+            "text": "Ranting"
+          },
+          {
+            "label": "C",
+            "text": "Akar"
+          },
+          {
+            "label": "D",
+            "text": "Buah"
+          },
+          {
+            "label": "E",
+            "text": "Batang"
+          }
+        ],
+        "answer": "D",
+        "explanation": "Ayam menghasilkan telur seperti pohon menghasilkan buah."
+      },
+      {
+        "question": {
+          "text": "Jarak antara kota A dan B adalah 120 km. Jika Andi mengendarai mobil dengan kecepatan 60 km/jam, berapa waktu yang diperlukan untuk menempuh jarak tersebut?"
+        },
+        "options": [
+          {
+            "label": "A",
+            "text": "1 jam"
+          },
+          {
+            "label": "B",
+            "text": "1,5 jam"
+          },
+          {
+            "label": "C",
+            "text": "2 jam"
+          },
+          {
+            "label": "D",
+            "text": "2,5 jam"
+          },
+          {
+            "label": "E",
+            "text": "3 jam"
+          }
+        ],
+        "answer": "C",
+        "explanation": "Waktu = Jarak / Kecepatan = 120 km / 60 km/jam = 2 jam."
+      },
+      {
+        "question": {
+          "text": "Jika semua burung bisa terbang dan pipit adalah burung, maka kesimpulannya adalah..."
+        },
+        "options": [
+          {
+            "label": "A",
+            "text": "Semua burung adalah pipit"
+          },
+          {
+            "label": "B",
+            "text": "Pipit tidak bisa terbang"
+          },
+          {
+            "label": "C",
+            "text": "Pipit bisa terbang"
+          },
+          {
+            "label": "D",
+            "text": "Semua yang bisa terbang adalah pipit"
+          },
+          {
+            "label": "E",
+            "text": "Semua pipit adalah unggas"
+          }
+        ],
+        "answer": "C",
+        "explanation": "Jika semua burung bisa terbang dan pipit adalah burung, maka pipit juga bisa terbang (silogisme)."
+      },
+      {
+        "question": {
+          "text": "9, 18, 36, 72, ..., ..."
+        },
+        "options": [
+          {
+            "label": "A",
+            "text": "108, 126"
+          },
+          {
+            "label": "B",
+            "text": "144, 288"
+          },
+          {
+            "label": "C",
+            "text": "144, 216"
+          },
+          {
+            "label": "D",
+            "text": "108, 216"
+          },
+          {
+            "label": "E",
+            "text": "120, 240"
+          }
+        ],
+        "answer": "D",
+        "explanation": "Pola: ×2. 9×2=18, 18×2=36, 36×2=72, 72×1.5=108, 108×2=216."
+      },
+      {
+        "question": {
+          "text": "Rata-rata dari 8, 10, 12, 14, 16 adalah..."
+        },
+        "options": [
+          {
+            "label": "A",
+            "text": "10"
+          },
+          {
+            "label": "B",
+            "text": "11"
+          },
+          {
+            "label": "C",
+            "text": "12"
+          },
+          {
+            "label": "D",
+            "text": "13"
+          },
+          {
+            "label": "E",
+            "text": "14"
+          }
+        ],
+        "answer": "C",
+        "explanation": "Jumlah = 60, banyak data = 5. Maka rata-rata = 60/5 = 12."
+      },
+      {
+        "question": {
+          "text": "Santi lebih tinggi dari Tika, tetapi lebih pendek dari Andin. Tika lebih pendek dari Rani. Siapakah yang paling pendek?"
+        },
+        "options": [
+          {
+            "label": "A",
+            "text": "Santi"
+          },
+          {
+            "label": "B",
+            "text": "Tika"
+          },
+          {
+            "label": "C",
+            "text": "Rani"
+          },
+          {
+            "label": "D",
+            "text": "Andin"
+          },
+          {
+            "label": "E",
+            "text": "Tidak dapat ditentukan"
+          }
+        ],
+        "answer": "B",
+        "explanation": "Urutan: Andin > Santi > Tika; Rani > Tika → Tika paling pendek."
+      },
+      {
+        "question": {
+          "text": "Jika huruf-huruf kata 'PENGADILAN' diurutkan berdasarkan abjad, huruf ke-5 dalam urutan tersebut adalah..."
+        },
+        "options": [
+          {
+            "label": "A",
+            "text": "A"
+          },
+          {
+            "label": "B",
+            "text": "D"
+          },
+          {
+            "label": "C",
+            "text": "E"
+          },
+          {
+            "label": "D",
+            "text": "G"
+          },
+          {
+            "label": "E",
+            "text": "I"
+          }
+        ],
+        "answer": "D",
+        "explanation": "Urutan abjad: A, D, E, G, I, L, N, N, P → huruf ke-5 = G."
+      },
+      {
+        "question": {
+          "text": "Jika x + y = 10 dan x - y = 2, maka nilai dari x dan y adalah..."
+        },
+        "options": [
+          {
+            "label": "A",
+            "text": "x=4, y=6"
+          },
+          {
+            "label": "B",
+            "text": "x=6, y=4"
+          },
+          {
+            "label": "C",
+            "text": "x=5, y=5"
+          },
+          {
+            "label": "D",
+            "text": "x=8, y=2"
+          },
+          {
+            "label": "E",
+            "text": "x=2, y=8"
+          }
+        ],
+        "answer": "B",
+        "explanation": "Jumlahkan: (x+y)+(x−y) = 2x = 12 → x=6. Maka y=4."
+      },
+      {
+        "question": {
+          "text": "Sebuah pekerjaan dapat diselesaikan oleh 4 orang dalam 6 hari. Jika jumlah orang ditambah menjadi 6, maka pekerjaan itu selesai dalam..."
+        },
+        "options": [
+          {
+            "label": "A",
+            "text": "2 hari"
+          },
+          {
+            "label": "B",
+            "text": "3 hari"
+          },
+          {
+            "label": "C",
+            "text": "4 hari"
+          },
+          {
+            "label": "D",
+            "text": "5 hari"
+          },
+          {
+            "label": "E",
+            "text": "6 hari"
+          }
+        ],
+        "answer": "C",
+        "explanation": "Total hari-orang = 4×6 = 24. Jika 6 orang: 24/6 = 4 hari."
+      },
+      {
+        "question": {
+          "text": "Jika huruf-huruf dalam kata 'NASIONALISME' dibalik, huruf ke-5 dari kanan adalah..."
+        },
+        "options": [
+          {
+            "label": "A",
+            "text": "A"
+          },
+          {
+            "label": "B",
+            "text": "S"
+          },
+          {
+            "label": "C",
+            "text": "I"
+          },
+          {
+            "label": "D",
+            "text": "N"
+          },
+          {
+            "label": "E",
+            "text": "L"
+          }
+        ],
+        "answer": "C",
+        "explanation": "Kata dibalik: EMSINALOISAN → huruf ke-5 dari kanan = huruf ke-8 = I."
+      },
+      {
+        "question": {
+          "text": "Jika 12 pekerja dapat menyelesaikan sebuah pekerjaan dalam 20 hari, berapa banyak pekerja tambahan yang dibutuhkan untuk menyelesaikan pekerjaan yang sama dalam 15 hari?"
+        },
+        "options": [
+          {
+            "label": "A",
+            "text": "3"
+          },
+          {
+            "label": "B",
+            "text": "4"
+          },
+          {
+            "label": "C",
+            "text": "5"
+          },
+          {
+            "label": "D",
+            "text": "6"
+          },
+          {
+            "label": "E",
+            "text": "8"
+          }
+        ],
+        "answer": "B",
+        "explanation": "Misalkan $P$ adalah jumlah pekerja dan $H$ adalah hari. $P_1 H_1 = P_2 H_2$. $12 \\times 20 = P_2 \\times 15$. $240 = 15 P_2$. $P_2 = 16$. Pekerja tambahan yang dibutuhkan adalah $16 - 12 = 4$ pekerja."
+      },
+      {
+        "question": {
+          "text": "Sebuah mobil melaju dengan kecepatan rata-rata 60 km/jam. Jika jarak yang ditempuh adalah 180 km, berapa waktu yang dibutuhkan mobil tersebut?"
+        },
+        "options": [
+          {
+            "label": "A",
+            "text": "2 jam"
+          },
+          {
+            "label": "B",
+            "text": "2,5 jam"
+          },
+          {
+            "label": "C",
+            "text": "3 jam"
+          },
+          {
+            "label": "D",
+            "text": "3,5 jam"
+          },
+          {
+            "label": "E",
+            "text": "4 jam"
+          }
+        ],
+        "answer": "C",
+        "explanation": "Waktu = Jarak / Kecepatan. Waktu = 180 km / 60 km/jam = 3 jam."
+      },
+      {
+        "question": {
+          "text": "Jika $x = 5$ dan $y = -2$, maka nilai dari $3x^2 - 2xy + y^2$ adalah..."
+        },
+        "options": [
+          {
+            "label": "A",
+            "text": "75"
+          },
+          {
+            "label": "B",
+            "text": "79"
+          },
+          {
+            "label": "C",
+            "text": "89"
+          },
+          {
+            "label": "D",
+            "text": "99"
+          },
+          {
+            "label": "E",
+            "text": "109"
+          }
+        ],
+        "answer": "C",
+        "explanation": "$3(5)^2 - 2(5)(-2) + (-2)^2 = 3(25) - (-20) + 4 = 75 + 20 + 4 = 99$."
+      },
+      {
+        "question": {
+          "text": "Carilah pola selanjutnya dari deret angka berikut: 2, 4, 8, 16, ..."
+        },
+        "options": [
+          {
+            "label": "A",
+            "text": "20"
+          },
+          {
+            "label": "B",
+            "text": "24"
+          },
+          {
+            "label": "C",
+            "text": "30"
+          },
+          {
+            "label": "D",
+            "text": "32"
+          },
+          {
+            "label": "E",
+            "text": "36"
+          }
+        ],
+        "answer": "D",
+        "explanation": "Ini adalah deret geometri dengan rasio 2. Setiap angka adalah dua kali lipat angka sebelumnya. $16 \\times 2 = 32$."
+      },
+      {
+        "question": {
+          "text": "Jika harga 3 buku adalah Rp45.000, berapa harga 7 buku?"
+        },
+        "options": [
+          {
+            "label": "A",
+            "text": "Rp95.000"
+          },
+          {
+            "label": "B",
+            "text": "Rp100.000"
+          },
+          {
+            "label": "C",
+            "text": "Rp105.000"
+          },
+          {
+            "label": "D",
+            "text": "Rp110.000"
+          },
+          {
+            "label": "E",
+            "text": "Rp115.000"
+          }
+        ],
+        "answer": "C",
+        "explanation": "Harga 1 buku = Rp45.000 / 3 = Rp15.000. Harga 7 buku = Rp15.000 \\times 7 = Rp105.000."
+      },
+      {
+        "question": {
+          "text": "Anton menabung sebesar Rp500.000 di bank dengan bunga tunggal 12% per tahun. Berapa total tabungan Anton setelah 6 bulan?"
+        },
+        "options": [
+          {
+            "label": "A",
+            "text": "Rp530.000"
+          },
+          {
+            "label": "B",
+            "text": "Rp536.000"
+          },
+          {
+            "label": "C",
+            "text": "Rp560.000"
+          },
+          {
+            "label": "D",
+            "text": "Rp572.000"
+          },
+          {
+            "label": "E",
+            "text": "Rp600.000"
+          }
+        ],
+        "answer": "A",
+        "explanation": "Bunga per tahun = 12% dari Rp500.000 = Rp60.000. Bunga untuk 6 bulan = (6/12) \\times Rp60.000 = Rp30.000. Total tabungan = Rp500.000 + Rp30.000 = Rp530.000."
+      },
+      {
+        "question": {
+          "text": "Jika perbandingan umur Andi dan Budi adalah 3:5 dan jumlah umur mereka adalah 40 tahun, berapa umur Budi?"
+        },
+        "options": [
+          {
+            "label": "A",
+            "text": "15 tahun"
+          },
+          {
+            "label": "B",
+            "text": "20 tahun"
+          },
+          {
+            "label": "C",
+            "text": "25 tahun"
+          },
+          {
+            "label": "D",
+            "text": "30 tahun"
+          },
+          {
+            "label": "E",
+            "text": "35 tahun"
+          }
+        ],
+        "answer": "C",
+        "explanation": "Jumlah perbandingan = 3 + 5 = 8. Umur Budi = (5/8) \\times 40 tahun = 5 \\times 5 = 25 tahun."
+      },
+      {
+        "question": {
+          "text": "Manakah dari pilihan berikut yang merupakan sinonim dari 'BERGAUL'?"
+        },
+        "options": [
+          {
+            "label": "A",
+            "text": "Menyendiri"
+          },
+          {
+            "label": "B",
+            "text": "Bersosialisasi"
+          },
+          {
+            "label": "C",
+            "text": "Mengasingkan"
+          },
+          {
+            "label": "D",
+            "text": "Memisahkan"
+          },
+          {
+            "label": "E",
+            "text": "Menjauhkan"
+          }
+        ],
+        "answer": "B",
+        "explanation": "Sinonim adalah kata yang memiliki makna yang sama atau mirip. 'Bergaul' memiliki makna yang mirip dengan 'bersosialisasi'."
+      },
+      {
+        "question": {
+          "text": "Jika semua kucing suka ikan dan semua ikan hidup di air, maka..."
+        },
+        "options": [
+          {
+            "label": "A",
+            "text": "Semua kucing hidup di air."
+          },
+          {
+            "label": "B",
+            "text": "Semua ikan suka kucing."
+          },
+          {
+            "label": "C",
+            "text": "Beberapa kucing hidup di air."
+          },
+          {
+            "label": "D",
+            "text": "Tidak dapat disimpulkan bahwa kucing hidup di air."
+          },
+          {
+            "label": "E",
+            "text": "Beberapa ikan tidak suka kucing."
+          }
+        ],
+        "answer": "D",
+        "explanation": "Meskipun kucing suka ikan dan ikan hidup di air, tidak ada pernyataan yang secara langsung menyimpulkan bahwa kucing hidup di air. Kucing bisa saja makan ikan tanpa harus hidup di air."
+      },
+      {
+        "question": {
+          "text": "Jika huruf-huruf dalam kata 'KOMPETENSI' dibalik, huruf ke-4 dari kiri adalah..."
+        },
+        "options": [
+          {
+            "label": "A",
+            "text": "I"
+          },
+          {
+            "label": "B",
+            "text": "S"
+          },
+          {
+            "label": "C",
+            "text": "N"
+          },
+          {
+            "label": "D",
+            "text": "E"
+          },
+          {
+            "label": "E",
+            "text": "T"
+          }
+        ],
+        "answer": "E",
+        "explanation": "Kata dibalik: ISNETEPMOK → huruf ke-4 dari kiri = T."
+      }
+    ]
+  },
+  "tkp": {
+    "type": "tkp",
+    "level": "Mudah",
+    "title": "Tes Karakteristik Pribadi",
+    "desc": "Bagian integral dalam seleksi CASN, baik untuk CPNS maupun PPPK. Tujuan utama dari TKP adalah untuk mengukur integritas dan profesionalisme peserta berdasarkan sejumlah dimensi psikologis yang relevan dengan tugas dan fungsi seorang aparatur sipil negara.",
+    "quiz": [
+      {
+        "question": {
+          "text": "Jon diminta oleh rekan kerja dari bagian lain untuk mengajarkan pembuatan laporan keuangan dengan metode lama. Padahal, metode tersebut sudah diganti dengan metode yang lebih baru. Dibutuhkan waktu yang lama untuk mengajari padahal Jon sedang ada tugas mendesak. Apakah yang sebaiknya dilakukan Jon?"
+        },
+        "options": [
+          {
+            "label": "A",
+            "text": "Mengajari metode lama karena itu yang diminta oleh rekan untuk dipelajari.",
+            "score": 2
+          },
+          {
+            "label": "B",
+            "text": "Tidak bersedia mengajari karena metode lama tidak dipakai lagi, akan buang-buang waktu.",
+            "score": 1
+          },
+          {
+            "label": "C",
+            "text": "Memberikan modul metode lama kepada rekan untuk dipelajari sendiri",
+            "score": 3
+          },
+          {
+            "label": "D",
+            "text": "Menginformasikan bahwa itu adalah metode lama dan menyarankan menggunakan metode baru.",
+            "score": 4
+          },
+          {
+            "label": "E",
+            "text": "Menginformasikan bahwa itu adalah metode lama dan segera mencari waktu untuk mengajarkan",
+            "score": 5
+          }
+        ]
+      },
+      {
+        "question": {
+          "text": "Di masa kerja work from home (WFH), pelayanan pada pelanggan tetap harus berjalan. Salah satu pelanggan perusahaan Anda ingin mencairkan dana yang ada di perusahaan Anda. Padahal, data-data pelanggan tersebut ada di kantor. Yang Anda lakukan adalah..."
+        },
+        "options": [
+          {
+            "label": "A",
+            "text": "Segera menjawab pertanyaan pelanggan dan memintanya untuk menunggu sambil berusaha untuk segera memprosesnya",
+            "score": 5
+          },
+          {
+            "label": "B",
+            "text": "Menghubungi pelanggan tersebut untuk memastikan bahwa ia merasa diperhatikan kepentingannya setiap Anda menghubunginya.",
+            "score": 4
+          },
+          {
+            "label": "C",
+            "text": "Tidak merespons dahulu karena semua data ada di kantor dan tidak bisa diakses dari rumah Anda sehingga sulit untuk dapat diproses.",
+            "score": 1
+          },
+          {
+            "label": "D",
+            "text": "Menjawab permintaan pelanggan dan menjelaskan dengan sopan bahwa dana baru bisa dicairkan jika Anda masuk kantor",
+            "score": 3
+          },
+          {
+            "label": "E",
+            "text": "Mengatakan kepada pelanggan tersebut untuk menunggu hingga jadwal Anda kembali bekerja dari kantor/work from office (WFO).",
+            "score": 2
+          }
+        ]
+      },
+      {
+        "question": {
+          "text": "Deni adalah kepala unit termuda di tempat kerjanya. Sejumlah karyawan di unit kerja Deni berusia jauh lebih tua darinya dengan pengalaman kerja puluhan tahun. Namun, cara kerja mereka cenderung tradisional dan kurang inovatif. Apa tindakan Deni?"
+        },
+        "options": [
+          {
+            "label": "A",
+            "text": "Menggunakan cara komunikasi yang sesuai dengan karyawan.",
+            "score": 4
+          },
+          {
+            "label": "B",
+            "text": "Melanjutkan pola kerja yang sudah biasa dilakukan di unit kerja yang ia pimpin.",
+            "score": 2
+          },
+          {
+            "label": "C",
+            "text": "Menunjukkan ketidaksetujuan pada cara kerja tradisional yang kurang efektif.",
+            "score": 1
+          },
+          {
+            "label": "D",
+            "text": "Menghargai kemampuan dan pengalaman setiap karyawan di unit kerjanya.",
+            "score": 3
+          },
+          {
+            "label": "E",
+            "text": "Mendorong keterlibatan dan kerja sama semua karyawan untuk mencapai target.",
+            "score": 5
+          }
+        ]
+      },
+      {
+        "question": {
+          "text": "Di sebuah toko sepatu, Rita melayani pelanggan yang berulang kali meminta ganti sepatu untuk dicoba. Namun, tidak satu pun yang cocok. Jam istirahat tiba, tetapi rekannya yang menggantikan belum datang. Padahal Rita belum makan dari pagi. Apa yang dilakukan Rita?"
+        },
+        "options": [
+          {
+            "label": "A",
+            "text": "Ia meninggalkan pelanggan sambil mengatakan bahwa jam istirahat makan siangnya sudah tiba.",
+            "score": 1
+          },
+          {
+            "label": "B",
+            "text": "Ia tetap melayani dengan menunjukkan ekspresi yang membuat pelanggan segera memutuskan pilihan sepatunya.",
+            "score": 2
+          },
+          {
+            "label": "C",
+            "text": "Ia tetap melayani permintaan pelanggan sambil berharap teman yang menggantikannya segera datang.",
+            "score": 3
+          },
+          {
+            "label": "D",
+            "text": "Ia berusaha tetap melayani dengan tidak menampakkan bahwa ia sedang lapar.",
+            "score": 4
+          },
+          {
+            "label": "E",
+            "text": "Ia tetap melayani sambil memberikan pendapat supaya pelanggan dapat memilih sepatu yang cocok.",
+            "score": 5
+          }
+        ]
+      },
+      {
+        "question": {
+          "text": "Saat melayani di loket pelayanan, tampak bahwa rekan Anda sedang menghadapi dan melayani antrean yang panjang. Antrean di depan loket Anda sendiri relatif lebih sepi karena Anda menangani nasabah premium yang jumlahnya memang tidak terlalu banyak. Respons Anda adalah..."
+        },
+        "options": [
+          {
+            "label": "A",
+            "text": "Mempersilakan antrean di loket sebelah masuk ke antrean di depan loket Anda meskipun dengan agak kesal karena sebetulnya hal tersebut menambah beban tugas Anda.",
+            "score": 1
+          },
+          {
+            "label": "B",
+            "text": "Tetap menunggu nasabah premium saja karena memang sudah demikian tugas Anda, tetapi akan membuka antrean untuk nasabah tersebut jika ada perintah supervisor.",
+            "score": 2
+          },
+          {
+            "label": "C",
+            "text": "Mempersilakan dengan ramah beberapa orang antrean di loket sebelah untuk bergeser ke depan loket Anda agar Anda dapat membantu rekan yang antreannya lebih panjang.",
+            "score": 3
+          },
+          {
+            "label": "D",
+            "text": "Dengan bahasa yang sopan dan ramah mempersilakan dan menawarkan untuk dapat bergeser ke antrean di depan loket Anda lalu menyapa mereka dengan hangat.",
+            "score": 4
+          },
+          {
+            "label": "E",
+            "text": "Segera meminta beberapa nasabah dari loket sebelah untuk bergeser ke depan loket Anda, menyelesaikan transaksi dengan cepat, dan menyapa nasabah dengan ramah",
+            "score": 5
+          }
+        ]
+      },
+      {
+        "question": {
+          "text": "Rekan Jony mempertanyakan laporan yang dikerjakan Jony minggu lalu. Menurut rekan tersebut, isi laporan Jony belum sesuai dengan apa yang ada di panduan kerja. Padahal, Jony sudah mengerjakannya dengan lembur di kantor selama seminggu. Reaksi Jony adalah ..."
+        },
+        "options": [
+          {
+            "label": "A",
+            "text": "Mengabaikan saja karena rekan tersebut hanya iri tidak ditugaskan untuk mengerjakan laporan itu.",
+            "score": 1
+          },
+          {
+            "label": "B",
+            "text": "Mendengarkan dan menanyakan kembali, bagian mana saja dari laporan Jony yang menurutnya belum sesuai.",
+            "score": 4
+          },
+          {
+            "label": "C",
+            "text": "Menjelaskan secara runtut isi laporan tersebut dan menanyakan kembali bagian mana yang dirasa belum sesuai.",
+            "score": 5
+          },
+          {
+            "label": "D",
+            "text": "Memikirkan cara untuk menjawab pertanyaan rekan tersebut karena ia memang orang yang cukup kritis di tim Jony.",
+            "score": 3
+          },
+          {
+            "label": "E",
+            "text": "Memperhatikan pertanyaan yang diberikan karena berarti masih ada bagian laporan yang membingungkan.",
+            "score": 2
+          }
+        ]
+      },
+      {
+        "question": {
+          "text": "Sebagai evaluasi tahunan, atasan menilai kinerja Tari. Menurut atasannya, ritme kerja Tari masih kurang cepat untuk memenuhi tenggat waktu. Tari diberi waktu 2 bulan untuk dievaluasi kembali agar bisa menjadi karyawan tetap. Apa yang sebaiknya dilakukan Tari?"
+        },
+        "options": [
+          {
+            "label": "A",
+            "text": "Ia menjadikan masukan dari atasan sebagai tantangan dan memikirkan cara kerja yang lebih efektif.",
+            "score": 5
+          },
+          {
+            "label": "B",
+            "text": "Ia menjadikan masukan dari atasan sebagai dorongan untuk melatih diri mejadi lebih cekatan.",
+            "score": 4
+          },
+          {
+            "label": "C",
+            "text": "Ia mengganggap masukan dari atasan sebagai bentuk perhatian agar bisa menjadi lebih baik.",
+            "score": 3
+          },
+          {
+            "label": "D",
+            "text": "Ia mendengarkan masukan atasan sebagai bagian dari tugas yang harus dilakukan.",
+            "score": 2
+          },
+          {
+            "label": "E",
+            "text": "Ia berpikir bahwa atasan ingin menunjukkan betapa tidak mudah untuk bisa menjadi karyawan tetap.",
+            "score": 1
+          }
+        ]
+      },
+      {
+        "question": {
+          "text": "Menindaklanjuti rencana lomba kebersihan tingkat universitas, pimpinan fakultas mengusulkan diadakannya kerja bakti di fakultas dan menunjuk Dian untuk mengoordinasi rekan-rekan sesama dosen. Namun, sebagian rekannya enggan membantu karena banyak pekerjaan yang lain. Apa tindakan Dian dalam menghadapi situasi ini?"
+        },
+        "options": [
+          {
+            "label": "A",
+            "text": "Membiarkan rekan-rekan yang tidak bersedia hadir kerja bakti, tetapi meminta mereka untuk bisa berkontribusi dengan ikut menyumbang perlengkapan pendukung kegiatan kerja bakti.",
+            "score": 4
+          },
+          {
+            "label": "B",
+            "text": "Tetap optimistis mengoordinasikan pelaksanaan kerja bakti dengan melibatkan rekan-rekan yang bersedia membantu.",
+            "score": 5
+          },
+          {
+            "label": "C",
+            "text": "Tetap melakukan koordinasi dengan melibatkan seluruh rekan dosen dan menyampaikan bahwa kerja bakti wajib dilakukan.",
+            "score": 3
+          },
+          {
+            "label": "D",
+            "text": "Menyanggupi tugas dari pimpinan fakultas dan sebagai bentuk tanggung jawabnya ia akan bekerja sendiri.",
+            "score": 2
+          },
+          {
+            "label": "E",
+            "text": "Menganggap bekerja sama dalam pelaksanaan kerja bakti membersihkan lingkungan fakultas adalah hal penting yang harus dilakukan.",
+            "score": 1
+          }
+        ]
+      },
+      {
+        "question": {
+          "text": "Bambang adalah pemilik perusahaan penyedia layanan outbond yang sedang berkembang. Karena takut kehilangan pelanggan, Bambang menyetujui permintaan outbond dari dua sekolah di tempat berbeda, tetapi pada waktu yang sama, dengan pegawai yang masih terbatas. Apa yang seharusnya Bambang lakukan?"
+        },
+        "options": [
+          {
+            "label": "A",
+            "text": "Mengembangkan kerja sama pelatihan outbond sebatas dengan penyedia layanan yang sudah dikenal kinerjanya.",
+            "score": 4
+          },
+          {
+            "label": "B",
+            "text": "Menerima tawaran kerja sama pelatihan outbond dengan penyedia layanan lain yang benar-benar berniat membantunya.",
+            "score": 3
+          },
+          {
+            "label": "C",
+            "text": "Proaktif menawarkan kerja sama kepada berbagai penyedia layanan, baik yang sudah pernah bekerja sama maupun belum.",
+            "score": 5
+          },
+          {
+            "label": "D",
+            "text": "Mengerjakan kedua outbond dengan timnya yang ada sehingga tidak perlu meminta tolong penyedia layanan outbound yang lain.",
+            "score": 2
+          },
+          {
+            "label": "E",
+            "text": "Menawarkan kerja sama pelatihan outbond dengan penyedia layanan lain yang memiliki visi yang sama.",
+            "score": 1
+          }
+        ]
+      },
+      {
+        "question": {
+          "text": "Andri merasa agak kesulitan untuk bekerja sama dengan salah satu rekan kerjanya. Andri menyadari bahwa pekerjaannya menuntut dirinya untuk bisa bekerja sama dengan rekannya itu, tetapi rekannya seperti hanya mementingkan diri sendiri saja. Apa yang sebaiknya dilakukan oleh Andri?"
+        },
+        "options": [
+          {
+            "label": "A",
+            "text": "Mencari cara untuk membalas agar rekannya memahami bagaimana rasanya diperlakukan seperti itu dan memperbaiki kekeliruannya.",
+            "score": 1
+          },
+          {
+            "label": "B",
+            "text": "Tidak menyerah untuk terus mencari berbagai peluang untuk membangun hubungan kerja sama yang baik dengan rekannya itu.",
+            "score": 4
+          },
+          {
+            "label": "C",
+            "text": "Bertekad untuk bisa bekerja sendiri, tanpa kerja sama, hingga rekannya itu sendiri yang meminta dirinya untuk bekerja sama.",
+            "score": 2
+          },
+          {
+            "label": "D",
+            "text": "Mencoba untuk mengalir saja dalam bekerja bersama dengan rekannya itu dan membangun kerja sama sebisanya tanpa ada rencana.",
+            "score": 3
+          },
+          {
+            "label": "E",
+            "text": "Menyusun rencana dari berbagai masukan yang memungkinkan dirinya membangun kerja sama yang baik dengan rekannya itu.",
+            "score": 5
+          }
+        ]
+      },
+      {
+        "question": {
+          "text": "Pak Dodi menitipkan ayam peliharaan kepada Pak Indra karena pergi ke luar kota. Istrinya mengingatkan agar tidak menitipkan kepada orang lain. Sepulang dari luar kota, ternyata jumlah ayamnya berkurang. Apa yang dilakukan Pak Dodi?"
+        },
+        "options": [
+          {
+            "label": "A",
+            "text": "Menyesal mengapa langsung saja kemarin menitipkan dan tidak mendengarkan perkataan istrinya mengenai Pak Indra.",
+            "score": 2
+          },
+          {
+            "label": "B",
+            "text": "Meminta istrinya untuk tidak menyalahkan Pak Indra dan ikhlas saja menerima karena takut juga bertanya mengenai penyebabnya.",
+            "score": 1
+          },
+          {
+            "label": "C",
+            "text": "Mengikhlaskan kejadian tersebut dan percaya dengan Pak Indra untuk menjaga hubungan yang baik dengan tetangga.",
+            "score": 3
+          },
+          {
+            "label": "D",
+            "text": "Tetap percaya dengan Pak Indra, tetapi tetap bertanya kemungkinan penyebabnya sehingga nanti dapat lebih saling bisa menjaga.",
+            "score": 5
+          },
+          {
+            "label": "E",
+            "text": "Percaya saja dan tidak akan untuk menanyakan lebih jauh karena bagaimana pun ia yang meminta bantuan menitipkan ayam tersebut.",
+            "score": 4
+          }
+        ]
+      },
+      {
+        "question": {
+          "text": "Andini dan teman satu angkatannya adalah mahasiswa baru. Dosen menugasi mahasiswa mengerjakan proyek mini. Andini mendapat kelompok dengan Anas dan Rita. Namun, mereka adalah orang pendiam. Andini kurang memahami instruksi penugasan karena datang terlambat. Apa yang dilakukan Andini?"
+        },
+        "options": [
+          {
+            "label": "A",
+            "text": "Mengajukan diri dengan bertanya kepada dosen untuk memberikan penjelasan proyek sekali lagi.",
+            "score": 3
+          },
+          {
+            "label": "B",
+            "text": "Langsung membagi tugas saja agar cepat selesai karena malas berinteraksi dengan kedua temannya tersebut.",
+            "score": 1
+          },
+          {
+            "label": "C",
+            "text": "Akan bertanya pada dosen bila dosen tersebut memberi kesempatan untuk bertanya lagi.",
+            "score": 2
+          },
+          {
+            "label": "D",
+            "text": "Mendiskusikan dengan kedua rekannya dan langsung mengajaknya mengerjakan bersama.",
+            "score": 5
+          },
+          {
+            "label": "E",
+            "text": "Bertanya kepada Anas dan Rita bila benar-benar merasa kesulitan menyelesaikannya.",
+            "score": 4
+          }
+        ]
+      },
+      {
+        "question": {
+          "text": "Banyak teman Keisha yang merasa kesulitan dan takut dengan pelaksanaan ujian akhir semester mata kuliah Statistik. Sementara itu, Keisha tidak merasakan hal yang sama. Ia dapat dengan mudah mempelajarinya. Apa sebaiknya tindakan Keisha?"
+        },
+        "options": [
+          {
+            "label": "A",
+            "text": "Tidak berkeberatan menjelaskan cara penyelesaian soal-soal Statistik tersebut jika ada teman yang memintanya.",
+            "score": 4
+          },
+          {
+            "label": "B",
+            "text": "Memilih untuk tidak melakukan apa-apa karena penguasaannya terhadap mata kuliah Statistik itu karena usaha belajar dan berlatih sendiri.",
+            "score": 2
+          },
+          {
+            "label": "C",
+            "text": "Tidak berkeberatan memberikan informasi tentang cara penyelesaian soal kepada teman-teman seperlunya saja, sesuai dengan kebutuhan.",
+            "score": 3
+          },
+          {
+            "label": "D",
+            "text": "Memberikan informasi tentang cara penyelesaian soal dari buku-buku lain yang ia punya dan selanjutnya teman-temannya bisa berlatih sendiri.",
+            "score": 1
+          },
+          {
+            "label": "E",
+            "text": "Berinisiatif menawarkan diri untuk membantu belajar menguasai materi mata kuliah Statistik kepada teman-temannya demi kesuksesan bersama.",
+            "score": 5
+          }
+        ]
+      },
+      {
+        "question": {
+          "text": "Himma sudah dua kali lolos pendanaan Program Kreatifitas Mahasiswa (PKM). Tahun ini, Adit, sebagai pesaingnya, ingin mengajukan proposal dan ingin mendapatkan bimbingan Himma agar berhasil mendapatkan pendanaan. Bagaimana Himma menyikapi hal tersebut?"
+        },
+        "options": [
+          {
+            "label": "A",
+            "text": "Berbagi pengalaman jika diminta oleh dosen pembimbing PKM.",
+            "score": 3
+          },
+          {
+            "label": "B",
+            "text": "Berbagi pengalaman keberhasilannya dengan semangat setiap ada pembekalan PKM.",
+            "score": 2
+          },
+          {
+            "label": "C",
+            "text": "Membuat grup sebagai sarana diskusi agar Adit dan kawan-kawannya bisa lolos PKM.",
+            "score": 5
+          },
+          {
+            "label": "D",
+            "text": "Berbagi pengetahuan dan pengalamannya karena akan dikenal banyak dosen dan kawan di kampus.",
+            "score": 4
+          },
+          {
+            "label": "E",
+            "text": "Tidak perlu berbagi karena Adit harus berusaha mendapatkannya sendiri.",
+            "score": 1
+          }
+        ]
+      },
+      {
+        "question": {
+          "text": "Setiap kali menyampaikan pertanyaan di saat kuliah, teman Anda selalu menjadi bahan candaan karena sering kali menggunakan logat yang aneh, terdengar membentak dan memarahi, bahkan kadang kurang dapat dipahami. Sebagai koordinator mahasiswa di perkuliahan tersebut, apa yang Anda lakukan?"
+        },
+        "options": [
+          {
+            "label": "A",
+            "text": "Mengajak semua orang berinteraksi sambil mempelajari perbedaan dari setiap orang.",
+            "score": 5
+          },
+          {
+            "label": "B",
+            "text": "Menjalin pertemanan dengan saling menghormati dan tidak membeda-bedakan.",
+            "score": 4
+          },
+          {
+            "label": "C",
+            "text": "Mendiamkan saja karena memang itu bagian dari dinamika interaksi sosial.",
+            "score": 3
+          },
+          {
+            "label": "D",
+            "text": "Menanyakan secara langsung dan menyampaikan pandangan teman-teman lain.",
+            "score": 2
+          },
+          {
+            "label": "E",
+            "text": "Menanyakan kepada teman dekatnya mengenai asal daerah dari teman tersebut.",
+            "score": 1
+          }
+        ]
+      },
+      {
+        "question": {
+          "text": "Karyawan bagian produksi memiliki agama yang beragam. Beberapa karyawan berkeberatan ketika ketua panitia meminta Pak Jangkung, pemuka salah satu agama, memimpin doa bersama peringatan HUT RI. Apa yang sebaiknya dilakukan ketua panitia menghadapi keberatan mereka?"
+        },
+        "options": [
+          {
+            "label": "A",
+            "text": "Menyelenggarakan rapat perencanaan kegiatan dengan karyawan untuk menyepakati susunan umum pengisi acara",
+            "score": 4
+          },
+          {
+            "label": "B",
+            "text": "Berdiskusi dengan karyawan yang beda agama mengenai bentuk kegiatan doa bersama di kantor",
+            "score": 3
+          },
+          {
+            "label": "C",
+            "text": "Tetap melaksanakan acara doa bersama dengan dipimpin Pak Jangkung sesuai dengan rencana",
+            "score": 1
+          },
+          {
+            "label": "D",
+            "text": "Meminta kepala bagian memberikan penjelasan agar karyawan yang beda agama dapat menarik keberatan mereka",
+            "score": 2
+          },
+          {
+            "label": "E",
+            "text": "Menyampaikan pada karyawan yang beda agama bahwa Pak Jangkung akan mmeimpin doa secara umum",
+            "score": 5
+          }
+        ]
+      },
+      {
+        "question": {
+          "text": "Saat Anda melakukan kegiatan kuliah lapangan di desa selama dua bulan, beberapa warga mengeluhkan mengenai kebiasaan Anda dan teman-teman yang sering rapat dan berbincang dengan rekan lokasi sampai larut malam. Apa yang Seharusnya Anda lakukan?"
+        },
+        "options": [
+          {
+            "label": "A",
+            "text": "Mengingatkan teman Anda dan tidak berbincang hingga lanut malam",
+            "score": 3
+          },
+          {
+            "label": "B",
+            "text": "Apabila sedang bekumpul dengan teman dibatasi tidak sampai larut malam.",
+            "score": 5
+          },
+          {
+            "label": "C",
+            "text": "Berusaha untuk membiasakan diri dengan membatasi jam berkumpul.",
+            "score": 4
+          },
+          {
+            "label": "D",
+            "text": "Menanyakan apa yang membuat perilaku mereka dikeluhkan oleh warga.",
+            "score": 2
+          },
+          {
+            "label": "E",
+            "text": "Tetap melakukannya karena keluhan warga merupakan hal yang wajar dan biasa.",
+            "score": 1
+          }
+        ]
+      },
+      {
+        "question": {
+          "text": "Pada peringatan hari besar suatu agama, Anggada dari unit kegiatan agama yang berbeda ingin membantu. Namun, Novan merasa ragu karena belum berdiskusi dengan tim panitia. Padahal, Anggada perlu keputusan secepatnya. Jika Anda adalah Novan, apa yang Anda lakukan?"
+        },
+        "options": [
+          {
+            "label": "A",
+            "text": "Berdiskusi dengan Anggada terkait dengan peran yang cocok untuknya.",
+            "score": 4
+          },
+          {
+            "label": "B",
+            "text": "Tidak mengizinkannya karena mereka tidak paham isi kegiatan.",
+            "score": 1
+          },
+          {
+            "label": "C",
+            "text": "Akan mempertimbangkannya walaupun Anggada berbeda agama.",
+            "score": 2
+          },
+          {
+            "label": "D",
+            "text": "Menghargai keinginan tersebut dan menyiapkan peran yang tepat untuknya.",
+            "score": 5
+          },
+          {
+            "label": "E",
+            "text": "Membuat kepanitiaan yang melibatkan semua unit keagamaan.",
+            "score": 3
+          }
+        ]
+      },
+      {
+        "question": {
+          "text": "Pimpinan meminta Lia untuk mempresentasikan proposal kegiatan di hadapan semua anggota unit kerja. Lia mendapat tanggapan dan masukan, baik dari pimpinan maupun anggota unit kerja. Bagaimana tindakan Lia?"
+        },
+        "options": [
+          {
+            "label": "A",
+            "text": "Menghargai siapa pun yang memberikan masukan dan siap untuk memperbaiki proposal agar lebih baik lagi.",
+            "score": 5
+          },
+          {
+            "label": "B",
+            "text": "Menyaring masukan dari orang yang pendapatnya relevan dengan apa yang sudah tertulis di dalam proposal.",
+            "score": 4
+          },
+          {
+            "label": "C",
+            "text": "Menerima masukan dari orang yang dianggap memiliki pengalaman lebih dan mempunyai paham yang sama.",
+            "score": 2
+          },
+          {
+            "label": "D",
+            "text": "Membagi pengalaman kepada rekan kerja tentang optimalnya proposal karena mendengarkan masukan dari semua pihak.",
+            "score": 1
+          },
+          {
+            "label": "E",
+            "text": "Melihat siapa orang yang memberikan masukan dan akan memperbaiki jika masukan itu membuat proposalnya lebih baik.",
+            "score": 3
+          }
+        ]
+      },
+      {
+        "question": {
+          "text": "Budi memerlukan tambahan seorang anggota tim pemasaran. Roni merupakan seorang karyawan berprestasi di divisi lain yang berasal dari suku tertentu. Budi belum pernah berinteraksi dengan Roni karena latar belakang suku yang berbeda. Apa yang seharusnya dilakukan Budi?"
+        },
+        "options": [
+          {
+            "label": "A",
+            "text": "Mencari informasi bilamana Roni memiliki visi pemasaran yang sama dengannya",
+            "score": 4
+          },
+          {
+            "label": "B",
+            "text": "Memilih anggota yang berlatar belakang suku yang sama dengan Budi.",
+            "score": 1
+          },
+          {
+            "label": "C",
+            "text": "Melibatkan Roni dalam tim dan mendorong anggota tim saling bekerja sama.",
+            "score": 5
+          },
+          {
+            "label": "D",
+            "text": "Mencari anggota dari karyawan yang telah dikenal dan pernah berinteraksi.",
+            "score": 2
+          },
+          {
+            "label": "E",
+            "text": "Mengajak Roni untuk menjadi anggota tim meskipun belum pernah berinteraksi.",
+            "score": 3
+          }
+        ]
+      },
+      {
+        "question": {
+          "text": "Yuli penerima beasiswa prestasi untuk keluarga tidak mampu. Dia merasa minder dan menjauhi teman-temannya di kampus walaupun ia seringkali mendapat hasil terbaik dalam ujian dan peraih IPK tertinggi di kampusnya. Bagaimana sebaiknya sikap Yumna yang seringkali dikalahkan oleh Yuli?"
+        },
+        "options": [
+          {
+            "label": "A",
+            "text": "Aktif mengajak Yuli berdiskusi di kampus dan di luar kampus untuk lebih mengenal Yuli.",
+            "score": 5
+          },
+          {
+            "label": "B",
+            "text": "Mengajak Yuli untuk bergaul sebagaimana Yumna juga mengajak bergaul teman kuliah yang lain",
+            "score": 4
+          },
+          {
+            "label": "C",
+            "text": "Mengajak rekan-rekan kuliahnya untuk melibatkan Yuli dalam berbagai aktivitas kemahasiswaan maupun dalam pergaulan",
+            "score": 3
+          },
+          {
+            "label": "D",
+            "text": "Menunjukkan sikap menjaga jarak kepada Yuli karena Yuli yang terlebih dahulu menjaga jarak kepada rekan-rekannya",
+            "score": 1
+          },
+          {
+            "label": "E",
+            "text": "Mengajak Yuli bergabung dengan kelompoknya ketika membutuhkan kemampuan Yuli",
+            "score": 2
+          }
+        ]
+      },
+      {
+        "question": {
+          "text": "Salah satu rekanan Anda mengalami kebangkrutan karena menggunakan sistem yang terlalu online. Semua datanya hilang dibobol hacker. Pimpinan Anda mengubah sistem lama menjadi sistem terbuka yang mirip rekanan tersebut. Apa yang akan Anda lakukan pada situasi tersebut?"
+        },
+        "options": [
+          {
+            "label": "A",
+            "text": "Melibatkan IT profesional untuk keamanan pemanfaatan koneksi dengan jaringan luar secara luas.",
+            "score": 5
+          },
+          {
+            "label": "B",
+            "text": "Melibatkan staf IT kantor untuk pemanfaatan koneksi dengan jaringan luar yang aman.",
+            "score": 4
+          },
+          {
+            "label": "C",
+            "text": "Memanfaatkan koneksi dengan jaringan huar (online) dengan proteksi yang terbatas.",
+            "score": 3
+          },
+          {
+            "label": "D",
+            "text": "Mengembalikan semua sistem dengan sistem lama yang sebelumnya sudah dipakai.",
+            "score": 2
+          },
+          {
+            "label": "E",
+            "text": "Menggunakan koneksi dengan jaringan luar (online) terbatas pada data yang tidak penting",
+            "score": 1
+          }
+        ]
+      },
+      {
+        "question": {
+          "text": "Anda menemukan data evaluasi pelanggan yang menyarankan agar kantor Anda memiliki akun media sosial sehingga mudah berkomunikasi dengan pelanggan. Pada sisi lain, beberapa staf menolak saran tersebut karena akan menambah pekerjaan mereka. Bagaimana tindakan Anda?"
+        },
+        "options": [
+          {
+            "label": "A",
+            "text": "Saya merasa tidak semua saran pelanggan perlu diwujudkan; apabila kantor akan membuat akun media sosial, pengelolaanya dapat diserahkan kepada staf yang ahli.",
+            "score": 2
+          },
+          {
+            "label": "B",
+            "text": "Saya menilai penting untuk mempelajari pembuatan dan pengelolaan akun media sosial sehingga dapat mengoptimalkan pekerjaan tim marketing dan layanan pelanggan.",
+            "score": 4
+          },
+          {
+            "label": "C",
+            "text": "Saya merasa sistem layanan pelanggan sebelumnya sudah cukup memfasilitasi kebutuhan pelanggan: pengelolaan media sosial dapat membebani pekerjaan yang sudah ada.",
+            "score": 1
+          },
+          {
+            "label": "D",
+            "text": "Saya memandang bahwa evaluasi efektivitas sistem layanan pelanggan itu penting agar dapat memberikan solusi terbaik dalam melayani pelanggan.",
+            "score": 3
+          },
+          {
+            "label": "E",
+            "text": "Saya merasa terdorong untuk mempelajari cara pembuatan dan pengelolaan akun media sosial sehingga dapat memberikan hasil optimal dalam melayani pelanggan.",
+            "score": 5
+          }
+        ]
+      },
+      {
+        "question": {
+          "text": "Perusahaan Rima meluncurkan aplikasi baru untuk komunikasi internal para karyawan. Rima kesulitan memahami aplikasi tersebut karena berbeda dengan aplikasi yang sudah penah Rima pergunakan. Apa yang akan Rima lakukan?"
+        },
+        "options": [
+          {
+            "label": "A",
+            "text": "Mencari informasi tentang aplikasi tersebut dan melakukan modifikasi dengan aplikasi lama",
+            "score": 2
+          },
+          {
+            "label": "B",
+            "text": "Mempelajari aplikasi tersebut secara lengkap karena aplikasi baru ini dapat mendukung tidak hanya tugas kantor tapi juga kegiatan lain.",
+            "score": 5
+          },
+          {
+            "label": "C",
+            "text": "Bertanya pada teman tentang aplikasi tersebut karena semua karyawan akan menggunakannya.",
+            "score": 3
+          },
+          {
+            "label": "D",
+            "text": "Berusaha mengetahui penggunaan aplikasi tersebut karena sudah menjadi ketentuan perusahaan yang harus dipatuhi.",
+            "score": 4
+          },
+          {
+            "label": "E",
+            "text": "Sebelum ada sosialisasi dari perusahaan tentang penggunaan aplikasi tersebut Rina masih akan menggunakan aplikasi lama.",
+            "score": 1
+          }
+        ]
+      },
+      {
+        "question": {
+          "text": "Beta baru bekerja sebagai staf hubungan masyarakat di sebuah kantor pemerintahan. Saat ini informasi bagi masyarakat diimbau untuk ditayangkan secara langsung melalui kanal video daring perusahaan. Ia belum memahami benar cara mengoperasikannya. Apa yang akan Beta lakukan?"
+        },
+        "options": [
+          {
+            "label": "A",
+            "text": "Memilih untuk berbagi video secara manual agar dapat berbarengan mengerjakan tugas lainnya",
+            "score": 1
+          },
+          {
+            "label": "B",
+            "text": "Mengambil waktu yang agak lama untuk mempelajari cara penggunaan kanal video perusahaan.",
+            "score": 2
+          },
+          {
+            "label": "C",
+            "text": "Mempelajari penggunaan kanal video perusahaan untuk menyelesaikan tugasnya berbagi informasi pada masyarakat",
+            "score": 4
+          },
+          {
+            "label": "D",
+            "text": "Mencari tahu penggunaan kanal video perusahaan agar dapat menyajikan informasi terkini dengan lebih luas",
+            "score": 5
+          },
+          {
+            "label": "E",
+            "text": "Menggali cara penggunaan kanal video perusahaan untuk promosi kegiatan di bidang kerja lain.",
+            "score": 3
+          }
+        ]
+      },
+      {
+        "question": {
+          "text": "Anda diminta mendampingi mahasiswa magang dalam pekerjaan non-TI. Anda bingung karena ingin mahasiswa bisa magang dengan baik, tetapi Anda ingin agar mahasiswa juga membantu memperbaiki sistem TI kantor. Apa yang Anda lakukan pada situasi tersebut?"
+        },
+        "options": [
+          {
+            "label": "A",
+            "text": "Mempertimbangkan pada area mana mahasiswa masih mungkin membantu perbaikan teknologi informasi.",
+            "score": 3
+          },
+          {
+            "label": "B",
+            "text": "Meminta mahasiswa mempelajari langsung keterbatasan TI di kantor sebagai pembelajaran magang.",
+            "score": 5
+          },
+          {
+            "label": "C",
+            "text": "Membiarkan masalah teknologi informasi apa adanya karena tidak ada bantuan tenaga.",
+            "score": 1
+          },
+          {
+            "label": "D",
+            "text": "Meminta mahasiswa mempelajari keterkaitan bidang magang dan penerapannya untuk perbaikan TI",
+            "score": 4
+          },
+          {
+            "label": "E",
+            "text": "Memperkenalkan pentingnya TI bagi berbagai pekerjaan pada mahasiswa tanpa melibatkannya dalam perbaikan.",
+            "score": 2
+          }
+        ]
+      },
+      {
+        "question": {
+          "text": "Pimpinan kantor pusat merancang aplikasi untuk berkoordinasi secara terbatas dengan kepala kantor cabang di seluruh Indonesia untuk membahas masalah penting perusahaan. Pimpinan meminta kepala kantor cabang untuk mempersiapkan aplikasinya. Bagaimana sikap Rita sebagai kepala kantor cabang tentang hal tersebut?"
+        },
+        "options": [
+          {
+            "label": "A",
+            "text": "Menyiapkan aplikasinya dan memberikan kata sandi kepada staf agar bisa mengikuti pertemuan saat Rita berhalangan hadir.",
+            "score": 2
+          },
+          {
+            "label": "B",
+            "text": "Menghentikan penggunaan aplikasi jika identitas pribadi disalahgunakan untuk menurunkan citra kantor cabang",
+            "score": 3
+          },
+          {
+            "label": "C",
+            "text": "Mendorong pimpinan membuat POS tentang bagaimana penggunaan aplikasi yang aman, baik bagi pribadi maupun organisasi.",
+            "score": 5
+          },
+          {
+            "label": "D",
+            "text": "Menghentikan pemanfaatan aplikasi ketika pertemuan daring nanti disusupi oleh orang lain yang tidak berkepentingan",
+            "score": 4
+          },
+          {
+            "label": "E",
+            "text": "Mengingatkan kepala kantor cabang lain untuk berhati-hati mengakses aplikasi yang memuat data pribadi.",
+            "score": 1
+          }
+        ]
+      },
+      {
+        "question": {
+          "text": "Perusahaan \"Kuat\" mengakomodasi kebutuhan tiap karyawan dengan seperangkat monitor dan PC untuk pekerjaan mereka. Alice termasuk pegawai yang mendapatkan komputer sendiri setelah beberapa waktu sebelumnya ia berbagi komputer dengan rekannya. Apa yang seharusnya dilakukan Alice?"
+        },
+        "options": [
+          {
+            "label": "A",
+            "text": "Menyepakati penggunaan PC dan melakukan penyimpanan fail pribadi secara terpisah.",
+            "score": 4
+          },
+          {
+            "label": "B",
+            "text": "Mengomunikasikan batas pemakaian PC ke rekan kerjanya sehingga tidak terjadi pelanggaran.",
+            "score": 3
+          },
+          {
+            "label": "C",
+            "text": "Tidak membagi penggunaan PC ke orang lain karena khawatir terjadi penyalahgunaan data",
+            "score": 2
+          },
+          {
+            "label": "D",
+            "text": "Tidak berbagi PC dalam bentuk apapun lagi dengan orang lain meski rekan kerja yang dekat",
+            "score": 1
+          },
+          {
+            "label": "E",
+            "text": "Memperlakukan dan memanfaatkan sarana prasarana dengan baik untuk digunakan bersama-sama",
+            "score": 5
+          }
+        ]
+      },
+      {
+        "question": {
+          "text": "Pimpinan sebelumnya membekukan pemanfaatan teknologi informasi (TI) di organisasi karena banyaknya dampak merugikan. Saat ini Anda mendapat tekanan dari pusat agar meningkatkan performansi organisasi. Apa yang seharusnya Anda lakukan?"
+        },
+        "options": [
+          {
+            "label": "A",
+            "text": "Melanjutkan kebijakan pimpinan terdahulu dengan dalih yang sama.",
+            "score": 1
+          },
+          {
+            "label": "B",
+            "text": "Menerapkan kembali TI pada organisasi meskipun risikonya cukup besar.",
+            "score": 2
+          },
+          {
+            "label": "C",
+            "text": "Mengevaluasi kelebihan dan kelemahan pemanfaatan teknologi informasi di organisasi.",
+            "score": 5
+          },
+          {
+            "label": "D",
+            "text": "Melakukan langkah-langkah penting dalam memperkuat sistem sebelum TI dipasang.",
+            "score": 4
+          },
+          {
+            "label": "E",
+            "text": "TI harus segera dipasang demi peningkatan performansi organisasi.",
+            "score": 3
+          }
+        ]
+      },
+      {
+        "question": {
+          "text": "Dalam sebuah situs yang banyak berbicara mengenai perkembangan politik dan pemerintahan, terjadi pro dan kontra terhadap kebijakan pemerintah. Apa tanggapan Rani sebagai pengguna internet?"
+        },
+        "options": [
+          {
+            "label": "A",
+            "text": "Berhenti menggunakan situs tersebut karena itu cukup mengganggu perasaan dan pikiran.",
+            "score": 2
+          },
+          {
+            "label": "B",
+            "text": "Keluar dari situs tersebut jika merasa bahwa tidak ada informasi positif yang ia bisa ambil dari situs tersebut.",
+            "score": 3
+          },
+          {
+            "label": "C",
+            "text": "Menyarankan orang lain untuk berhenti mengakses situs tersebut jika terlalu terpancing memberikan komentar yang bisa membawa masalah.",
+            "score": 4
+          },
+          {
+            "label": "D",
+            "text": "Aktif mengingatkan etika dan potensi persoalan dalam menggunakan situs tersebut dengan berdasarkan undang-undang yang berlaku.",
+            "score": 5
+          },
+          {
+            "label": "E",
+            "text": "Menyampaikan pendapat secara terbuka sebagai hak asasi tanpa perlu terlalu memikirkan sudut pandang orang lain.",
+            "score": 1
+          }
+        ]
+      },
+      {
+        "question": {
+          "text": "Perusahaan tempat Rendy bekerja mengalami penurunan produksi cukup signifikan. Oleh karena itu, manajemen mengadakan rapat untuk meminta saran dan solusi dari berbagai pihak agar dapat meningkatkan produksi kembali. Saran dan solusi bagaimanakah yang harus Rendy berikan agar mampu membantu meningkatkan produksi perusahaan?"
+        },
+        "options": [
+          {
+            "label": "A",
+            "text": "Menyarankan agar perusahaan melakukan studi banding dengan perusahaan sejenis yang lebih maju.",
+            "score": 3
+          },
+          {
+            "label": "B",
+            "text": "Menyarankan agar perusahaan melakukan studi banding dengan ahli di bidang produksi.",
+            "score": 4
+          },
+          {
+            "label": "C",
+            "text": "Menyarankan agar perusahaan menambah jumlah karyawan untuk meningkatkan jumlah prokdusi.",
+            "score": 1
+          },
+          {
+            "label": "D",
+            "text": "Menyarankan perusahaan untuk bekerja sama dan melakukan analisis pemecahan masalah dengan ahli di bidang produksi.",
+            "score": 5
+          },
+          {
+            "label": "E",
+            "text": "Menyarankan kepada perusahaan agar mendatangkan ahli di bidang produksi untuk menyelesaikan masalah.",
+            "score": 2
+          }
+        ]
+      },
+      {
+        "question": {
+          "text": "Hendy menemukan salah satu karyawan mengambil persediaan gula di ruang bersama. Sebagai kepala satpam, ia harus melaporkan kejadian tersebut pada pemilik kios, tetapi risikonya karyawan tersebut dapat dipecat. Apa yang sebaiknya Hendy lakukan?"
+        },
+        "options": [
+          {
+            "label": "A",
+            "text": "Menelaah aturan tertulis mengenai tata perilaku penggunaan fasilitas kantor sebagai dasar tindakan yang ia ambil.",
+            "score": 5
+          },
+          {
+            "label": "B",
+            "text": "Membiarkannya karena hal tersebut hanya kesalahan kecil yang tidak berdampak serius bagi pemilik usaha.",
+            "score": 1
+          },
+          {
+            "label": "C",
+            "text": "Meminta petugas satpam lain mengamati perilaku karyawan tersebut untuk memastikan perilakunya.",
+            "score": 2
+          },
+          {
+            "label": "D",
+            "text": "Melaporkan kejadian pada bagian personalia untuk tindak lanjut sambil terus memantau perilaku karyawan tersebut.",
+            "score": 3
+          },
+          {
+            "label": "E",
+            "text": "Meminta klarifikasi karyawan tersebut lalu memintanya tidak melakukan hal-hal yang dapat merugikan perusahaan.",
+            "score": 4
+          }
+        ]
+      },
+      {
+        "question": {
+          "text": "Yunita adalah kepala bagian perancangan program di sebuah perusahaan iklan. Pada bulan ini ada dua kegiatan besar yang harus dikerjakannya sesuai dengan rencana kerja tahunan. Keberhasilan penyelenggaraan kegiatan tersebut akan mempengaruhi pendapatan perusahaan. Apa yang akan Yunita lakukan?"
+        },
+        "options": [
+          {
+            "label": "A",
+            "text": "Menyelesaikan tanggung jawab tersebut sebagaimana biasanya, yaitu sesuai dengan ritme kerja selama ini.",
+            "score": 2
+          },
+          {
+            "label": "B",
+            "text": "Prioritas untuk mengerjakan salah satu kegiatan khususnya yang paling menguntungkan bagi perusahaan.",
+            "score": 1
+          },
+          {
+            "label": "C",
+            "text": "Mengatur pembagian waktu dan pendistribusian staf pendukung acara secara sistematis dan terstruktur.",
+            "score": 5
+          },
+          {
+            "label": "D",
+            "text": "Berupaya mengelola suasana hati dengan harapan suasana hati dapat mendukung keberhasilan pelaksanaan kegiatan.",
+            "score": 3
+          },
+          {
+            "label": "E",
+            "text": "Bekerja seefektif dan seefisien mungkin sehingga tanggung jawab dapat selesai secara optimal dan tepat waktu.",
+            "score": 4
+          }
+        ]
+      },
+      {
+        "question": {
+          "text": "Orang tua Wina gagal panen sehingga terlambat mengiriminya uang kos. Wina meminjam uang Tati untuk membayar kos bulan ini, yang sudah terlambat tiga hari. Tati memberikan pinjaman selama sebulan karena ia harus membayar SPP kuliah. Dalam situasi ini, apa tindakan Wina?"
+        },
+        "options": [
+          {
+            "label": "A",
+            "text": "Mencari pekerjaan paruh waktu untuk menambah pemasukan bulan ini.",
+            "score": 4
+          },
+          {
+            "label": "B",
+            "text": "Mengembalikan uang Tati ketika orang tua sudah mengiriminya uang.",
+            "score": 3
+          },
+          {
+            "label": "C",
+            "text": "Menyampaikan alasan keterlambatan kepada pemilik kos agar ia tidak merasa bersalah.",
+            "score": 2
+          },
+          {
+            "label": "D",
+            "text": "Segera membayar uang kos yang sudah melampaui jatuh tempo pembayaran.",
+            "score": 5
+          },
+          {
+            "label": "E",
+            "text": "Berhemat dengan cara menyisihkan sebagian dari uang makan hariannya.",
+            "score": 1
+          }
+        ]
+      },
+      {
+        "question": {
+          "text": "Fauzan mendapati staf bagian pemantau kualitas tidak teliti saat memeriksa produk sepatu. Ia tidak lagi berwenang menegur staf pemantau kualitas sejak pindah ke bagian pemasaran. Apa hal terbaik yang dapat Fauzan lakukan dalam situasi ini?"
+        },
+        "options": [
+          {
+            "label": "A",
+            "text": "Mengabaikan temuannya karena bukan tanggung jawab ataupun kewenangannya.",
+            "score": 1
+          },
+          {
+            "label": "B",
+            "text": "Menunjukkan kekeliruan penilaian kualitas sepatu pada staf lain sebagai informasi.",
+            "score": 3
+          },
+          {
+            "label": "C",
+            "text": "Merencanakan prosedur alternatif pemeriksaan kualitas produk untuk disampaikan di rapat.",
+            "score": 4
+          },
+          {
+            "label": "D",
+            "text": "Menguslkan pertemuan evaluasi bidang secara berkala agar dapat memberikan masukan antarbagian.",
+            "score": 5
+          },
+          {
+            "label": "E",
+            "text": "Memberikan keterangan mengenai temuan hanya jika manajer bagian pemantau kualitas bertanya.",
+            "score": 2
+          }
+        ]
+      },
+      {
+        "question": {
+          "text": "Penjualan toko X dalam dua semester terakhir terus menurun tajam yang diduga akibat perubahan perilaku konsumen saat ini. Bila ini terus berlanjut, perusahaan terancam bangkrut. Apa yang sebaiknya Mega lakukan selaku manajer pemasaran di toko tersebut?"
+        },
+        "options": [
+          {
+            "label": "A",
+            "text": "Mempromosikan penjualan beberapa produk unggulan dengan lebih giat lagi sesuai dengan arahan pimpinan perusahaan.",
+            "score": 4
+          },
+          {
+            "label": "B",
+            "text": "Membuat rencana pemasaran dari jangka pendek hingga jangka panjang untuk menangkap konsumen potensial.",
+            "score": 3
+          },
+          {
+            "label": "C",
+            "text": "Mengubah strategi pemasaran luring menjadi daring sesuai dengan kondisi saat ini dan bermitra dengan para pelaku niaga-el.",
+            "score": 5
+          },
+          {
+            "label": "D",
+            "text": "Menyiapkan beberapa opsi optimalisasi strategi bisnis perusahaan yang dapat mengantisipasi berbagai kondisi perubahan.",
+            "score": 2
+          },
+          {
+            "label": "E",
+            "text": "Merencanakan kegiatan promosi (sale) dan cuci gudang seperti yang rutin dilakukan sebelumnya tiap menjelang akhir tahun.",
+            "score": 1
+          }
+        ]
+      },
+      {
+        "question": {
+          "text": "Direktur memunjuk Dina sebagai koordinator dalam proyek kerja sama dengan instansi pemerintahan. Akan tetapi. proyek tidak berjalan dengan sempurna karena anggota tim melakukan kesalahan sehingga membuat instansi pemerintahan tersebut protes. Yang sebaiknya Dina lakukan adalah ..."
+        },
+        "options": [
+          {
+            "label": "A",
+            "text": "Melakukan pendekatan kepada klien pemerintah dengan memberikan janji perbaikan.",
+            "score": 5
+          },
+          {
+            "label": "B",
+            "text": "Mengganti anggota tim yang melakukan kesalahan dengan anggota baru yang lebih andal.",
+            "score": 1
+          },
+          {
+            "label": "C",
+            "text": "Meminta penjelasan kepada tim terkait kesalahan yang dilakukan dan memberikan masukan agar kejadian serupa tidak terulang.",
+            "score": 4
+          },
+          {
+            "label": "D",
+            "text": "Memberikan masukan kepada anggota tim yang melakukan kesalahan, lalu berkoordinasi untuk memperbaiki kesalahan bersama-sama",
+            "score": 3
+          },
+          {
+            "label": "E",
+            "text": "Memberi masukan anggota tim yang melakukan kesalahan dan memotivasi anggota lain agar bekerja maksimal.",
+            "score": 2
+          }
+        ]
+      },
+      {
+        "question": {
+          "text": "Wati adalah seorang mahasiswa sebuah perguruan tinggi negeri. Mahasiswanya berasal dari berbagai latar belakang daerah, suku, agama, dan adat istiadat. Tidak jarang di kelas Wati, terjadi konflik antarmahasiswa karena perbedaan pendapat dan kebiasaan. Bagaimanakah sikap Wati sebaiknya?"
+        },
+        "options": [
+          {
+            "label": "A",
+            "text": "Memiliki persepsi diri untuk menerima dan menghormati perbedaan dan keberagaman latar belakang.",
+            "score": 5
+          },
+          {
+            "label": "B",
+            "text": "Mengajak temen-temen di kelasnya untuk saling menghormati dan berpandangan terbuka terhadap perbedaan.",
+            "score": 4
+          },
+          {
+            "label": "C",
+            "text": "Menyadari pentingnya menghormati perbedaan, mengatasi konflik dan sikap terbuka dalam hidup bermasyarakat.",
+            "score": 3
+          },
+          {
+            "label": "D",
+            "text": "Berkeinginan untuk mewujudkan sikap saling menghormati dan menerima perbedaan di kelasnya.",
+            "score": 2
+          },
+          {
+            "label": "E",
+            "text": "Mendukung teman-teman yang menyuarakan penghormatan terhadap keberagaman",
+            "score": 1
+          }
+        ]
+      },
+      {
+        "question": {
+          "text": "Hana memiliki beberapa teman baik yang selalu bersama-sama. Ketika naik ke kelas baru, mereka pun berada di satu kelas yang sama, padahal ada teman-teman baru di kelas tersebut. Jika Anda adalah Hana, apakah yang akan Anda lakukan?"
+        },
+        "options": [
+          {
+            "label": "A",
+            "text": "Tetap sering melakukan aktivitas bersama, asal tidak menganggu orang lain.",
+            "score": 3
+          },
+          {
+            "label": "B",
+            "text": "Terbuka akan teman baru meski tetap kompak dengan kelompoknya.",
+            "score": 5
+          },
+          {
+            "label": "C",
+            "text": "Bersama-sama di dalam kelompok dan tidak menganggu orang lain.",
+            "score": 1
+          },
+          {
+            "label": "D",
+            "text": "Melakukan kegiatan bersama yang berifat positif untuk orang lain.",
+            "score": 4
+          },
+          {
+            "label": "E",
+            "text": "Menyakinkan teman sekelompok untuk tetap bersikap baik dengan teman di luar kelompok.",
+            "score": 2
+          }
+        ]
+      },
+      {
+        "question": {
+          "text": "Anda tinggal di sebuah pemukiman yang padat yang interaksi antarwarganya tidak begitu erat. Dalam beberapa minggu terakhir, Anda melihat ada beberapa pendatang baru yang tidak anda kenal mengontrak rumah dekat rumah Anda. Ketika bertanya kepada ketua RT, beliau belum mengenalnya. Apa yang Anda lakukan?"
+        },
+        "options": [
+          {
+            "label": "A",
+            "text": "Saya sebenarnya ingin tahu, tetapi lebih baik saya untuk tidak terlalu ikut campur.",
+            "score": 1
+          },
+          {
+            "label": "B",
+            "text": "Selagi mereka tidak mengganggu ketenteraman lingkungan, saya rasa tidak perlu dipermasalahkan.",
+            "score": 2
+          },
+          {
+            "label": "C",
+            "text": "Saya akan berusaha untuk mendekati dan memperkenalkan diri kepada mereka.",
+            "score": 5
+          },
+          {
+            "label": "D",
+            "text": "Saya akan mendorong mereka untuk melapor kepada ketua RT agar didata.",
+            "score": 4
+          },
+          {
+            "label": "E",
+            "text": "Saya akan menemani ketua RT untuk berkunjung dan berinteraksi dengan mereka.",
+            "score": 3
+          }
+        ]
+      },
+      {
+        "question": {
+          "text": "Dalam penempatan kerja. Anda ditempatkan di salah satu daerah di Indonesia yang memiliki latar belakang budaya yang sangat berbeda dengan Anda Kondisi ini akan menjadi tantangan tersendiri bagi Anda. Bagaimana sikap Anda?"
+        },
+        "options": [
+          {
+            "label": "A",
+            "text": "Saya sangat senang mendapat kesempatan untuk belajar bertoleransi dengan budaya lain.",
+            "score": 5
+          },
+          {
+            "label": "B",
+            "text": "Saya beranggapan bahwa perbedaan akan membuat hidup berwarna.",
+            "score": 4
+          },
+          {
+            "label": "C",
+            "text": "Saya bertekad untuk menghargai kebudayaan setempat.",
+            "score": 3
+          },
+          {
+            "label": "D",
+            "text": "Saya akan aktif di masyarakat untuk mengenal budaya setempat dan memperkenalkan budaya saya kepada mereka",
+            "score": 2
+          },
+          {
+            "label": "E",
+            "text": "Saya akan tetap bertingkah laku sesuai denagn budaya saya di mana pun saya berada.",
+            "score": 1
+          }
+        ]
+      },
+      {
+        "question": {
+          "text": "Anda baru diterima kerja di sebuah perusahaan. Anda satu-satunya lulusan dari Universitas A, sedangkan mayoritas karyawan di sana adalah lulusan Universitas B yang ternama. Ketika perusahaan tersebut mengadakan kegiatan bersama di akhir tahun, apa yang akan Anda lakukan?"
+        },
+        "options": [
+          {
+            "label": "A",
+            "text": "Mencari-cari informasi tentang kegiatan tersebut untuk menguatkan keputusan Anda",
+            "score": 2
+          },
+          {
+            "label": "B",
+            "text": "Memutuskan untuk tidak mengikuti kegiatan tersebut karena Anda merasa kikuk jika tidak punya teman",
+            "score": 1
+          },
+          {
+            "label": "C",
+            "text": "Mempertimbangkan untuk hadir dalam kegiatan tersebut meskipun ragu-ragu",
+            "score": 3
+          },
+          {
+            "label": "D",
+            "text": "Akan hadir dan mengajak rekan-rekan agar bisa hadir di kegiatan tersebut",
+            "score": 4
+          },
+          {
+            "label": "E",
+            "text": "Bersedia hadir dan akan berpartisipasi untuk kegiatan akhir tahun tersebut",
+            "score": 5
+          }
+        ]
+      },
+      {
+        "question": {
+          "text": "Terjadi polarisasi pandangan ideologis di grup media sosial yang mengakibatkan beberapa orang keluar dari grup media sosial tersebut, bahkan ada sampai menghapus kontak temannya. Jika Anda adalah admin grup, bagaimana Anda menyikapi hal ini?"
+        },
+        "options": [
+          {
+            "label": "A",
+            "text": "Meminta teman-teman Anda untuk menahan diri memberikan komentar supaya tidak memperuncing masalah yang terjadi",
+            "score": 2
+          },
+          {
+            "label": "B",
+            "text": "Membubarkan grup media sosial tersebut dan membiarkan teman-teman Anda merasakan dampaknya dari ketiadaan media sosial",
+            "score": 1
+          },
+          {
+            "label": "C",
+            "text": "Membiarkan reaksi teman-teman yang ingin keluar dari grup dan memberikan kesempatan bagi yang masih mau bertahan",
+            "score": 3
+          },
+          {
+            "label": "D",
+            "text": "Mengusulkan aturan dalam memberikan komentar di grup dan bisa menjamin tidak terjadinya kesalahpahaman dan konflik",
+            "score": 5
+          },
+          {
+            "label": "E",
+            "text": "Membujuk mereka untuk kembali masuk grup serta mendiskusikan kesalahpahaman yang terjadi dengan kepala dingin",
+            "score": 4
+          }
+        ]
+      },
+      {
+        "question": {
+          "text": "Beredar isu bahwa pihak rektorat berencana mengubah lahan hijau di area kampus menjadi lahan komersial. Sejumlah anggota BEM langsung bereaksi dengan merencanakan aksi protes ke rektorat. Sebagai anggota BEM, bagaimana sikap atau tindakan Anda?"
+        },
+        "options": [
+          {
+            "label": "A",
+            "text": "Menaruh perhatian baik-baik terhadap kabar itu sebab jika memang benar akan terjadi gejolak di kalangan BEM",
+            "score": 3
+          },
+          {
+            "label": "B",
+            "text": "Jika berita itu benar. pihak rektorat tentunya sudah memikirkan masak-masak sebelum memutuskan",
+            "score": 2
+          },
+          {
+            "label": "C",
+            "text": "Berhati-hati dalam mempercayai informasi tersebut, menelusuri sumbernya, dan menimbang-nimbang sebelum mempercayainya",
+            "score": 4
+          },
+          {
+            "label": "D",
+            "text": "Mengajak rekan-rekan di BEM unuk mencari informasi yang valid dulu ke rektorat dan tidak buru-buru merencanakan aksi",
+            "score": 5
+          },
+          {
+            "label": "E",
+            "text": "Mencari informasi dari berbagai sumber yang kredibel, misalnya dengan bertanya langsung kepada Bagian Humas kampus",
+            "score": 1
+          }
+        ]
+      },
+      {
+        "question": {
+          "text": "Santonie adalah keturunan etnis Tionghoa, sedangkan Amir keturunan etnis Jawa. Meskipun mereka berdua berkawan, keduanya sering terjadi konfik karena masing-masing menganggap dirinya paling benar. Bila hal ini dibiarkan akan muncul disintegrasi bangsa. Cara apa yang bisa Anda tawarkan untuk menyelesaikan konflik tersebut?"
+        },
+        "options": [
+          {
+            "label": "A",
+            "text": "Saya berpikir sebaiknya Santonie dan Amir berdamai saja karena tidak ada manfaatnya terus berkonflik",
+            "score": 2
+          },
+          {
+            "label": "B",
+            "text": "Saya berpikir mediasi perlu dilakukan dalam masalah ini.",
+            "score": 4
+          },
+          {
+            "label": "C",
+            "text": "Meminta ketua lingkungan untuk membantu penyelesaian konflik ini.",
+            "score": 3
+          },
+          {
+            "label": "D",
+            "text": "Mengingatkan Santonie dan Amir pentingnya hidup bertoleransi dan menghormati budaya satu sama lain.",
+            "score": 5
+          },
+          {
+            "label": "E",
+            "text": "Aktif membantu perangkat lingkungan untuk menyosialisasikan pentingnya perdamaian yang didasari toleransi antarsuku dan agama.",
+            "score": 1
+          }
+        ]
+      }
+    ]
+  }
+}
