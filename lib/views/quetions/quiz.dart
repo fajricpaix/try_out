@@ -387,20 +387,19 @@ class _QuizViewState extends State<QuizView> {
                 ),
               ),
               onPressed: () {
-                showDialog(
-                  context: context,
-                  builder: (context) => QuizModal(
-                    totalQuestions: _quizQuestions.length,
-                    currentIndex: _currentIndex,
-                    onSelectQuestion: (index) {
-                      setState(() {
-                        _currentIndex = index;
-                        Navigator.of(context).pop();
-                      });
-                    },
-                  ),
-                );
-              },
+              showDialog(
+                context: context,
+                builder: (context) => QuizModal(
+                  totalQuestions: _quizQuestions.length,
+                  currentIndex: _currentIndex,
+                  onSelectQuestion: (index) {
+                    setState(() {
+                      _currentIndex = index;
+                    });
+                  },
+                ),
+              );
+            },
               child: Text(
                 '${_currentIndex + 1}',
                 style: const TextStyle(color: Color(0xFF6A5AE0), fontSize: 16),

@@ -6,7 +6,9 @@ import 'package:try_out/views/quetions/quiz.dart';
 import 'package:try_out/widgets/tools/box_quiz.dart';
 
 class DashboardQuetionView extends StatefulWidget {
-  const DashboardQuetionView({super.key});
+  final String level;
+
+  const DashboardQuetionView({super.key, required this.level});
 
   @override
   State<DashboardQuetionView> createState() => _DashboardQuetionViewState();
@@ -28,14 +30,22 @@ class _DashboardQuetionViewState extends State<DashboardQuetionView> {
       final String response = await rootBundle.loadString(
         'assets/json/dummy.json',
       );
-      final data = json.decode(response);
+      final Map<String, dynamic> rawData = json.decode(response);
+
+      final filteredData = <String, dynamic>{};
+      for (final entry in rawData.entries) {
+        if (entry.value['level'] == widget.level) {
+          filteredData[entry.key] = entry.value;
+        }
+      }
+
       setState(() {
-        quizData = data;
+        quizData = filteredData;
         _isLoading = false;
       });
     } catch (e) {
       setState(() {
-        _error = 'Failed to load quiz data: $e';
+        _error = 'Gagal memuat soal: $e';
         _isLoading = false;
       });
     }
@@ -63,6 +73,18 @@ class _DashboardQuetionViewState extends State<DashboardQuetionView> {
       );
     }
 
+    if (quizData == null || quizData!.isEmpty) {
+      return Scaffold(
+        backgroundColor: const Color(0xFF6A5AE0),
+        body: const Center(
+          child: Text(
+            'Tidak ada soal untuk level ini.',
+            style: TextStyle(color: Colors.white, fontSize: 16),
+          ),
+        ),
+      );
+    }
+
     final keys = quizData!.keys.toList();
 
     return DefaultTabController(
@@ -70,15 +92,13 @@ class _DashboardQuetionViewState extends State<DashboardQuetionView> {
       child: Scaffold(
         backgroundColor: const Color(0xFF6A5AE0),
         appBar: AppBar(
-          title: const Text(
-            'Latihan Soal',
-            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+          title: Text(
+            'Latihan Soal - ${widget.level}',
+            style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
           ),
           leading: IconButton(
             icon: const Icon(Icons.close, color: Colors.white),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
+            onPressed: () => Navigator.of(context).pop(),
           ),
           backgroundColor: const Color(0xFF6A5AE0),
         ),
@@ -97,7 +117,7 @@ class _DashboardQuetionViewState extends State<DashboardQuetionView> {
               isScrollable: true,
               labelColor: Colors.white,
               unselectedLabelColor: Colors.white,
-              indicator: UnderlineTabIndicator(
+              indicator: const UnderlineTabIndicator(
                 borderSide: BorderSide(color: Colors.white, width: 2),
                 insets: EdgeInsets.only(bottom: 8),
               ),
