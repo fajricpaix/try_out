@@ -209,14 +209,6 @@ class _QuizViewState extends State<QuizView> {
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                            const Spacer(),
-                            const Text(
-                              '01:40:60',
-                              style: TextStyle(
-                                color: Color(0xFF6A5AE0),
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
                           ],
                         ),
                         const SizedBox(height: 8),
@@ -354,7 +346,7 @@ class _QuizViewState extends State<QuizView> {
         ),
       ),
       bottomNavigationBar: Padding(
-        padding: const EdgeInsets.all(12.0),
+        padding: const EdgeInsets.only(left: 20, right: 20, bottom: 32),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
