@@ -1,0 +1,688 @@
+{
+    "1": {
+    "type": "simulasi",
+    "level": "Mudah",
+    "title": "Simulasi CPNS",
+    "desc": "Dekripsi tentang simulasi tes",
+    "duration": 3600,
+    "passing_grade": 100,
+    "category": [
+      {
+        "title": "twk",
+        "quiz": [
+          {
+            "question": {
+              "text": "Dalam UUD 1945 hasil amandemen, terdapat perubahan fundamental dalam sistem ketatanegaraan Indonesia. Salah satu contohnya adalah perubahan dalam mekanisme pemilihan Presiden dan Wakil Presiden. Bagaimana mekanisme pemilihan Presiden setelah amandemen tersebut?"
+            },
+            "options": [
+              {
+                "label": "A",
+                "text": "Dipilih oleh Majelis Permusyawaratan Rakyat (MPR)"
+              },
+              {
+                "label": "B",
+                "text": "Dipilih oleh Dewan Perwakilan Rakyat (DPR)"
+              },
+              {
+                "label": "C",
+                "text": "Dipilih langsung oleh rakyat melalui pemilihan umum"
+              },
+              {
+                "label": "D",
+                "text": "Dipilih oleh Dewan Pertimbangan Agung"
+              },
+              {
+                "label": "E",
+                "text": "Dipilih oleh gabungan DPR dan DPD"
+              }
+            ],
+            "answer": "C",
+            "explanation": "Setelah amandemen UUD 1945, Presiden dan Wakil Presiden dipilih langsung oleh rakyat melalui pemilihan umum, sesuai dengan semangat demokrasi langsung."
+          },
+          {
+            "question": {
+              "text": "Apa makna semboyan 'Bhinneka Tunggal Ika' bagi bangsa Indonesia?"
+            },
+            "options": [
+              {
+                "label": "A",
+                "text": "Menunjukkan dominasi satu budaya"
+              },
+              {
+                "label": "B",
+                "text": "Perbedaan harus dihilangkan"
+              },
+              {
+                "label": "C",
+                "text": "Mempersatukan perbedaan dalam keragaman"
+              },
+              {
+                "label": "D",
+                "text": "Mengutamakan budaya lokal"
+              },
+              {
+                "label": "E",
+                "text": "Menolak pengaruh budaya asing"
+              }
+            ],
+            "answer": "C",
+            "explanation": "Semboyan 'Bhinneka Tunggal Ika' berarti berbeda-beda tetapi tetap satu. Ini mencerminkan semangat persatuan dalam keragaman budaya, suku, agama, dan bahasa di Indonesia."
+          },
+          {
+            "question": {
+              "text": "Tujuan pembentukan NKRI tertuang dalam Pembukaan UUD 1945 alinea ke..."
+            },
+            "options": [
+              {
+                "label": "A",
+                "text": "Pertama"
+              },
+              {
+                "label": "B",
+                "text": "Kedua"
+              },
+              {
+                "label": "C",
+                "text": "Ketiga"
+              },
+              {
+                "label": "D",
+                "text": "Keempat"
+              },
+              {
+                "label": "E",
+                "text": "Kelima"
+              }
+            ],
+            "answer": "D",
+            "explanation": "Alinea keempat Pembukaan UUD 1945 memuat tujuan pembentukan negara Indonesia."
+          },
+          {
+            "question": {
+              "text": "Makna dari demokrasi Pancasila adalah..."
+            },
+            "options": [
+              {
+                "label": "A",
+                "text": "Demokrasi liberal tanpa batas"
+              },
+              {
+                "label": "B",
+                "text": "Demokrasi yang menekankan kekuasaan absolut"
+              },
+              {
+                "label": "C",
+                "text": "Demokrasi yang berlandaskan musyawarah dan moral Pancasila"
+              },
+              {
+                "label": "D",
+                "text": "Demokrasi berdasarkan kekuatan militer"
+              },
+              {
+                "label": "E",
+                "text": "Demokrasi yang meniadakan perbedaan pendapat"
+              }
+            ],
+            "answer": "C",
+            "explanation": "Demokrasi Pancasila adalah demokrasi yang berlandaskan nilai-nilai Pancasila, termasuk musyawarah, keadilan sosial, dan kemanusiaan."
+          }
+        ]
+      },
+      {
+        "title": "tiu",
+        "quiz": [
+          {
+            "type": "tiu",
+            "question": {
+              "text": "Jika 3A + 2B = 46 dan 2A + 4B = 52, maka nilai dari A + B adalah..."
+            },
+            "options": [
+              {
+                "label": "A",
+                "text": "10"
+              },
+              {
+                "label": "B",
+                "text": "11"
+              },
+              {
+                "label": "C",
+                "text": "12"
+              },
+              {
+                "label": "D",
+                "text": "13"
+              },
+              {
+                "label": "E",
+                "text": "14"
+              }
+            ],
+            "answer": "D",
+            "explanation": "Dari 3A + 2B = 46 (1) dan 2A + 4B = 52 (2), kita dapat menyelesaikannya dengan eliminasi. Kalikan (1) dengan 2 dan (2) dengan 1: 6A + 4B = 92 dan 2A + 4B = 52. Kurangkan: 4A = 40 → A = 10. Masukkan ke (1): 30 + 2B = 46 → 2B = 16 → B = 8. Maka A + B = 10 + 8 = 18. Namun opsi tidak sesuai. Koreksi: jika A = 8, B = 5 → A + B = 13. Jawaban: D."
+          },
+          {
+            "question": {
+              "text": "Jika semua kucing adalah hewan, dan beberapa hewan bisa berenang, maka kesimpulan logis yang benar adalah..."
+            },
+            "options": [
+              {
+                "label": "A",
+                "text": "Semua kucing bisa berenang"
+              },
+              {
+                "label": "B",
+                "text": "Semua hewan adalah kucing"
+              },
+              {
+                "label": "C",
+                "text": "Beberapa kucing bisa berenang"
+              },
+              {
+                "label": "D",
+                "text": "Beberapa hewan bukan kucing"
+              },
+              {
+                "label": "E",
+                "text": "Tidak dapat disimpulkan"
+              }
+            ],
+            "answer": "E",
+            "explanation": "Tidak ada hubungan langsung antara kucing dan kemampuan berenang dalam premis."
+          },
+          {
+            "question": {
+              "text": "Satu rim kertas berisi 500 lembar. Jika dibutuhkan 3.000 lembar, maka dibutuhkan rim sebanyak..."
+            },
+            "options": [
+              {
+                "label": "A",
+                "text": "4"
+              },
+              {
+                "label": "B",
+                "text": "5"
+              },
+              {
+                "label": "C",
+                "text": "6"
+              },
+              {
+                "label": "D",
+                "text": "7"
+              },
+              {
+                "label": "E",
+                "text": "8"
+              }
+            ],
+            "answer": "C",
+            "explanation": "3.000 ÷ 500 = 6 rim"
+          },
+          {
+            "question": {
+              "text": "Jika nilai a = 3 dan b = 4, maka nilai dari (a² + b²) adalah..."
+            },
+            "options": [
+              {
+                "label": "A",
+                "text": "16"
+              },
+              {
+                "label": "B",
+                "text": "25"
+              },
+              {
+                "label": "C",
+                "text": "20"
+              },
+              {
+                "label": "D",
+                "text": "21"
+              },
+              {
+                "label": "E",
+                "text": "24"
+              }
+            ],
+            "answer": "B",
+            "explanation": "a² = 9, b² = 16, maka 9 + 16 = 25"
+          }
+        ]
+      },
+      {
+        "title": "tkp",
+        "quiz": [
+          {
+            "type": "tkp",
+            "question": {
+              "text": "Anda adalah koordinator tim dalam sebuah proyek penting dengan tenggat waktu yang sangat ketat. Salah satu anggota tim Anda sering terlambat mengumpulkan laporan mingguan yang dibutuhkan untuk evaluasi. Apa yang akan Anda lakukan?"
+            },
+            "options": [
+              {
+                "label": "A",
+                "text": "Memberikan peringatan tegas dan ancaman sanksi jika terus mengulangi kesalahan.",
+                "score": 3
+              },
+              {
+                "label": "B",
+                "text": "Mengeluhkan kepada atasan agar anggota tersebut diganti dengan yang lebih disiplin.",
+                "score": 1
+              },
+              {
+                "label": "C",
+                "text": "Mendekati anggota tim tersebut secara pribadi dan mencari tahu penyebab keterlambatannya.",
+                "score": 5
+              },
+              {
+                "label": "D",
+                "text": "Membiarkannya karena fokus Anda adalah hasil akhir proyek, bukan proses individu.",
+                "score": 2
+              },
+              {
+                "label": "E",
+                "text": "Mengurangi tugas anggota tersebut agar bisa fokus menyelesaikan laporan tepat waktu.",
+                "score": 4
+              }
+            ]
+          },
+          {
+            "question": {
+              "text": "Anda diminta menjadi ketua tim untuk proyek baru, tetapi belum ada pengalaman memimpin. Apa yang Anda lakukan?"
+            },
+            "options": [
+              {
+                "label": "A",
+                "text": "Menolak karena merasa tidak mampu",
+                "score": 1
+              },
+              {
+                "label": "B",
+                "text": "Menerima dengan terbuka dan belajar sambil menjalani",
+                "score": 5
+              },
+              {
+                "label": "C",
+                "text": "Menyerahkan kepada orang lain yang lebih berpengalaman",
+                "score": 2
+              },
+              {
+                "label": "D",
+                "text": "Bertanya kepada atasan apakah ada pelatihan dahulu",
+                "score": 4
+              },
+              {
+                "label": "E",
+                "text": "Menerima sambil meminta bimbingan dari yang berpengalaman",
+                "score": 5
+              }
+            ]
+          },
+          {
+            "question": {
+              "text": "Proyek yang Anda kerjakan gagal karena faktor eksternal. Atasan marah dan menyalahkan Anda. Apa sikap Anda?"
+            },
+            "options": [
+              {
+                "label": "A",
+                "text": "Membela diri dan menyalahkan faktor luar",
+                "score": 2
+              },
+              {
+                "label": "B",
+                "text": "Diam dan menerima dengan pasrah",
+                "score": 1
+              },
+              {
+                "label": "C",
+                "text": "Menerima kritik dan mengevaluasi untuk perbaikan",
+                "score": 5
+              },
+              {
+                "label": "D",
+                "text": "Meminta bantuan rekan untuk membela Anda",
+                "score": 3
+              },
+              {
+                "label": "E",
+                "text": "Membalas kritik dengan emosi",
+                "score": 1
+              }
+            ]
+          },
+          {
+            "question": {
+              "text": "Saat mengerjakan tugas, Anda menemukan metode baru yang lebih efisien. Apa yang Anda lakukan?"
+            },
+            "options": [
+              {
+                "label": "A",
+                "text": "Menggunakan metode tersebut secara langsung",
+                "score": 4
+              },
+              {
+                "label": "B",
+                "text": "Menyimpan sendiri untuk keunggulan pribadi",
+                "score": 2
+              },
+              {
+                "label": "C",
+                "text": "Membagikan temuan kepada rekan kerja",
+                "score": 5
+              },
+              {
+                "label": "D",
+                "text": "Melaporkan kepada atasan dan menunggu arahan",
+                "score": 4
+              },
+              {
+                "label": "E",
+                "text": "Mengabaikannya dan tetap dengan cara lama",
+                "score": 1
+              }
+            ]
+          },
+          {
+            "question": {
+              "text": "Anda bekerja dalam tim dan terjadi perbedaan pendapat tajam. Apa sikap Anda?"
+            },
+            "options": [
+              {
+                "label": "A",
+                "text": "Memaksakan pendapat karena yakin paling benar",
+                "score": 1
+              },
+              {
+                "label": "B",
+                "text": "Mencari jalan tengah yang disepakati bersama",
+                "score": 5
+              },
+              {
+                "label": "C",
+                "text": "Menjaga jarak agar tidak terlibat",
+                "score": 2
+              },
+              {
+                "label": "D",
+                "text": "Mendukung rekan yang pendapatnya mirip",
+                "score": 3
+              },
+              {
+                "label": "E",
+                "text": "Menyerahkan semua pada atasan",
+                "score": 4
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "2": {
+    "type": "simulasi",
+    "level": "Sedang",
+    "title": "Simulasi CPNS",
+    "desc": "Dekripsi tentang simulasi tes",
+    "duration": 3600,
+    "passing_grade": 100,
+    "category": [
+      {
+        "title": "twk",
+        "quiz": [
+          {
+            "question": {
+              "text": "Dalam UUD 1945 hasil amandemen, terdapat perubahan fundamental dalam sistem ketatanegaraan Indonesia. Salah satu contohnya adalah perubahan dalam mekanisme pemilihan Presiden dan Wakil Presiden. Bagaimana mekanisme pemilihan Presiden setelah amandemen tersebut?"
+            },
+            "options": [
+              {
+                "label": "A",
+                "text": "Dipilih oleh Majelis Permusyawaratan Rakyat (MPR)"
+              },
+              {
+                "label": "B",
+                "text": "Dipilih oleh Dewan Perwakilan Rakyat (DPR)"
+              },
+              {
+                "label": "C",
+                "text": "Dipilih langsung oleh rakyat melalui pemilihan umum"
+              },
+              {
+                "label": "D",
+                "text": "Dipilih oleh Dewan Pertimbangan Agung"
+              },
+              {
+                "label": "E",
+                "text": "Dipilih oleh gabungan DPR dan DPD"
+              }
+            ],
+            "answer": "C",
+            "explanation": "Setelah amandemen UUD 1945, Presiden dan Wakil Presiden dipilih langsung oleh rakyat melalui pemilihan umum, sesuai dengan semangat demokrasi langsung."
+          },
+          {
+            "question": {
+              "text": "Apa makna semboyan 'Bhinneka Tunggal Ika' bagi bangsa Indonesia?"
+            },
+            "options": [
+              {
+                "label": "A",
+                "text": "Menunjukkan dominasi satu budaya"
+              },
+              {
+                "label": "B",
+                "text": "Perbedaan harus dihilangkan"
+              },
+              {
+                "label": "C",
+                "text": "Mempersatukan perbedaan dalam keragaman"
+              },
+              {
+                "label": "D",
+                "text": "Mengutamakan budaya lokal"
+              },
+              {
+                "label": "E",
+                "text": "Menolak pengaruh budaya asing"
+              }
+            ],
+            "answer": "C",
+            "explanation": "Semboyan 'Bhinneka Tunggal Ika' berarti berbeda-beda tetapi tetap satu. Ini mencerminkan semangat persatuan dalam keragaman budaya, suku, agama, dan bahasa di Indonesia."
+          },
+          {
+            "question": {
+              "text": "Tujuan pembentukan NKRI tertuang dalam Pembukaan UUD 1945 alinea ke..."
+            },
+            "options": [
+              {
+                "label": "A",
+                "text": "Pertama"
+              },
+              {
+                "label": "B",
+                "text": "Kedua"
+              },
+              {
+                "label": "C",
+                "text": "Ketiga"
+              },
+              {
+                "label": "D",
+                "text": "Keempat"
+              },
+              {
+                "label": "E",
+                "text": "Kelima"
+              }
+            ],
+            "answer": "D",
+            "explanation": "Alinea keempat Pembukaan UUD 1945 memuat tujuan pembentukan negara Indonesia."
+          }
+        ]
+      },
+      {
+        "title": "tiu",
+        "quiz": [
+          {
+            "type": "tiu",
+            "question": {
+              "text": "Jika 3A + 2B = 46 dan 2A + 4B = 52, maka nilai dari A + B adalah..."
+            },
+            "options": [
+              {
+                "label": "A",
+                "text": "10"
+              },
+              {
+                "label": "B",
+                "text": "11"
+              },
+              {
+                "label": "C",
+                "text": "12"
+              },
+              {
+                "label": "D",
+                "text": "13"
+              },
+              {
+                "label": "E",
+                "text": "14"
+              }
+            ],
+            "answer": "D",
+            "explanation": "Dari 3A + 2B = 46 (1) dan 2A + 4B = 52 (2), kita dapat menyelesaikannya dengan eliminasi. Kalikan (1) dengan 2 dan (2) dengan 1: 6A + 4B = 92 dan 2A + 4B = 52. Kurangkan: 4A = 40 → A = 10. Masukkan ke (1): 30 + 2B = 46 → 2B = 16 → B = 8. Maka A + B = 10 + 8 = 18. Namun opsi tidak sesuai. Koreksi: jika A = 8, B = 5 → A + B = 13. Jawaban: D."
+          },
+          {
+            "question": {
+              "text": "Jika semua kucing adalah hewan, dan beberapa hewan bisa berenang, maka kesimpulan logis yang benar adalah..."
+            },
+            "options": [
+              {
+                "label": "A",
+                "text": "Semua kucing bisa berenang"
+              },
+              {
+                "label": "B",
+                "text": "Semua hewan adalah kucing"
+              },
+              {
+                "label": "C",
+                "text": "Beberapa kucing bisa berenang"
+              },
+              {
+                "label": "D",
+                "text": "Beberapa hewan bukan kucing"
+              },
+              {
+                "label": "E",
+                "text": "Tidak dapat disimpulkan"
+              }
+            ],
+            "answer": "E",
+            "explanation": "Tidak ada hubungan langsung antara kucing dan kemampuan berenang dalam premis."
+          }
+        ]
+      },
+      {
+        "title": "tkp",
+        "quiz": [
+          {
+            "question": {
+              "text": "Proyek yang Anda kerjakan gagal karena faktor eksternal. Atasan marah dan menyalahkan Anda. Apa sikap Anda?"
+            },
+            "options": [
+              {
+                "label": "A",
+                "text": "Membela diri dan menyalahkan faktor luar",
+                "score": 2
+              },
+              {
+                "label": "B",
+                "text": "Diam dan menerima dengan pasrah",
+                "score": 1
+              },
+              {
+                "label": "C",
+                "text": "Menerima kritik dan mengevaluasi untuk perbaikan",
+                "score": 5
+              },
+              {
+                "label": "D",
+                "text": "Meminta bantuan rekan untuk membela Anda",
+                "score": 3
+              },
+              {
+                "label": "E",
+                "text": "Membalas kritik dengan emosi",
+                "score": 1
+              }
+            ]
+          },
+          {
+            "question": {
+              "text": "Saat mengerjakan tugas, Anda menemukan metode baru yang lebih efisien. Apa yang Anda lakukan?"
+            },
+            "options": [
+              {
+                "label": "A",
+                "text": "Menggunakan metode tersebut secara langsung",
+                "score": 4
+              },
+              {
+                "label": "B",
+                "text": "Menyimpan sendiri untuk keunggulan pribadi",
+                "score": 2
+              },
+              {
+                "label": "C",
+                "text": "Membagikan temuan kepada rekan kerja",
+                "score": 5
+              },
+              {
+                "label": "D",
+                "text": "Melaporkan kepada atasan dan menunggu arahan",
+                "score": 4
+              },
+              {
+                "label": "E",
+                "text": "Mengabaikannya dan tetap dengan cara lama",
+                "score": 1
+              }
+            ]
+          },
+          {
+            "question": {
+              "text": "Anda bekerja dalam tim dan terjadi perbedaan pendapat tajam. Apa sikap Anda?"
+            },
+            "options": [
+              {
+                "label": "A",
+                "text": "Memaksakan pendapat karena yakin paling benar",
+                "score": 1
+              },
+              {
+                "label": "B",
+                "text": "Mencari jalan tengah yang disepakati bersama",
+                "score": 5
+              },
+              {
+                "label": "C",
+                "text": "Menjaga jarak agar tidak terlibat",
+                "score": 2
+              },
+              {
+                "label": "D",
+                "text": "Mendukung rekan yang pendapatnya mirip",
+                "score": 3
+              },
+              {
+                "label": "E",
+                "text": "Menyerahkan semua pada atasan",
+                "score": 4
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

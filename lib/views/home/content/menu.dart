@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:try_out/views/simulation/simulation.dart';
 import 'package:try_out/views/training/training.dart';
 import 'package:try_out/widgets/thumbnail/thumbnail_home.dart';
 
@@ -42,7 +43,7 @@ class MenuContent extends StatelessWidget {
         
         // Simulation Card
         ThumbnailHome(
-          menuPage: const SizedBox(),
+          menuPage: const SimulationView(),
           imagePath: 'assets/menus/simulation.webp',
           title: 'Simulasi',
           description: 'Biar tau sejauh mana kamu siap bertarung dengan soal-soal 🔥🔥',
