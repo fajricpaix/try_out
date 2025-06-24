@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'dart:convert';
-
 import 'package:try_out/widgets/tools/quiz_preview.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 class DashboardQuetionView extends StatefulWidget {
   final String level;
@@ -17,12 +17,48 @@ class _DashboardQuetionViewState extends State<DashboardQuetionView> {
   Map<String, dynamic>? quizData;
   bool _isLoading = true;
   String _error = '';
+  
+  InterstitialAd? _interstitialAd;
+
+  void _loadInterstitialAd() {
+  InterstitialAd.load(
+      // Dev ID
+      adUnitId: 'ca-app-pub-3940256099942544/1033173712', // TEST ID, replace with real one
+      // Production ID
+      // adUnitId = 'ca-app-pub-2602479093941928/9052001071';
+    request: const AdRequest(),
+    adLoadCallback: InterstitialAdLoadCallback(
+      onAdLoaded: (InterstitialAd ad) {
+        _interstitialAd = ad;
+        _interstitialAd!.fullScreenContentCallback = FullScreenContentCallback(
+          onAdDismissedFullScreenContent: (ad) {
+            ad.dispose();
+          },
+          onAdFailedToShowFullScreenContent: (ad, error) {
+            ad.dispose();
+          },
+        );
+        _interstitialAd!.show(); // <-- tampilkan iklan saat sudah siap
+      },
+      onAdFailedToLoad: (LoadAdError error) {
+        debugPrint('InterstitialAd failed to load: $error');
+      },
+    ),
+  );
+}
 
   @override
   void initState() {
     super.initState();
     _loadQuizData();
+    _loadInterstitialAd();
   }
+
+  @override
+void dispose() {
+  _interstitialAd?.dispose();
+  super.dispose();
+}
 
   Future<void> _loadQuizData() async {
     try {

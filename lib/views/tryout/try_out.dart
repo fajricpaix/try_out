@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:try_out/widgets/modal/confirmation_dialog.dart';
 import 'package:try_out/widgets/modal/quiz.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 class TryOutViews extends StatefulWidget {
   final Map<String, dynamic> data;
@@ -15,6 +16,10 @@ class _TryOutViewsState extends State<TryOutViews> {
   late List categories;
   int currentCategoryIndex = 0;
   int currentQuestionIndex = 0;
+
+  // Ads
+  InterstitialAd? _interstitialAd;
+  bool _isAdReady = false;
 
   String? selectedOptionLabel;
   String? correctAnswerLabel;
@@ -31,12 +36,54 @@ class _TryOutViewsState extends State<TryOutViews> {
     return categories[currentCategoryIndex]['quiz'][currentQuestionIndex];
   }
 
+  // Ads
+  void _loadInterstitialAd() {
+    InterstitialAd.load(
+      // Dev ID
+      adUnitId: 'ca-app-pub-3940256099942544/1033173712', // TEST ID, replace with real one
+      // Production ID
+      // adUnitId = 'ca-app-pub-2602479093941928/9052001071';
+      request: const AdRequest(),
+      adLoadCallback: InterstitialAdLoadCallback(
+        onAdLoaded: (InterstitialAd ad) {
+          _interstitialAd = ad;
+          _isAdReady = true;
+        },
+        onAdFailedToLoad: (LoadAdError error) {
+          debugPrint('InterstitialAd failed to load: $error');
+          _isAdReady = false;
+        },
+      ),
+    );
+  }
+
+  void _showAdAndThenFinalScore() {
+    if (_isAdReady && _interstitialAd != null) {
+      _interstitialAd!.fullScreenContentCallback = FullScreenContentCallback(
+        onAdDismissedFullScreenContent: (ad) {
+          ad.dispose();
+          _loadInterstitialAd(); // Muat ulang untuk sesi selanjutnya
+          showFinalScore();
+        },
+        onAdFailedToShowFullScreenContent: (ad, error) {
+          ad.dispose();
+          showFinalScore();
+        },
+      );
+      _interstitialAd!.show();
+    } else {
+      showFinalScore(); // Jika iklan belum siap
+    }
+  }
+  
+
   @override
   void initState() {
     super.initState();
     categories = widget.data['category'];
     remainingSeconds = widget.data['duration'];
     startTimer();
+    _loadInterstitialAd();
   }
 
   void startTimer() {
@@ -444,7 +491,7 @@ class _TryOutViewsState extends State<TryOutViews> {
                 ),
                 onPressed: () {
                   if (isLastQuestion()) {
-                    showFinalScore();
+                    _showAdAndThenFinalScore();
                   } else {
                     nextQuestion();
                   }

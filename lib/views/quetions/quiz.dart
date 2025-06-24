@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:try_out/widgets/modal/confirmation_dialog.dart';
 import 'package:try_out/widgets/modal/quiz.dart';
 import 'package:try_out/widgets/tools/select_quiz_button.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 class QuizView extends StatefulWidget {
   final List<dynamic> quizData;
@@ -19,10 +20,47 @@ class _QuizViewState extends State<QuizView> {
   List<bool> _answeredStatus = [];
   bool _isLoading = true;
 
+  // Ads
+  InterstitialAd? _interstitialAd;
+  bool _isAdReady = false;
+
+  void _loadInterstitialAd() {
+    InterstitialAd.load(
+      // Dev ID
+      adUnitId: 'ca-app-pub-3940256099942544/1033173712', // TEST ID, replace with real one
+      // Production ID
+      // adUnitId = 'ca-app-pub-2602479093941928/9052001071';
+      request: const AdRequest(),
+      adLoadCallback: InterstitialAdLoadCallback(
+        onAdLoaded: (InterstitialAd ad) {
+          _interstitialAd = ad;
+          _isAdReady = true;
+
+          _interstitialAd!.fullScreenContentCallback =
+              FullScreenContentCallback(
+                onAdDismissedFullScreenContent: (ad) {
+                  ad.dispose();
+                  Navigator.pop(context); // Kembali setelah iklan
+                },
+                onAdFailedToShowFullScreenContent: (ad, error) {
+                  ad.dispose();
+                  Navigator.pop(context); // Tetap kembali jika gagal tampil
+                },
+              );
+        },
+        onAdFailedToLoad: (error) {
+          debugPrint('InterstitialAd gagal dimuat: $error');
+          _isAdReady = false;
+        },
+      ),
+    );
+  }
+
   @override
   void initState() {
     super.initState();
     _loadQuizData();
+    _loadInterstitialAd();
   }
 
   void _loadQuizData() {
@@ -77,6 +115,12 @@ class _QuizViewState extends State<QuizView> {
         _currentIndex--;
       });
     }
+  }
+
+  @override
+  void dispose() {
+    _interstitialAd?.dispose();
+    super.dispose();
   }
 
   @override
@@ -346,7 +390,12 @@ class _QuizViewState extends State<QuizView> {
         ),
       ),
       bottomNavigationBar: Padding(
-        padding: const EdgeInsets.only(left: 20, right: 20, bottom: 32, top: 12),
+        padding: const EdgeInsets.only(
+          left: 20,
+          right: 20,
+          bottom: 32,
+          top: 12,
+        ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -379,19 +428,19 @@ class _QuizViewState extends State<QuizView> {
                 ),
               ),
               onPressed: () {
-              showDialog(
-                context: context,
-                builder: (context) => QuizModal(
-                  totalQuestions: _quizQuestions.length,
-                  currentIndex: _currentIndex,
-                  onSelectQuestion: (index) {
-                    setState(() {
-                      _currentIndex = index;
-                    });
-                  },
-                ),
-              );
-            },
+                showDialog(
+                  context: context,
+                  builder: (context) => QuizModal(
+                    totalQuestions: _quizQuestions.length,
+                    currentIndex: _currentIndex,
+                    onSelectQuestion: (index) {
+                      setState(() {
+                        _currentIndex = index;
+                      });
+                    },
+                  ),
+                );
+              },
               child: Text(
                 '${_currentIndex + 1}',
                 style: const TextStyle(color: Color(0xFF6A5AE0), fontSize: 16),
@@ -413,7 +462,13 @@ class _QuizViewState extends State<QuizView> {
                     (_currentIndex == _quizQuestions.length - 1 && !isAnswered)
                     ? null
                     : (_currentIndex == _quizQuestions.length - 1 && isAnswered)
-                    ? () => Navigator.pop(context)
+                    ? () {
+                        if (_isAdReady && _interstitialAd != null) {
+                          _interstitialAd!.show();
+                        } else {
+                          Navigator.pop(context); // fallback jika iklan gagal
+                        }
+                      }
                     : _goToNextQuestion,
                 child: _currentIndex == _quizQuestions.length - 1
                     ? const Text(

@@ -3,10 +3,8 @@ import 'package:try_out/views/home/content/menu.dart';
 import 'package:try_out/views/home/header/header.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart'; // Import library AdMob
 
-void main() {
-  // binding Flutter initial before AdMob
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // Inisialisasi Google Mobile Ads SDK
   MobileAds.instance.initialize();
   runApp(const MyApp());
 }
@@ -84,7 +82,6 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           children: [
             SizedBox(
-              height: MediaQuery.of(context).size.height,
               child: Column(
                 children: [
                   Header(),

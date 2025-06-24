@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:try_out/views/tryout/try_out.dart';
 import 'package:try_out/widgets/tools/box_quiz.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 class SimulationView extends StatefulWidget {
   const SimulationView({super.key});
@@ -14,11 +15,36 @@ class SimulationView extends StatefulWidget {
 class _SimulationViewState extends State<SimulationView> {
   Map<String, dynamic> data = {};
   String? selectedKey;
+  InterstitialAd? _interstitialAd;
 
   @override
   void initState() {
     super.initState();
     loadJson();
+    _loadInterstitialAd(); // Load ad on init
+  }
+
+  void _loadInterstitialAd() {
+    InterstitialAd.load(
+      // Dev ID
+      adUnitId: 'ca-app-pub-3940256099942544/1033173712', // TEST ID, replace with real one
+      // Production ID
+      // adUnitId = 'ca-app-pub-2602479093941928/9052001071';
+      request: const AdRequest(),
+      adLoadCallback: InterstitialAdLoadCallback(
+        onAdLoaded: (ad) {
+          _interstitialAd = ad;
+          _interstitialAd?.show(); // Show ad immediately
+        },
+        onAdFailedToLoad: (error) { },
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    _interstitialAd?.dispose();
+    super.dispose();
   }
 
   Future<void> loadJson() async {
