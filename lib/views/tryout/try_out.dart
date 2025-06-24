@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:try_out/widgets/modal/confirmation_dialog.dart';
-import 'package:try_out/widgets/modal/quiz.dart';
+import 'package:try_out/widgets/modal/quiz.dart'; // Ensure this path is correct
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 class TryOutViews extends StatefulWidget {
@@ -75,7 +75,6 @@ class _TryOutViewsState extends State<TryOutViews> {
       showFinalScore(); // Jika iklan belum siap
     }
   }
-  
 
   @override
   void initState() {
@@ -108,6 +107,7 @@ class _TryOutViewsState extends State<TryOutViews> {
   @override
   void dispose() {
     countdownTimer?.cancel();
+    _interstitialAd?.dispose(); // Dispose the ad when the widget is disposed
     super.dispose();
   }
 
@@ -155,79 +155,137 @@ class _TryOutViewsState extends State<TryOutViews> {
   }
 
   void saveAnswer() {
-    final category = categories[currentCategoryIndex]['title'];
-    final questionType = category.toLowerCase();
+  final category = categories[currentCategoryIndex]['title'];
+  final questionType = category.toLowerCase();
 
-    if (selectedOptionLabel == null) return;
+  if (selectedOptionLabel == null) return;
 
-    bool isCorrect = selectedOptionLabel == correctAnswerLabel;
+  bool isCorrect = selectedOptionLabel == correctAnswerLabel;
 
-    setState(() {
+  // Calculate current overall question number before saving
+  int currentOverall = 0;
+  for (int i = 0; i < currentCategoryIndex; i++) {
+    currentOverall += (categories[i]['quiz'] as List).length;
+  }
+  currentOverall += currentQuestionIndex; // 0-based index for saving
+
+  setState(() {
+    // Check if an answer for this question already exists and update it
+    // Or add a new answer if it doesn't exist
+    int existingAnswerIndex = userAnswers.indexWhere((ans) => ans['overallIndex'] == currentOverall);
+
+    if (existingAnswerIndex != -1) {
+      // Update existing answer
+      userAnswers[existingAnswerIndex] = {
+        'overallIndex': currentOverall, // Add overall index
+        'type': questionType,
+        'correct': questionType != 'tkp' ? isCorrect : null,
+        'score': questionType == 'tkp' ? selectedScore : (isCorrect ? 5 : 0),
+      };
+    } else {
+      // Add new answer
       userAnswers.add({
+        'overallIndex': currentOverall, // Add overall index
         'type': questionType,
         'correct': questionType != 'tkp' ? isCorrect : null,
         'score': questionType == 'tkp' ? selectedScore : (isCorrect ? 5 : 0),
       });
-      answerSaved = true;
-    });
-  }
+    }
+    answerSaved = true;
+  });
+}
 
   void showFinalScore() {
-    int totalScore = userAnswers.fold(0, (sum, ans) {
-      final score = ans['score'];
-      return sum + (score is int ? score : (score as num?)?.toInt() ?? 0);
-    });
+  int totalScore = userAnswers.fold(0, (sum, ans) {
+    final score = ans['score'];
+    return sum + (score is int ? score : (score as num?)?.toInt() ?? 0);
+  });
 
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: const Text("Nilai Akhir"),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text("Total Skor Anda: $totalScore"),
-              const SizedBox(height: 16),
-              Wrap(
-                spacing: 8,
-                runSpacing: 8,
-                children: List.generate(userAnswers.length, (index) {
-                  final isCorrect = userAnswers[index]['correct'];
-                  final isTkp = userAnswers[index]['type'] == 'tkp';
-                  final score = userAnswers[index]['score'];
-                  final color = isCorrect == true
-                      ? Colors.green
-                      : (isCorrect == false ? Colors.red : Colors.green);
-                  return Container(
-                    width: 56,
-                    height: 56,
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      color: color,
-                      borderRadius: BorderRadius.circular(8),
+  // Calculate total questions again, for safety in case it's not globally accessible
+  int totalQuestions = categories.fold(
+    0,
+    (sum, cat) => sum + (cat['quiz'] as List).length,
+  );
+
+  showDialog(
+    context: context,
+    builder: (context) {
+      return AlertDialog(
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              "Total Skor Anda: $totalScore", 
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold
+              )
+            ),
+            const SizedBox(height: 16),
+            Wrap(
+              spacing: 8,
+              runSpacing: 8,
+              children: List.generate(totalQuestions, (overallIndex) { // Iterate based on totalQuestions
+                // Find the answer for this specific overall question index
+                final userAnswer = userAnswers.firstWhereOrNull(
+                  (ans) => ans['overallIndex'] == overallIndex,
+                );
+
+                Color color;
+                String displayText;
+
+                if (userAnswer != null) {
+                  final isCorrect = userAnswer['correct'];
+                  final isTkp = userAnswer['type'] == 'tkp';
+                  final score = userAnswer['score'];
+
+                  if (isTkp) {
+                    // For TKP, we assume any score means it was answered, color based on presence of score.
+                    // If you have a specific passing score for TKP to determine green/red, you'd add that logic.
+                    // For now, if answered, it's green.
+                    color = Colors.green;
+                    displayText = '${overallIndex + 1}. ($score)';
+                  } else {
+                    // For non-TKP, green if correct, red if incorrect.
+                    color = isCorrect == true ? Colors.green : Colors.red;
+                    displayText = '${overallIndex + 1}';
+                  }
+                } else {
+                  // No answer saved for this question
+                  color = Colors.grey; // Grey for unanswered
+                  displayText = '${overallIndex + 1}';
+                }
+
+                return Container(
+                  width: 56,
+                  height: 40,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    color: color,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Text(
+                    displayText,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
                     ),
-                    child: Text(
-                      isTkp ? '${index + 1}. ($score)' : '${index + 1}',
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  );
-                }),
-              ),
-            ],
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: const Text("Tutup"),
+                  ),
+                );
+              }),
             ),
           ],
-        );
-      },
-    );
-  }
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text("Tutup"),
+          ),
+        ],
+      );
+    },
+  );
+}
 
   bool isLastQuestion() {
     return currentCategoryIndex == categories.length - 1 &&
@@ -344,11 +402,11 @@ class _TryOutViewsState extends State<TryOutViews> {
                             selectedOptionLabel == optionLabel;
 
                         final backgroundColor = isSelected
-                            ? Color(0xFF6A5AE0)
-                            : Color(0xFFEFF1FE);
+                            ? const Color(0xFF6A5AE0)
+                            : const Color(0xFFEFF1FE);
                         final textColor = isSelected
                             ? Colors.white
-                            : Color(0xFF6A5AE0);
+                            : const Color(0xFF6A5AE0);
 
                         return Padding(
                           padding: const EdgeInsets.only(bottom: 12),
@@ -402,7 +460,7 @@ class _TryOutViewsState extends State<TryOutViews> {
                       onPressed: answerSaved ? null : saveAnswer,
                       style: ElevatedButton.styleFrom(
                         backgroundColor: answerSaved
-                            ? Colors.red
+                            ? Colors.grey // Change color when saved
                             : const Color(0xFFF8C005),
                         padding: const EdgeInsets.symmetric(vertical: 16),
                         shape: RoundedRectangleBorder(
@@ -435,16 +493,20 @@ class _TryOutViewsState extends State<TryOutViews> {
                   padding: const EdgeInsets.symmetric(vertical: 12),
                   backgroundColor:
                       currentCategoryIndex == 0 && currentQuestionIndex == 0
-                      ? Colors.white60
-                      : const Color(0xFF6A5AE0),
+                          ? Colors.white60
+                          : const Color(0xFF6A5AE0),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8),
                   ),
                 ),
-                onPressed: previousQuestion,
+                onPressed: (currentCategoryIndex == 0 && currentQuestionIndex == 0)
+                    ? null // Disable if on the first question
+                    : previousQuestion,
                 child: Icon(
                   Icons.keyboard_arrow_left,
-                  color: totalQuestions == 0 ? Colors.black26 : Colors.white,
+                  color: (currentCategoryIndex == 0 && currentQuestionIndex == 0)
+                      ? Colors.black26
+                      : Colors.white,
                   size: 24,
                 ),
               ),
@@ -463,10 +525,28 @@ class _TryOutViewsState extends State<TryOutViews> {
                   context: context,
                   builder: (context) => QuizModal(
                     totalQuestions: totalQuestions,
-                    currentIndex: currentQuestionIndex,
-                    onSelectQuestion: (index) {
+                    currentIndex: currentOverallNumber - 1, // Pass the 0-based overall index
+                    onSelectQuestion: (overallIndex) {
                       setState(() {
-                        currentQuestionIndex = index;
+                        // Calculate category and question index from overallIndex
+                        int tempOverallIndex = overallIndex;
+                        currentCategoryIndex = 0; // Reset category index
+                        currentQuestionIndex = 0; // Reset question index
+                        for (int i = 0; i < categories.length; i++) {
+                          final categoryQuizLength = (categories[i]['quiz'] as List).length;
+                          if (tempOverallIndex < categoryQuizLength) {
+                            currentCategoryIndex = i;
+                            currentQuestionIndex = tempOverallIndex;
+                            break;
+                          } else {
+                            tempOverallIndex -= categoryQuizLength;
+                          }
+                        }
+                        // Reset selection and answer saved status when navigating to a new question
+                        selectedOptionLabel = null;
+                        isAnswered = false;
+                        selectedScore = null;
+                        answerSaved = false;
                       });
                     },
                   ),
@@ -497,7 +577,7 @@ class _TryOutViewsState extends State<TryOutViews> {
                   }
                 },
                 child: isLastQuestion()
-                    ? Text(
+                    ? const Text(
                         'Selesai',
                         style: TextStyle(fontSize: 16, color: Colors.white),
                       )
@@ -512,5 +592,16 @@ class _TryOutViewsState extends State<TryOutViews> {
         ),
       ),
     );
+  }
+}
+
+extension on List<Map<String, dynamic>> {
+  firstWhereOrNull(bool Function(dynamic ans) test) {
+    for (var element in this) {
+      if (test(element)) {
+        return element;
+      }
+    }
+    return null;
   }
 }
