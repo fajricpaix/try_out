@@ -200,7 +200,8 @@ class _QuizViewState extends State<QuizView> {
                     setState(() {
                       _currentIndex = index;
                     });
-                  },
+                  }, 
+                  userAnswers: [],
                 ),
               );
             },

@@ -33,10 +33,10 @@ class MenuContent extends StatelessWidget {
 
         ThumbnailHome(
           menuPage: const TrainingView(),
+          isBackground: 'assets/menus/bg_training.webp',
           imagePath: 'assets/menus/training.webp',
           title: 'Latihan Soal',
           description: 'Banyak-banyakin latihan soal biar kamu auto lulus 🎉!',
-          isColor: Color(0xFFFFE500),
           isDarkText: true,
         ),
         const SizedBox(height: 20),
@@ -44,10 +44,10 @@ class MenuContent extends StatelessWidget {
         // Simulation Card
         ThumbnailHome(
           menuPage: const SimulationView(),
+          isBackground: 'assets/menus/bg_simulation.webp',
           imagePath: 'assets/menus/simulation.webp',
           title: 'Simulasi',
           description: 'Biar tau sejauh mana kamu siap bertarung dengan soal-soal 🔥🔥',
-          isColor: Color(0xFF5E00B0),
           isDarkText: false,
         ),
         const SizedBox(height: 20),
@@ -55,10 +55,10 @@ class MenuContent extends StatelessWidget {
         // Credit & Support Card
         ThumbnailHome(
           menuPage: const SizedBox(),
+          isBackground: 'assets/menus/bg_credits.webp',
           imagePath: 'assets/menus/credits.webp',
           title: 'Credit & Support',
           description: 'Liat siapa aja yang buat ini. Jangan lupa traktir kopi ya 😍!',
-          isColor: Color(0xFF301FA7),
           isDarkText: false,
         ),
 

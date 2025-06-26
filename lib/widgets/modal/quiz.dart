@@ -3,53 +3,75 @@ import 'package:flutter/material.dart';
 class QuizModal extends StatelessWidget {
   final int totalQuestions;
   final int currentIndex;
-  final Function(int) onSelectQuestion;
+  final List<Map<String, dynamic>>? userAnswers;
+  final Function(int) onSelectQuestion; // This callback now receives the selected index
 
   const QuizModal({
     super.key,
-    required this.onSelectQuestion,
-    required this.currentIndex,
     required this.totalQuestions,
+    required this.currentIndex,
+    this.userAnswers,
+    required this.onSelectQuestion,
   });
+
+  // Helper to check if a question has been answered
+  bool _isQuestionAnswered(int overallIndex) {
+    return (userAnswers ?? []).any((answer) => answer['overallIndex'] == overallIndex);
+  }
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      backgroundColor: Colors.white,
-      title: Text(
-        'Pilih Soal (1 - $totalQuestions)',
-        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-      ),
+      title: const Text('Nomor Soal'),
       content: SizedBox(
         width: double.maxFinite,
         child: GridView.builder(
           shrinkWrap: true,
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 5,
-            crossAxisSpacing: 8.0,
-            mainAxisSpacing: 8.0,
-            childAspectRatio: 1.25,
+            crossAxisSpacing: 8,
+            mainAxisSpacing: 8,
           ),
           itemCount: totalQuestions,
           itemBuilder: (context, index) {
-            final bool isCurrent = index == currentIndex;
-            return ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                elevation: 0,
-                backgroundColor: isCurrent ? Color(0xFF6A5AE0) : const Color(0xFFEFF1FE),
-                padding: const EdgeInsets.all(4),
-                shape: RoundedRectangleBorder(
+            final overallQuestionIndex = index; // 0-based index
+            final isAnswered = _isQuestionAnswered(overallQuestionIndex);
+            final isCurrentQuestion = overallQuestionIndex == currentIndex;
+
+            Color backgroundColor;
+            Color textColor;
+
+            if (isCurrentQuestion) {
+              backgroundColor = Color(0xFF6A5AE0); // Highlight current question
+              textColor = Colors.white;
+            } else if (isAnswered) {
+              backgroundColor = Colors.green; // Saved answer color
+              textColor = Colors.white;
+            } else {
+              backgroundColor = Colors.grey.shade200; // Default color
+              textColor = Colors.black;
+            }
+
+            return GestureDetector(
+              onTap: () {
+                // When a number is tapped, call the onSelectQuestion callback
+                // which will then pop the dialog and handle navigation in the parent.
+                onSelectQuestion(overallQuestionIndex);
+                // No need to pop here, as the parent will do it.
+                // Navigator.of(context).pop(); // REMOVE THIS LINE IF IT WAS HERE
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  color: backgroundColor,
                   borderRadius: BorderRadius.circular(8),
                 ),
-              ),
-              onPressed: () {
-                Navigator.pop(context);
-                onSelectQuestion(index);
-              },
-              child: Text(
-                '${index + 1}',
-                style: TextStyle(
-                  color: isCurrent ? Colors.white : const Color(0xFF6A5AE0),
+                alignment: Alignment.center,
+                child: Text(
+                  '${index + 1}', // Display 1-based number
+                  style: TextStyle(
+                    color: textColor,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             );
@@ -58,13 +80,10 @@ class QuizModal extends StatelessWidget {
       ),
       actions: [
         TextButton(
-          onPressed: () => Navigator.pop(context),
-          child: const Text(
-            'Tutup',
-            style: TextStyle(
-              color: Colors.red
-            ),
-          ),
+          onPressed: () {
+            Navigator.of(context).pop(); // This closes the dialog without selecting a number
+          },
+          child: const Text('Tutup'),
         ),
       ],
     );

@@ -1,8 +1,9 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:try_out/views/tryout/result.dart';
+import 'package:try_out/widgets/modal/confirm_finish.dart';
 import 'package:try_out/widgets/modal/confirmation_dialog.dart';
-import 'package:try_out/widgets/modal/quiz.dart'; // Ensure this path is correct
-import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:try_out/widgets/modal/quiz.dart';
 
 class TryOutViews extends StatefulWidget {
   final Map<String, dynamic> data;
@@ -17,17 +18,15 @@ class _TryOutViewsState extends State<TryOutViews> {
   int currentCategoryIndex = 0;
   int currentQuestionIndex = 0;
 
-  // Ads
-  InterstitialAd? _interstitialAd;
-  bool _isAdReady = false;
-
   String? selectedOptionLabel;
   String? correctAnswerLabel;
   int? selectedScore;
   bool isAnswered = false;
   bool answerSaved = false;
 
-  List<Map<String, dynamic>> userAnswers = [];
+  late int initialRemainingSeconds;
+
+  List<Map<String, dynamic>> userAnswers = []; // This list holds saved answers
 
   late int remainingSeconds;
   Timer? countdownTimer;
@@ -36,60 +35,25 @@ class _TryOutViewsState extends State<TryOutViews> {
     return categories[currentCategoryIndex]['quiz'][currentQuestionIndex];
   }
 
-  // Ads
-  void _loadInterstitialAd() {
-    InterstitialAd.load(
-      // Dev ID
-      adUnitId: 'ca-app-pub-3940256099942544/1033173712', // TEST ID, replace with real one
-      // Production ID
-      // adUnitId = 'ca-app-pub-2602479093941928/9052001071';
-      request: const AdRequest(),
-      adLoadCallback: InterstitialAdLoadCallback(
-        onAdLoaded: (InterstitialAd ad) {
-          _interstitialAd = ad;
-          _isAdReady = true;
-        },
-        onAdFailedToLoad: (LoadAdError error) {
-          debugPrint('InterstitialAd failed to load: $error');
-          _isAdReady = false;
-        },
-      ),
-    );
-  }
-
-  void _showAdAndThenFinalScore() {
-    if (_isAdReady && _interstitialAd != null) {
-      _interstitialAd!.fullScreenContentCallback = FullScreenContentCallback(
-        onAdDismissedFullScreenContent: (ad) {
-          ad.dispose();
-          _loadInterstitialAd(); // Muat ulang untuk sesi selanjutnya
-          showFinalScore();
-        },
-        onAdFailedToShowFullScreenContent: (ad, error) {
-          ad.dispose();
-          showFinalScore();
-        },
-      );
-      _interstitialAd!.show();
-    } else {
-      showFinalScore(); // Jika iklan belum siap
-    }
-  }
-
   @override
   void initState() {
     super.initState();
     categories = widget.data['category'];
     remainingSeconds = widget.data['duration'];
+    initialRemainingSeconds = widget.data['duration'];
     startTimer();
-    _loadInterstitialAd();
+    _loadSavedAnswerForCurrentQuestion(); // Load answer for the initial question
   }
 
   void startTimer() {
     countdownTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (remainingSeconds <= 0) {
         timer.cancel();
-        showFinalScore();
+        // Automatically save current answer before showing final score if time runs out
+        if (selectedOptionLabel != null && !answerSaved) {
+          saveAnswer();
+        }
+        showFinalScore(); // Directly navigate to result page
       } else {
         setState(() {
           remainingSeconds--;
@@ -107,9 +71,54 @@ class _TryOutViewsState extends State<TryOutViews> {
   @override
   void dispose() {
     countdownTimer?.cancel();
-    _interstitialAd?.dispose(); // Dispose the ad when the widget is disposed
     super.dispose();
   }
+
+  // New method to load the saved answer for the current question
+  void _loadSavedAnswerForCurrentQuestion() {
+    int currentOverall = _getCurrentOverallQuestionIndex();
+    final existingAnswer = userAnswers.firstWhereOrNull(
+        (ans) => ans['overallIndex'] == currentOverall);
+
+    if (existingAnswer != null) {
+      final List options = currentQuestion['options'];
+      String? savedOptionLabel;
+
+      if (existingAnswer['category'] == 'TKP') {
+        savedOptionLabel = options.firstWhereOrNull(
+          (opt) => opt['score'] == existingAnswer['score'],
+        )?['label'];
+      } else {
+        savedOptionLabel = existingAnswer['selectedOptionLabel'];
+      }
+
+      setState(() {
+        selectedOptionLabel = savedOptionLabel;
+        isAnswered = true;
+        answerSaved = true; // Mark as saved if an answer exists
+        correctAnswerLabel = currentQuestion['answer'];
+        selectedScore = existingAnswer['score']; // Load the score as well
+      });
+    } else {
+      setState(() {
+        selectedOptionLabel = null;
+        isAnswered = false;
+        answerSaved = false;
+        selectedScore = null;
+      });
+    }
+  }
+
+  // Helper method to get the overall 0-based question index
+  int _getCurrentOverallQuestionIndex() {
+    int currentOverall = 0;
+    for (int i = 0; i < currentCategoryIndex; i++) {
+      currentOverall += (categories[i]['quiz'] as List).length;
+    }
+    currentOverall += currentQuestionIndex;
+    return currentOverall;
+  }
+
 
   void _selectOption(String label, {int? score}) {
     setState(() {
@@ -117,15 +126,21 @@ class _TryOutViewsState extends State<TryOutViews> {
       isAnswered = true;
       selectedScore = score;
       correctAnswerLabel = currentQuestion['answer'];
+      answerSaved = false; // Reset answerSaved when a new option is selected
     });
   }
 
   void nextQuestion() {
     setState(() {
-      answerSaved = false;
+      // Before moving, save the current answer if not already saved and an option is selected
+      if (selectedOptionLabel != null && !answerSaved) {
+        saveAnswer();
+      }
+
       selectedOptionLabel = null;
       isAnswered = false;
       selectedScore = null;
+      answerSaved = false;
 
       if (currentQuestionIndex <
           categories[currentCategoryIndex]['quiz'].length - 1) {
@@ -134,15 +149,21 @@ class _TryOutViewsState extends State<TryOutViews> {
         currentCategoryIndex++;
         currentQuestionIndex = 0;
       }
+      _loadSavedAnswerForCurrentQuestion(); // Load answer for the new question
     });
   }
 
   void previousQuestion() {
     setState(() {
-      answerSaved = false;
+      // Before moving, save the current answer if not already saved and an option is selected
+      if (selectedOptionLabel != null && !answerSaved) {
+        saveAnswer();
+      }
+
       selectedOptionLabel = null;
       isAnswered = false;
       selectedScore = null;
+      answerSaved = false;
 
       if (currentQuestionIndex > 0) {
         currentQuestionIndex--;
@@ -151,141 +172,88 @@ class _TryOutViewsState extends State<TryOutViews> {
         currentQuestionIndex =
             categories[currentCategoryIndex]['quiz'].length - 1;
       }
+      _loadSavedAnswerForCurrentQuestion(); // Load answer for the new question
     });
   }
 
   void saveAnswer() {
-  final category = categories[currentCategoryIndex]['title'];
-  final questionType = category.toLowerCase();
+    final String questionCategory = categories[currentCategoryIndex]['title'].toString().toUpperCase();
 
-  if (selectedOptionLabel == null) return;
+    if (selectedOptionLabel == null) return;
 
-  bool isCorrect = selectedOptionLabel == correctAnswerLabel;
+    bool isCorrect = selectedOptionLabel == correctAnswerLabel;
 
-  // Calculate current overall question number before saving
-  int currentOverall = 0;
-  for (int i = 0; i < currentCategoryIndex; i++) {
-    currentOverall += (categories[i]['quiz'] as List).length;
+    int currentOverall = _getCurrentOverallQuestionIndex();
+
+    setState(() {
+      int existingAnswerIndex = userAnswers.indexWhere((ans) => ans['overallIndex'] == currentOverall);
+
+      if (existingAnswerIndex != -1) {
+        userAnswers[existingAnswerIndex] = {
+          'overallIndex': currentOverall,
+          'category': questionCategory,
+          'correct': questionCategory != 'TKP' ? isCorrect : null,
+          'score': questionCategory == 'TKP' ? selectedScore : (isCorrect ? 5 : 0),
+          'selectedOptionLabel': selectedOptionLabel, // Store the selected label
+        };
+      } else {
+        userAnswers.add({
+          'overallIndex': currentOverall,
+          'category': questionCategory,
+          'correct': questionCategory != 'TKP' ? isCorrect : null,
+          'score': questionCategory == 'TKP' ? selectedScore : (isCorrect ? 5 : 0),
+          'selectedOptionLabel': selectedOptionLabel, // Store the selected label
+        });
+      }
+      answerSaved = true;
+    });
   }
-  currentOverall += currentQuestionIndex; // 0-based index for saving
-
-  setState(() {
-    // Check if an answer for this question already exists and update it
-    // Or add a new answer if it doesn't exist
-    int existingAnswerIndex = userAnswers.indexWhere((ans) => ans['overallIndex'] == currentOverall);
-
-    if (existingAnswerIndex != -1) {
-      // Update existing answer
-      userAnswers[existingAnswerIndex] = {
-        'overallIndex': currentOverall, // Add overall index
-        'type': questionType,
-        'correct': questionType != 'tkp' ? isCorrect : null,
-        'score': questionType == 'tkp' ? selectedScore : (isCorrect ? 5 : 0),
-      };
-    } else {
-      // Add new answer
-      userAnswers.add({
-        'overallIndex': currentOverall, // Add overall index
-        'type': questionType,
-        'correct': questionType != 'tkp' ? isCorrect : null,
-        'score': questionType == 'tkp' ? selectedScore : (isCorrect ? 5 : 0),
-      });
-    }
-    answerSaved = true;
-  });
-}
 
   void showFinalScore() {
-  int totalScore = userAnswers.fold(0, (sum, ans) {
-    final score = ans['score'];
-    return sum + (score is int ? score : (score as num?)?.toInt() ?? 0);
-  });
+    countdownTimer?.cancel();
 
-  // Calculate total questions again, for safety in case it's not globally accessible
-  int totalQuestions = categories.fold(
-    0,
-    (sum, cat) => sum + (cat['quiz'] as List).length,
-  );
+    int totalScore = 0;
+    int twkScore = 0;
+    int tiuScore = 0;
+    int tkpScore = 0;
 
-  showDialog(
-    context: context,
-    builder: (context) {
-      return AlertDialog(
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              "Total Skor Anda: $totalScore", 
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold
-              )
-            ),
-            const SizedBox(height: 16),
-            Wrap(
-              spacing: 8,
-              runSpacing: 8,
-              children: List.generate(totalQuestions, (overallIndex) { // Iterate based on totalQuestions
-                // Find the answer for this specific overall question index
-                final userAnswer = userAnswers.firstWhereOrNull(
-                  (ans) => ans['overallIndex'] == overallIndex,
-                );
+    for (var ans in userAnswers) {
+      final score = ans['score'];
+      final category = ans['category'];
 
-                Color color;
-                String displayText;
+      int currentQuestionScore = (score is int ? score : (score as num?)?.toInt() ?? 0);
+      totalScore += currentQuestionScore;
 
-                if (userAnswer != null) {
-                  final isCorrect = userAnswer['correct'];
-                  final isTkp = userAnswer['type'] == 'tkp';
-                  final score = userAnswer['score'];
+      if (category == 'TWK') {
+        twkScore += currentQuestionScore;
+      } else if (category == 'TIU') {
+        tiuScore += currentQuestionScore;
+      } else if (category == 'TKP') {
+        tkpScore += currentQuestionScore;
+      }
+    }
 
-                  if (isTkp) {
-                    // For TKP, we assume any score means it was answered, color based on presence of score.
-                    // If you have a specific passing score for TKP to determine green/red, you'd add that logic.
-                    // For now, if answered, it's green.
-                    color = Colors.green;
-                    displayText = '${overallIndex + 1}. ($score)';
-                  } else {
-                    // For non-TKP, green if correct, red if incorrect.
-                    color = isCorrect == true ? Colors.green : Colors.red;
-                    displayText = '${overallIndex + 1}';
-                  }
-                } else {
-                  // No answer saved for this question
-                  color = Colors.grey; // Grey for unanswered
-                  displayText = '${overallIndex + 1}';
-                }
+    int totalQuestions = categories.fold(
+      0,
+      (sum, cat) => sum + (cat['quiz'] as List).length,
+    );
 
-                return Container(
-                  width: 56,
-                  height: 40,
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    color: color,
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Text(
-                    displayText,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                );
-              }),
-            ),
-          ],
+    int durationTaken = initialRemainingSeconds - remainingSeconds;
+
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(
+        builder: (context) => ResultPage(
+          totalScore: totalScore,
+          durationTakenInSeconds: durationTaken,
+          userAnswers: userAnswers,
+          totalQuestions: totalQuestions,
+          twkScore: twkScore,
+          tiuScore: tiuScore,
+          tkpScore: tkpScore,
         ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text("Tutup"),
-          ),
-        ],
-      );
-    },
-  );
-}
+      ),
+    );
+  }
 
   bool isLastQuestion() {
     return currentCategoryIndex == categories.length - 1 &&
@@ -302,11 +270,7 @@ class _TryOutViewsState extends State<TryOutViews> {
       (sum, cat) => sum + (cat['quiz'] as List).length,
     );
 
-    int currentOverallNumber = 0;
-    for (int i = 0; i < currentCategoryIndex; i++) {
-      currentOverallNumber += (categories[i]['quiz'] as List).length;
-    }
-    currentOverallNumber += currentQuestionIndex + 1;
+    int currentOverallNumber = _getCurrentOverallQuestionIndex() + 1; // 1-based for display
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -356,7 +320,6 @@ class _TryOutViewsState extends State<TryOutViews> {
                       borderRadius: BorderRadius.circular(12),
                       boxShadow: [
                         BoxShadow(
-                          // ignore: deprecated_member_use
                           color: Colors.black.withOpacity(0.25),
                           blurRadius: 4,
                           offset: const Offset(0, 4),
@@ -398,14 +361,13 @@ class _TryOutViewsState extends State<TryOutViews> {
                         final optionLabel = opt['label'];
                         final optionText = opt['text'];
                         final int? optionScore = opt['score'];
-                        final bool isSelected =
-                            selectedOptionLabel == optionLabel;
+                        final bool isSelected = selectedOptionLabel == optionLabel;
 
                         final backgroundColor = isSelected
-                            ? const Color(0xFF6A5AE0)
+                            ? const Color(0xFFFFE500) // Changed to yellow for previously selected answer
                             : const Color(0xFFEFF1FE);
                         final textColor = isSelected
-                            ? Colors.white
+                            ? Colors.black // Text color for selected option
                             : const Color(0xFF6A5AE0);
 
                         return Padding(
@@ -461,7 +423,7 @@ class _TryOutViewsState extends State<TryOutViews> {
                       style: ElevatedButton.styleFrom(
                         backgroundColor: answerSaved
                             ? Colors.grey // Change color when saved
-                            : const Color(0xFFF8C005),
+                            : const Color(0xFFFFE500), // Using #FFE500
                         padding: const EdgeInsets.symmetric(vertical: 16),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12),
@@ -500,7 +462,7 @@ class _TryOutViewsState extends State<TryOutViews> {
                   ),
                 ),
                 onPressed: (currentCategoryIndex == 0 && currentQuestionIndex == 0)
-                    ? null // Disable if on the first question
+                    ? null
                     : previousQuestion,
                 child: Icon(
                   Icons.keyboard_arrow_left,
@@ -512,51 +474,62 @@ class _TryOutViewsState extends State<TryOutViews> {
               ),
             ),
             const SizedBox(width: 16),
+            
             ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                padding: const EdgeInsets.symmetric(vertical: 12),
-                backgroundColor: const Color(0xFFEFF1FE),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
-                ),
-              ),
-              onPressed: () {
-                showDialog(
-                  context: context,
-                  builder: (context) => QuizModal(
-                    totalQuestions: totalQuestions,
-                    currentIndex: currentOverallNumber - 1, // Pass the 0-based overall index
-                    onSelectQuestion: (overallIndex) {
-                      setState(() {
-                        // Calculate category and question index from overallIndex
-                        int tempOverallIndex = overallIndex;
-                        currentCategoryIndex = 0; // Reset category index
-                        currentQuestionIndex = 0; // Reset question index
-                        for (int i = 0; i < categories.length; i++) {
-                          final categoryQuizLength = (categories[i]['quiz'] as List).length;
-                          if (tempOverallIndex < categoryQuizLength) {
-                            currentCategoryIndex = i;
-                            currentQuestionIndex = tempOverallIndex;
-                            break;
-                          } else {
-                            tempOverallIndex -= categoryQuizLength;
-                          }
-                        }
-                        // Reset selection and answer saved status when navigating to a new question
-                        selectedOptionLabel = null;
-                        isAnswered = false;
-                        selectedScore = null;
-                        answerSaved = false;
-                      });
-                    },
-                  ),
-                );
-              },
-              child: Text(
-                '$currentOverallNumber',
-                style: const TextStyle(color: Color(0xFF6A5AE0), fontSize: 16),
+            style: ElevatedButton.styleFrom(
+              padding: const EdgeInsets.symmetric(vertical: 12),
+              backgroundColor: const Color(0xFFEFF1FE),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
               ),
             ),
+            onPressed: () async { // Make onPressed async to await the dialog pop
+              // First, save the current answer if not already saved
+              if (selectedOptionLabel != null && !answerSaved) {
+                saveAnswer();
+              }
+
+              // Show the dialog and wait for it to be dismissed
+              final int? selectedOverallIndex = await showDialog<int>(
+                context: context,
+                builder: (context) => QuizModal(
+                  totalQuestions: totalQuestions,
+                  currentIndex: currentOverallNumber - 1, // Pass the 0-based overall index
+                  userAnswers: userAnswers, // Pass the user answers
+                  onSelectQuestion: (overallIndex) {
+                    // This part is called when a number is clicked inside the modal.
+                    // It will pop the dialog with the selected index as a result.
+                    Navigator.of(context).pop(overallIndex); // THIS IS THE CRITICAL LINE
+                  },
+                ),
+              );
+
+              // Only update state if a number was actually selected (dialog wasn't just dismissed)
+              if (selectedOverallIndex != null) {
+                setState(() {
+                  int tempOverallIndex = selectedOverallIndex;
+                  currentCategoryIndex = 0;
+                  currentQuestionIndex = 0;
+                  for (int i = 0; i < categories.length; i++) {
+                    final categoryQuizLength = (categories[i]['quiz'] as List).length;
+                    if (tempOverallIndex < categoryQuizLength) {
+                      currentCategoryIndex = i;
+                      currentQuestionIndex = tempOverallIndex;
+                      break;
+                    } else {
+                      tempOverallIndex -= categoryQuizLength;
+                    }
+                  }
+                  _loadSavedAnswerForCurrentQuestion(); // Load answer for the newly selected question
+                });
+              }
+            },
+            child: Text(
+              '$currentOverallNumber',
+              style: const TextStyle(color: Color(0xFF6A5AE0), fontSize: 16),
+            ),
+          ),
+            
             const SizedBox(width: 16),
             Expanded(
               child: ElevatedButton(
@@ -569,9 +542,25 @@ class _TryOutViewsState extends State<TryOutViews> {
                     borderRadius: BorderRadius.circular(8),
                   ),
                 ),
-                onPressed: () {
+                onPressed: () async {
                   if (isLastQuestion()) {
-                    _showAdAndThenFinalScore();
+                    final result = await showDialog<bool>(
+                      context: context,
+                      builder: (context) => const ConfirmationFinish(
+                        title: 'Selesai Ujian?',
+                        content: 'Apakah Anda yakin ingin menyelesaikan ujian?',
+                        confirmButtonText: 'Selesai',
+                        cancelButtonText: 'Lanjutkan',
+                      ),
+                    );
+
+                    if (result == true) {
+                      // Save the current answer before showing final score if not already saved
+                      if (selectedOptionLabel != null && !answerSaved) {
+                        saveAnswer();
+                      }
+                      showFinalScore();
+                    }
                   } else {
                     nextQuestion();
                   }
@@ -595,8 +584,9 @@ class _TryOutViewsState extends State<TryOutViews> {
   }
 }
 
-extension on List<Map<String, dynamic>> {
-  firstWhereOrNull(bool Function(dynamic ans) test) {
+// Add this extension for convenience to find elements in lists
+extension IterableExtension<T> on Iterable<T> {
+  T? firstWhereOrNull(bool Function(T element) test) {
     for (var element in this) {
       if (test(element)) {
         return element;
