@@ -27,6 +27,7 @@ class _TryOutViewsState extends State<TryOutViews> {
   late int initialRemainingSeconds;
 
   List<Map<String, dynamic>> userAnswers = []; // This list holds saved answers
+  List<Map<String, dynamic>> allQuestions = [];
 
   late int remainingSeconds;
   Timer? countdownTimer;
@@ -41,9 +42,27 @@ class _TryOutViewsState extends State<TryOutViews> {
     categories = widget.data['category'];
     remainingSeconds = widget.data['duration'];
     initialRemainingSeconds = widget.data['duration'];
+
+    // Populate allQuestions list here
+    _populateAllQuestions(); // New method to populate this list
+
     startTimer();
     _loadSavedAnswerForCurrentQuestion(); // Load answer for the initial question
   }
+
+  void _populateAllQuestions() {
+  for (var category in categories) {
+    for (var quizItem in category['quiz']) {
+      allQuestions.add({
+        'questionText': quizItem['question']['text'],
+        'options': quizItem['options'],
+        'answer': quizItem['answer'], // The correct label, e.g., 'C'
+        'explanation': quizItem['explanation'],
+        'category': category['title'].toString().toUpperCase(), // Add category for filtering if needed
+      });
+    }
+  }
+}
 
   void startTimer() {
     countdownTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
@@ -177,83 +196,99 @@ class _TryOutViewsState extends State<TryOutViews> {
   }
 
   void saveAnswer() {
-    final String questionCategory = categories[currentCategoryIndex]['title'].toString().toUpperCase();
+  final String questionCategory = categories[currentCategoryIndex]['title'].toString().toUpperCase();
 
-    if (selectedOptionLabel == null) return;
+  if (selectedOptionLabel == null) return; // Only save if an option is selected
 
-    bool isCorrect = selectedOptionLabel == correctAnswerLabel;
+  bool isCorrect = selectedOptionLabel == correctAnswerLabel;
 
-    int currentOverall = _getCurrentOverallQuestionIndex();
+  int currentOverall = _getCurrentOverallQuestionIndex();
 
-    setState(() {
-      int existingAnswerIndex = userAnswers.indexWhere((ans) => ans['overallIndex'] == currentOverall);
+  setState(() {
+    int existingAnswerIndex = userAnswers.indexWhere((ans) => ans['overallIndex'] == currentOverall);
 
-      if (existingAnswerIndex != -1) {
-        userAnswers[existingAnswerIndex] = {
-          'overallIndex': currentOverall,
-          'category': questionCategory,
-          'correct': questionCategory != 'TKP' ? isCorrect : null,
-          'score': questionCategory == 'TKP' ? selectedScore : (isCorrect ? 5 : 0),
-          'selectedOptionLabel': selectedOptionLabel, // Store the selected label
-        };
-      } else {
-        userAnswers.add({
-          'overallIndex': currentOverall,
-          'category': questionCategory,
-          'correct': questionCategory != 'TKP' ? isCorrect : null,
-          'score': questionCategory == 'TKP' ? selectedScore : (isCorrect ? 5 : 0),
-          'selectedOptionLabel': selectedOptionLabel, // Store the selected label
-        });
-      }
-      answerSaved = true;
-    });
-  }
+    // Get the current question details to save
+    final currentQ = currentQuestion; // Reference to the current question data
+    final questionText = currentQ['question']['text'];
+    final optionsData = currentQ['options']; // All options with labels, text, scores
+    final correctAnsLabel = currentQ['answer']; // The correct answer label (e.g., 'A', 'B')
+    final explanationText = currentQ['explanation'];
+
+    if (existingAnswerIndex != -1) {
+      userAnswers[existingAnswerIndex] = {
+        'overallIndex': currentOverall,
+        'category': questionCategory,
+        'correct': questionCategory != 'TKP' ? isCorrect : null,
+        'score': questionCategory == 'TKP' ? selectedScore : (isCorrect ? 5 : 0),
+        'selectedOptionLabel': selectedOptionLabel,
+        'questionText': questionText, // Save question text
+        'options': optionsData,      // Save all options
+        'correctAnswerLabel': correctAnsLabel, // Save correct answer label
+        'explanation': explanationText, // Save the explanation here
+      };
+    } else {
+      userAnswers.add({
+        'overallIndex': currentOverall,
+        'category': questionCategory,
+        'correct': questionCategory != 'TKP' ? isCorrect : null,
+        'score': questionCategory == 'TKP' ? selectedScore : (isCorrect ? 5 : 0),
+        'selectedOptionLabel': selectedOptionLabel,
+        'questionText': questionText,
+        'options': optionsData,
+        'correctAnswerLabel': correctAnsLabel,
+        'explanation': explanationText, // Save the explanation here
+      });
+    }
+    answerSaved = true;
+  });
+}
 
   void showFinalScore() {
-    countdownTimer?.cancel();
+  countdownTimer?.cancel();
 
-    int totalScore = 0;
-    int twkScore = 0;
-    int tiuScore = 0;
-    int tkpScore = 0;
+  int totalScore = 0;
+  int twkScore = 0;
+  int tiuScore = 0;
+  int tkpScore = 0;
 
-    for (var ans in userAnswers) {
-      final score = ans['score'];
-      final category = ans['category'];
+  for (var ans in userAnswers) {
+    final score = ans['score'];
+    final category = ans['category'];
 
-      int currentQuestionScore = (score is int ? score : (score as num?)?.toInt() ?? 0);
-      totalScore += currentQuestionScore;
+    int currentQuestionScore = (score is int ? score : (score as num?)?.toInt() ?? 0);
+    totalScore += currentQuestionScore;
 
-      if (category == 'TWK') {
-        twkScore += currentQuestionScore;
-      } else if (category == 'TIU') {
-        tiuScore += currentQuestionScore;
-      } else if (category == 'TKP') {
-        tkpScore += currentQuestionScore;
-      }
+    if (category == 'TWK') {
+      twkScore += currentQuestionScore;
+    } else if (category == 'TIU') {
+      tiuScore += currentQuestionScore;
+    } else if (category == 'TKP') {
+      tkpScore += currentQuestionScore;
     }
-
-    int totalQuestions = categories.fold(
-      0,
-      (sum, cat) => sum + (cat['quiz'] as List).length,
-    );
-
-    int durationTaken = initialRemainingSeconds - remainingSeconds;
-
-    Navigator.of(context).pushReplacement(
-      MaterialPageRoute(
-        builder: (context) => ResultPage(
-          totalScore: totalScore,
-          durationTakenInSeconds: durationTaken,
-          userAnswers: userAnswers,
-          totalQuestions: totalQuestions,
-          twkScore: twkScore,
-          tiuScore: tiuScore,
-          tkpScore: tkpScore,
-        ),
-      ),
-    );
   }
+
+  int totalQuestionsCount = categories.fold(
+    0,
+    (sum, cat) => sum + (cat['quiz'] as List).length,
+  );
+
+  int durationTaken = initialRemainingSeconds - remainingSeconds;
+
+  Navigator.of(context).pushReplacement(
+    MaterialPageRoute(
+      builder: (context) => ResultPage(
+        totalScore: totalScore,
+        durationTakenInSeconds: durationTaken,
+        userAnswers: userAnswers,
+        totalQuestions: totalQuestionsCount, // This is already the total count
+        twkScore: twkScore,
+        tiuScore: tiuScore,
+        tkpScore: tkpScore,
+        allQuizQuestions: allQuestions, // <-- Pass the new allQuestions list
+      ),
+    ),
+  );
+}
 
   bool isLastQuestion() {
     return currentCategoryIndex == categories.length - 1 &&
@@ -320,6 +355,7 @@ class _TryOutViewsState extends State<TryOutViews> {
                       borderRadius: BorderRadius.circular(12),
                       boxShadow: [
                         BoxShadow(
+                          // ignore: deprecated_member_use
                           color: Colors.black.withOpacity(0.25),
                           blurRadius: 4,
                           offset: const Offset(0, 4),

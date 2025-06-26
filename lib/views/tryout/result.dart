@@ -11,6 +11,7 @@ class ResultPage extends StatefulWidget {
   final int twkScore;
   final int tiuScore;
   final int tkpScore;
+  final List<Map<String, dynamic>> allQuizQuestions;
 
   const ResultPage({
     super.key,
@@ -21,6 +22,7 @@ class ResultPage extends StatefulWidget {
     required this.twkScore,
     required this.tiuScore,
     required this.tkpScore,
+    required this.allQuizQuestions,
   });
 
   @override
@@ -171,10 +173,10 @@ class _ResultPageState extends State<ResultPage> {
                         builder: (context) => ScoreSummaryPage(
                           userAnswers: widget.userAnswers,
                           totalQuestions: widget.totalQuestions,
-                          // Pass individual scores to ScoreSummaryPage
                           twkScore: widget.twkScore,
                           tiuScore: widget.tiuScore,
                           tkpScore: widget.tkpScore,
+                          allQuizQuestions: widget.allQuizQuestions, // <-- Pass it here
                         ),
                       ),
                     );

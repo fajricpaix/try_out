@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 class ScoreSummaryPage extends StatelessWidget {
   final List<Map<String, dynamic>> userAnswers;
   final int totalQuestions;
-  final int twkScore; // Overall TWK score
-  final int tiuScore; // Overall TIU score
-  final int tkpScore; // Overall TKP score
+  final int twkScore;
+  final int tiuScore;
+  final int tkpScore;
+  final List<Map<String, dynamic>> allQuizQuestions;
 
   const ScoreSummaryPage({
     super.key,
@@ -14,27 +15,19 @@ class ScoreSummaryPage extends StatelessWidget {
     required this.twkScore,
     required this.tiuScore,
     required this.tkpScore,
+    required this.allQuizQuestions,
   });
 
-  // Helper function to format the answer text, including option letters if available.
-  // It handles cases where the answer is an index (int) or the direct option text (String).
-  String _getAnswerText(Map<String, dynamic> answer, dynamic value) {
-    if (answer['options'] != null && answer['options'] is List) {
-      final options = List<String>.from(answer['options']);
-      if (value is int && value >= 0 && value < options.length) {
-        // If the value is an integer, treat it as an index and return "A. Option Text"
-        return '${String.fromCharCode(65 + value)}. ${options[value]}';
-      } else if (value is String) {
-        // If the value is already a string, try to find it in options to prefix with letter
-        for (int i = 0; i < options.length; i++) {
-          if (options[i] == value) {
-            return '${String.fromCharCode(65 + i)}. $value';
-          }
-        }
-        return value; // Fallback if the string value doesn't match an option text
-      }
+  // Helper function to format the answer text with option letter and content.
+  String _getFormattedOptionText(String label, List<dynamic> options) {
+    final option = options.firstWhere(
+      (opt) => opt['label'] == label,
+      orElse: () => null,
+    );
+    if (option != null && option['text'] != null) {
+      return '$label. ${option['text']}';
     }
-    return value.toString(); // Fallback for other types or if options are missing
+    return label; // Fallback if option text isn't found
   }
 
   @override
@@ -43,14 +36,29 @@ class ScoreSummaryPage extends StatelessWidget {
     int incorrectCount = 0;
     int unansweredCount = 0;
 
+    // Create a map for quick lookup of user answers by overallIndex
+    final Map<int, Map<String, dynamic>> userAnswersMap = {
+      for (var ans in userAnswers) (ans['overallIndex'] as int): ans,
+    };
+
     // Calculate counts for correct, incorrect, and unanswered questions
-    for (var answer in userAnswers) {
-      if (answer['userAnswer'] == null || answer['userAnswer'].toString().isEmpty) {
+    for (int i = 0; i < allQuizQuestions.length; i++) {
+      final userAnswerForThisQuestion =
+          userAnswersMap[i]; // Get user's saved answer for this question index
+
+      if (userAnswerForThisQuestion == null ||
+          userAnswerForThisQuestion['selectedOptionLabel'] == null) {
         unansweredCount++;
-      } else if (answer['userAnswer'] == answer['correctAnswer']) {
-        correctCount++;
       } else {
-        incorrectCount++;
+        final selectedOption = userAnswerForThisQuestion['selectedOptionLabel'];
+        final correctOption =
+            allQuizQuestions[i]['answer']; // Get correct answer from allQuizQuestions
+
+        if (selectedOption == correctOption) {
+          correctCount++;
+        } else {
+          incorrectCount++;
+        }
       }
     }
 
@@ -58,135 +66,146 @@ class ScoreSummaryPage extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: const Color(0xFF6A5AE0),
         iconTheme: const IconThemeData(color: Colors.white),
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Ringkasan Jawaban',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: Color(0xFF6A5AE0),
-              ),
-            ),
-            const SizedBox(height: 12),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                _buildCountBox('Benar', correctCount, Colors.green),
-                _buildCountBox('Salah', incorrectCount, Colors.red),
-                _buildCountBox('Tidak Dijawab', unansweredCount, Colors.grey),
-              ],
-            ),
-            const SizedBox(height: 20),
-            // Section Title for detailed answers
-            Text(
-              'Detail Jawaban:',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: Color(0xFF6A5AE0),
-              ),
-            ),
-            const SizedBox(height: 15),
-            // ListView for individual question summaries
-            ListView.builder(
-              shrinkWrap: true, // Allows ListView to take only as much space as its children
-              physics: NeverScrollableScrollPhysics(), // Disables scrolling for this inner ListView
-              itemCount: userAnswers.length,
-              itemBuilder: (context, index) {
-                final answer = userAnswers[index];
-                // Safely retrieve question data, providing fallbacks if keys are missing
-                final questionNumber = answer['questionNumber'] ?? (index + 1);
-                final questionText = answer['questionText'] ?? 'Soal tidak tersedia.';
-                final userAnswer = _getAnswerText(answer, answer['userAnswer']);
-                final correctAnswer = _getAnswerText(answer, answer['correctAnswer']);
-                final explanation = answer['explanation'] ?? 'Tidak ada penjelasan.';
-                final questionType = answer['type']; // e.g., 'TWK', 'TIU', 'TKP'
-                // Retrieve TKP score if the question type is 'TKP'
-                final tkpUserScore = (questionType == 'TKP') ? (answer['score'] ?? 0) : null;
-
-                // Determine if the user's answer is correct
-                bool isCorrect = (answer['userAnswer'] == answer['correctAnswer']);
-
-                return Card(
-                  margin: const EdgeInsets.only(bottom: 15),
-                  elevation: 4,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        // Question Number
-                        Text(
-                          'Soal No. $questionNumber',
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                            color: Color(0xFF6A5AE0),
-                          ),
-                        ),
-                        const SizedBox(height: 10),
-                        // Question Text
-                        Text(
-                          questionText,
-                          style: TextStyle(fontSize: 16, color: Colors.black87),
-                        ),
-                        const SizedBox(height: 15),
-                        // User's Answer
-                        _buildAnswerRow('Jawaban Anda:', userAnswer, isCorrect ? Colors.green : Colors.red),
-                        const SizedBox(height: 8),
-                        // Correct Answer
-                        _buildAnswerRow('Jawaban Benar:', correctAnswer, Colors.green),
-                        // Display TKP score only if the question is of type 'TKP'
-                        if (tkpUserScore != null) ...[
-                          const SizedBox(height: 8),
-                          _buildScoreRow('Skor TKP Anda:', tkpUserScore),
-                        ],
-                        const SizedBox(height: 15),
-                        // Explanation Title
-                        Text(
-                          'Penjelasan:',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: Color(0xFF6A5AE0),
-                          ),
-                        ),
-                        const SizedBox(height: 5),
-                        // Explanation Text
-                        Text(
-                          explanation,
-                          style: TextStyle(fontSize: 15, color: Colors.black54),
-                        ),
-                      ],
-                    ),
-                  ),
-                );
-              },
-            ),
-          ],
+        title: const Text(
+          'Ringkasan Jawaban',
+          style: TextStyle(color: Colors.white),
         ),
       ),
+      body: SingleChildScrollView(
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const SizedBox(height: 12),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              _buildCountBox('Benar', correctCount, Colors.green),
+              _buildCountBox('Salah', incorrectCount, Colors.red),
+              _buildCountBox('Tidak Dijawab', unansweredCount, Colors.grey),
+            ],
+          ),
+          const SizedBox(height: 20),
+          const Text(
+            'Detail Jawaban:',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: Color(0xFF6A5AE0),
+            ),
+          ),
+          const SizedBox(height: 15),
+          // Loop through ALL questions to display them
+          ListView.builder(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: allQuizQuestions.length, // Iterate over all questions
+            itemBuilder: (context, index) {
+              final currentQuestionData = allQuizQuestions[index]; // Get the original question
+              final userAnswerData = userAnswersMap[index]; // Find the user's answer if it exists
+
+              final questionNumber = index + 1; // 1-based index
+              final questionText = currentQuestionData['questionText'] ?? 'Soal tidak tersedia.';
+              final allOptions = currentQuestionData['options'] as List<dynamic>;
+              final correctOptionLabel = currentQuestionData['answer'] as String?;
+              final explanation = currentQuestionData['explanation'] ?? 'Tidak ada penjelasan.';
+              final questionCategory = currentQuestionData['category'] as String?;
+
+              final selectedUserOptionLabel = userAnswerData?['selectedOptionLabel'] as String?;
+              final tkpUserScore = (questionCategory == 'TKP' && userAnswerData != null)
+                  ? (userAnswerData['score'] ?? 0)
+                  : null;
+
+              // Determine if the user's answer is correct for display purposes
+              bool isCorrect = (selectedUserOptionLabel == correctOptionLabel);
+
+              final formattedUserAnswer = selectedUserOptionLabel != null
+                  ? _getFormattedOptionText(selectedUserOptionLabel, allOptions)
+                  : 'Tidak Dijawab'; // If no user answer found, it was not answered
+
+              final formattedCorrectAnswer = correctOptionLabel != null
+                  ? _getFormattedOptionText(correctOptionLabel, allOptions)
+                  : 'Jawaban Benar Tidak Tersedia';
+
+              return Card(
+                margin: const EdgeInsets.only(bottom: 15),
+                elevation: 4,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Soal No. $questionNumber (${questionCategory ?? 'N/A'})',
+                        style: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xFF6A5AE0),
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      Text(
+                        questionText,
+                        style: const TextStyle(fontSize: 16, color: Colors.black87),
+                      ),
+                      const SizedBox(height: 15),
+                      _buildAnswerRow(
+                        'Jawaban Anda:',
+                        formattedUserAnswer,
+                        selectedUserOptionLabel == null
+                            ? Colors.grey // Not answered
+                            : (isCorrect ? Colors.green : Colors.red),
+                      ),
+                      const SizedBox(height: 8),
+                      _buildAnswerRow('Jawaban Benar:', formattedCorrectAnswer, Colors.green),
+                      if (tkpUserScore != null) ...[
+                        const SizedBox(height: 8),
+                        _buildScoreRow('Skor TKP Anda:', tkpUserScore),
+                      ],
+                      const SizedBox(height: 15),
+                      const Text(
+                        'Penjelasan:',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xFF6A5AE0),
+                        ),
+                      ),
+                      const SizedBox(height: 5),
+                      Text(
+                        explanation,
+                        style: const TextStyle(fontSize: 15, color: Colors.black54),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            },
+          ),
+        ],
+      ),
+    ),
     );
   }
 
-  // New Helper widget to build a count display box (Correct, Incorrect, Unanswered)
+  // Helper widget to build a count display box (Correct, Incorrect, Unanswered)
   Widget _buildCountBox(String title, int count, Color color) {
     return Expanded(
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 4),
+        padding: const EdgeInsets.symmetric(
+          vertical: 8,
+        ), // Added vertical padding
         decoration: BoxDecoration(
-          // ignore: deprecated_member_use
           color: color.withOpacity(0.1), // Light background color
           borderRadius: BorderRadius.circular(8),
-          border: Border.all(color: color, width: 1), // Border with primary color
+          border: Border.all(
+            color: color,
+            width: 1,
+          ), // Border with primary color
         ),
         child: Column(
           children: [
@@ -198,13 +217,7 @@ class ScoreSummaryPage extends StatelessWidget {
                 color: color,
               ),
             ),
-            Text(
-              title,
-              style: TextStyle(
-                fontSize: 14,
-                color: color,
-              ),
-            ),
+            Text(title, style: TextStyle(fontSize: 14, color: color)),
           ],
         ),
       ),
@@ -218,7 +231,7 @@ class ScoreSummaryPage extends StatelessWidget {
       children: [
         Text(
           label,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 15,
             fontWeight: FontWeight.bold,
             color: Colors.black87,
@@ -245,7 +258,7 @@ class ScoreSummaryPage extends StatelessWidget {
       children: [
         Text(
           label,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 15,
             fontWeight: FontWeight.bold,
             color: Colors.black87,
@@ -254,7 +267,7 @@ class ScoreSummaryPage extends StatelessWidget {
         const SizedBox(width: 8),
         Text(
           score.toString(),
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 15,
             color: Colors.purple, // Distinct color for TKP score
             fontWeight: FontWeight.w600,
