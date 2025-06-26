@@ -28,7 +28,7 @@ class ThumbnailHome extends StatelessWidget {
             image: DecorationImage(
               image: AssetImage(
                 isBackground,
-              ), // or NetworkImage
+              ),
               fit: BoxFit.none,
             ),
             borderRadius: BorderRadius.circular(12),

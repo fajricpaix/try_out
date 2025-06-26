@@ -1,12 +1,12 @@
 // result_page.dart
 import 'package:flutter/material.dart';
-import 'package:try_out/main.dart'; // Assuming main.dart for DummyHomePage
-import 'package:try_out/views/tryout/score_summary.dart'; // Path to ScoreSummaryPage
+import 'package:try_out/main.dart';
+import 'package:try_out/views/tryout/score_summary.dart';
 
 class ResultPage extends StatefulWidget {
   final int totalScore;
   final int durationTakenInSeconds;
-  final List<Map<String, dynamic>> userAnswers; // To pass for details
+  final List<Map<String, dynamic>> userAnswers;
   final int totalQuestions;
   final int twkScore;
   final int tiuScore;
@@ -54,10 +54,14 @@ class _ResultPageState extends State<ResultPage> {
                 width: 275,
                 height: 275,
                 decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: widget.totalScore > 500
-                      ? const Color(0xFF6A5AE0)
-                      : const Color(0xFFE53935),
+                  image: DecorationImage(
+                    image: AssetImage(
+                      widget.twkScore > 64 || widget.tiuScore > 79 || widget.tkpScore > 165 
+                        ? 'assets/training/success.webp'
+                          : 'assets/training/un_success.webp',
+                    ), // or NetworkImage
+                    fit: BoxFit.cover,
+                  ),
                 ),
                 child: Padding(
                   padding: const EdgeInsets.all(12.0),
@@ -68,7 +72,7 @@ class _ResultPageState extends State<ResultPage> {
                         'SKOR ANDA',
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          fontSize: 24,
+                          fontSize: 22,
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
                         ),
@@ -76,35 +80,26 @@ class _ResultPageState extends State<ResultPage> {
                       Text(
                         '${widget.totalScore}',
                         style: const TextStyle(
-                          fontSize: 80,
+                          fontSize: 76,
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
-                        ),
-                      ),
-                      const Text(
-                        'dari 550',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                        )
+                      )
+                    ]
+                  )
+                )
               ),
               const SizedBox(height: 20),
 
               // Title and Description
               Text(
-                widget.totalScore > 500
+                widget.twkScore > 64 || widget.tiuScore > 79 || widget.tkpScore > 165
                     ? 'SELAMAT!\nKAMU LULUS'
-                    : 'OOOWWCH!\nKAMU BELUM LULUS',
+                    : 'OOUUUCH!\nKAMU BELUM LULUS',
                 style: TextStyle(
-                  fontSize: 22,
+                  fontSize: 20,
                   fontWeight: FontWeight.bold,
-                  color: widget.totalScore > 500
+                  color: widget.twkScore > 64 || widget.tiuScore > 79 || widget.tkpScore > 165
                       ? const Color(0xFF6A5AE0)
                       : const Color(0xFFE53935),
                 ),
@@ -176,13 +171,13 @@ class _ResultPageState extends State<ResultPage> {
                           twkScore: widget.twkScore,
                           tiuScore: widget.tiuScore,
                           tkpScore: widget.tkpScore,
-                          allQuizQuestions: widget.allQuizQuestions, // <-- Pass it here
+                          allQuizQuestions: widget.allQuizQuestions,
                         ),
                       ),
                     );
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.green.shade500,
+                    backgroundColor: Colors.blueAccent,
                     padding: const EdgeInsets.symmetric(vertical: 16),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
@@ -232,11 +227,35 @@ class _ResultPageState extends State<ResultPage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    _buildScoreBox('TWK', widget.twkScore, 65), // Use widget.twkScore
+                    _buildScoreBox(
+                      'TWK', 
+                      widget.twkScore, 
+                      65,
+                      widget.twkScore > 64
+                        ? const Color(0xFFFFE500) 
+                          : const Color(0xFFF71D1D),
+                      widget.twkScore > 64 ? Colors.black : Colors.white
+                      ),
                     const SizedBox(width: 10),
-                    _buildScoreBox('TIU', widget.tiuScore, 80), // Use widget.tiuScore
+                    _buildScoreBox(
+                      'TIU', 
+                      widget.tiuScore, 
+                      80,
+                      widget.tiuScore > 79 
+                        ? const Color(0xFFFFE500) 
+                          : const Color(0xFFF71D1D),
+                      widget.tiuScore > 79 ? Colors.black : Colors.white
+                      ),
                     const SizedBox(width: 10),
-                    _buildScoreBox('TKP', widget.tkpScore, 166), // Use widget.tkpScore
+                    _buildScoreBox(
+                      'TKP', 
+                      widget.tkpScore, 
+                      166,
+                      widget.tkpScore > 165 
+                        ? const Color(0xFFFFE500) 
+                          : const Color(0xFFF71D1D),
+                      widget.tkpScore > 165 ? Colors.black : Colors.white
+                      ),
                   ],
                 ),
             ],
@@ -311,11 +330,11 @@ class _ResultPageState extends State<ResultPage> {
   }
 
   // Helper method to build a score box
-  Widget _buildScoreBox(String title, int score, int passScore) {
+  Widget _buildScoreBox(title, int score, int passScore, Color valueColor, Color textColor) {
     return Expanded(
       child: Card(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-        color: const Color(0xFFFFE500),
+        color: valueColor,
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
           child: Column(
@@ -324,8 +343,8 @@ class _ResultPageState extends State<ResultPage> {
             children: [
               Text(
                 title,
-                style: const TextStyle(
-                  color: Colors.black,
+                style: TextStyle(
+                  color: textColor,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -334,17 +353,17 @@ class _ResultPageState extends State<ResultPage> {
                 children: [
                   Text(
                     '$score',
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
-                      color: Colors.black,
+                      color: textColor,
                     ),
                   ),
                   Text(
                     '/$passScore',
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 14,
-                      color: Colors.black,
+                      color: textColor,
                     ),
                   ),
                 ],

@@ -15,14 +15,8 @@ class ConfirmationDialog extends StatelessWidget {
           child: const Text('Batal', style: TextStyle(color: Color(0xFF6A5AE0))),
         ),
         TextButton(
-          style: TextButton.styleFrom(
-            backgroundColor: Colors.red,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
-            ),
-          ),
           onPressed: () => Navigator.of(context).pop(true),
-          child: const Text('Keluar', style: TextStyle(color: Colors.white)),
+          child: const Text('Keluar', style: TextStyle(color: Colors.red)),
         ),
       ],
       shape: RoundedRectangleBorder(

@@ -687,10 +687,10 @@
   },
   "3": {
     "type": "simulasi",
-    "level": "Sedang",
+    "level": "Susah",
     "title": "Simulasi CPNS",
     "desc": "Dekripsi tentang simulasi tes",
-    "duration": 10,
+    "duration": 6000,
     "passing_grade": 100,
     "category": [
       {

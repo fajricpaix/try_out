@@ -400,10 +400,10 @@ class _TryOutViewsState extends State<TryOutViews> {
                         final bool isSelected = selectedOptionLabel == optionLabel;
 
                         final backgroundColor = isSelected
-                            ? const Color(0xFFFFE500) // Changed to yellow for previously selected answer
+                            ? const Color(0xFF6A5AE0) // Changed to yellow for previously selected answer
                             : const Color(0xFFEFF1FE);
                         final textColor = isSelected
-                            ? Colors.black // Text color for selected option
+                            ? Colors.white // Text color for selected option
                             : const Color(0xFF6A5AE0);
 
                         return Padding(
@@ -453,7 +453,6 @@ class _TryOutViewsState extends State<TryOutViews> {
                   Container(
                     width: double.infinity,
                     margin: const EdgeInsets.all(20),
-                    padding: const EdgeInsets.only(bottom: 16),
                     child: ElevatedButton(
                       onPressed: answerSaved ? null : saveAnswer,
                       style: ElevatedButton.styleFrom(
@@ -468,7 +467,6 @@ class _TryOutViewsState extends State<TryOutViews> {
                       child: Text(
                         answerSaved ? "Jawaban Tersimpan" : "Simpan Jawaban",
                         style: const TextStyle(
-                          fontSize: 16,
                           fontWeight: FontWeight.bold,
                           color: Colors.black,
                         ),

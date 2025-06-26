@@ -4,7 +4,7 @@ class QuizModal extends StatelessWidget {
   final int totalQuestions;
   final int currentIndex;
   final List<Map<String, dynamic>>? userAnswers;
-  final Function(int) onSelectQuestion; // This callback now receives the selected index
+  final Function(int) onSelectQuestion;
 
   const QuizModal({
     super.key,
@@ -22,19 +22,24 @@ class QuizModal extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text('Nomor Soal'),
+      title: Text(
+        'Nomor Soal', 
+        style: TextStyle(
+          fontSize: 16,
+          fontWeight: FontWeight.w600
+        )),
       content: SizedBox(
         width: double.maxFinite,
         child: GridView.builder(
           shrinkWrap: true,
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 5,
+            crossAxisCount: 6,
             crossAxisSpacing: 8,
             mainAxisSpacing: 8,
           ),
           itemCount: totalQuestions,
           itemBuilder: (context, index) {
-            final overallQuestionIndex = index; // 0-based index
+            final overallQuestionIndex = index;
             final isAnswered = _isQuestionAnswered(overallQuestionIndex);
             final isCurrentQuestion = overallQuestionIndex == currentIndex;
 
@@ -45,7 +50,7 @@ class QuizModal extends StatelessWidget {
               backgroundColor = Color(0xFF6A5AE0); // Highlight current question
               textColor = Colors.white;
             } else if (isAnswered) {
-              backgroundColor = Colors.green; // Saved answer color
+              backgroundColor = Colors.blueAccent; // Saved answer color
               textColor = Colors.white;
             } else {
               backgroundColor = Colors.grey.shade200; // Default color
@@ -54,11 +59,7 @@ class QuizModal extends StatelessWidget {
 
             return GestureDetector(
               onTap: () {
-                // When a number is tapped, call the onSelectQuestion callback
-                // which will then pop the dialog and handle navigation in the parent.
                 onSelectQuestion(overallQuestionIndex);
-                // No need to pop here, as the parent will do it.
-                // Navigator.of(context).pop(); // REMOVE THIS LINE IF IT WAS HERE
               },
               child: Container(
                 decoration: BoxDecoration(
@@ -67,10 +68,9 @@ class QuizModal extends StatelessWidget {
                 ),
                 alignment: Alignment.center,
                 child: Text(
-                  '${index + 1}', // Display 1-based number
+                  '${index + 1}',
                   style: TextStyle(
                     color: textColor,
-                    fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
@@ -81,7 +81,7 @@ class QuizModal extends StatelessWidget {
       actions: [
         TextButton(
           onPressed: () {
-            Navigator.of(context).pop(); // This closes the dialog without selecting a number
+            Navigator.of(context).pop();
           },
           child: const Text('Tutup'),
         ),
