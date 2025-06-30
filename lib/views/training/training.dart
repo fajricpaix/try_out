@@ -8,7 +8,7 @@ class TrainingView extends StatelessWidget {
   const TrainingView({super.key});
 
   Future<Map<String, dynamic>> loadSoalData() async {
-    final jsonString = await rootBundle.loadString('assets/json/training.json');
+    final jsonString = await rootBundle.loadString('assets/json/try_out.json');
     return json.decode(jsonString);
   }
 
@@ -42,7 +42,7 @@ class TrainingView extends StatelessWidget {
           final data = snapshot.data!;
           final easyLevel = data['level'] ?? 'Mudah';
           final mediumLevel = data['level'] ?? 'Sedang';
-          final hardLevel = data['level'] ?? 'Sulit';
+          final hardLevel = data['level'] ?? 'Susah';
 
           return SingleChildScrollView(
             child: Column(
@@ -57,7 +57,9 @@ class TrainingView extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (_) => DashboardQuetionView(level: easyLevel),
+                        builder: (_) => DashboardQuetionView(
+                          level: easyLevel,
+                        ),
                       ),
                     );
                   },
@@ -72,7 +74,9 @@ class TrainingView extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (_) => DashboardQuetionView(level: mediumLevel),
+                        builder: (_) => DashboardQuetionView(
+                          level: mediumLevel,
+                        ),
                       ),
                     );
                   },
@@ -87,7 +91,9 @@ class TrainingView extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (_) => DashboardQuetionView(level: hardLevel),
+                        builder: (_) => DashboardQuetionView(
+                          level: hardLevel,
+                        ),
                       ),
                     );
                   },
