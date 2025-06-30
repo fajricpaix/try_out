@@ -167,9 +167,9 @@ class _DashboardQuetionViewState extends State<DashboardQuetionView> {
       return Scaffold(
         backgroundColor: const Color(0xFF6A5AE0),
         appBar: AppBar(
-        title: const Text( // Added const for AppBar title
+        title: Text(
           'Kembali',
-          style: TextStyle(
+          style: const TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,
           ),
@@ -192,7 +192,7 @@ class _DashboardQuetionViewState extends State<DashboardQuetionView> {
     final keys = quizData!.keys.toList();
     final selectedQuiz = _selectedQuizKey != null ? quizData![_selectedQuizKey!] : null;
 
-    final Map<String, int> categoryCounts = _getCategoryQuestionCounts(selectedQuiz!); // Added ! to assert non-null
+    final Map<String, int> categoryCounts = _getCategoryQuestionCounts(selectedQuiz);
 
     // Guard against null selectedQuiz if somehow _selectedQuizKey doesn't point to valid data
     if (selectedQuiz == null) {
@@ -263,7 +263,7 @@ class _DashboardQuetionViewState extends State<DashboardQuetionView> {
                     final title = quizData![key]['level'] ?? key.toUpperCase();
                     return DropdownMenuItem<String>(
                       value: key,
-                      child: Text('Latihan Soal - $title $index'),
+                      child: Text('Soal - $title $index'),
                     );
                   }).toList(),
                 ),
@@ -290,19 +290,12 @@ class _DashboardQuetionViewState extends State<DashboardQuetionView> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text( // Added const
+                          Text(
                             'Latihan Soal',
                             style: TextStyle(
                               fontSize: 12,
                               color: Color(0xFF6A5AE0),
-                            ),
-                          ),
-                          Text(
-                            'Durasi: ${(selectedQuiz['duration'] / 60).round()} Menit',
-                            style: const TextStyle( // Added const
-                              fontSize: 12,
-                              fontWeight: FontWeight.w600,
-                              color: Color(0xFF6A5AE0),
+                              fontWeight: FontWeight.w600
                             ),
                           ),
                         ],
@@ -321,9 +314,9 @@ class _DashboardQuetionViewState extends State<DashboardQuetionView> {
                   ),
                 ),
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 20), // Added const
-                  margin: const EdgeInsets.only(bottom: 8), // Added const
-                  child: const Align( // Added const
+                  padding: EdgeInsets.symmetric(horizontal: 20),
+                  margin: EdgeInsets.only(bottom: 8),
+                  child: Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
                       'Jumlah Soal',
@@ -369,8 +362,7 @@ class _DashboardQuetionViewState extends State<DashboardQuetionView> {
                         context,
                         MaterialPageRoute(
                           builder: (_) => QuizView(
-                            quizData: allQuizzes,
-                            duration: selectedQuiz['duration'], // Pass the duration here
+                            quizData: allQuizzes
                           ),
                         ),
                       );

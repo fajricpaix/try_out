@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'dart:async'; // Import for Timer
 import 'package:try_out/widgets/modal/confirmation_dialog.dart';
 import 'package:try_out/widgets/modal/quiz.dart';
 import 'package:try_out/widgets/tools/select_quiz_button.dart';
@@ -7,9 +6,8 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 class QuizView extends StatefulWidget {
   final List<dynamic> quizData;
-  final int duration; // Duration in seconds
 
-  const QuizView({super.key, required this.quizData, required this.duration});
+  const QuizView({super.key, required this.quizData});
 
   @override
   State<QuizView> createState() => _QuizViewState();
@@ -22,10 +20,6 @@ class _QuizViewState extends State<QuizView> {
   List<int?> _selectedScores = []; // New: To store scores for TKP questions
   List<bool> _answeredStatus = [];
   bool _isLoading = true;
-
-  // Timer variables
-  late Timer _timer;
-  int _remainingSeconds = 0;
 
   // Ads
   InterstitialAd? _interstitialAd;
@@ -69,50 +63,6 @@ class _QuizViewState extends State<QuizView> {
     super.initState();
     _loadQuizData();
     _loadInterstitialAd();
-    _remainingSeconds = widget.duration; // Initialize with the passed duration
-    _startTimer(); // Start the timer when the widget initializes
-  }
-
-  @override
-  void dispose() {
-    _timer.cancel(); // Cancel the timer to prevent memory leaks
-    _interstitialAd?.dispose();
-    super.dispose();
-  }
-
-  void _startTimer() {
-    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      if (_remainingSeconds > 0) {
-        setState(() {
-          _remainingSeconds--;
-        });
-      } else {
-        _timer.cancel();
-        // TODO: Handle what happens when the timer runs out (e.g., submit quiz, show results)
-        _showTimeUpDialog(); // Example: Show a dialog
-      }
-    });
-  }
-
-  void _showTimeUpDialog() {
-    showDialog(
-      context: context,
-      barrierDismissible: false, // User must tap a button to dismiss
-      builder: (context) => AlertDialog(
-        title: const Text('Waktu Habis!'),
-        content: const Text('Waktu pengerjaan soal telah berakhir.'),
-        actions: <Widget>[
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop(); // Dismiss the dialog
-              Navigator.of(context).pop(); // Go back to the previous screen
-              // TODO: Implement quiz submission logic here
-            },
-            child: const Text('OK'),
-          ),
-        ],
-      ),
-    );
   }
 
   void _loadQuizData() {
@@ -169,17 +119,10 @@ class _QuizViewState extends State<QuizView> {
     }
   }
 
-  // Helper to format time (HH:MM:SS)
-  String _formatTime(int totalSeconds) {
-    final int hours = totalSeconds ~/ 3600;
-    final int minutes = (totalSeconds % 3600) ~/ 60;
-    final int seconds = totalSeconds % 60;
-
-    String hoursStr = hours.toString().padLeft(2, '0');
-    String minutesStr = minutes.toString().padLeft(2, '0');
-    String secondsStr = seconds.toString().padLeft(2, '0');
-
-    return '$hoursStr:$minutesStr:$secondsStr';
+  @override
+  void dispose() {
+    _interstitialAd?.dispose();
+    super.dispose();
   }
 
   @override
@@ -287,14 +230,7 @@ class _QuizViewState extends State<QuizView> {
                               style: const TextStyle(
                                 fontWeight: FontWeight.bold,
                               ),
-                            ),
-                            Text(
-                              _formatTime(_remainingSeconds),
-                              style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w600
-                              ),
-                            ),
+                            )
                           ]
                         ),
                         const SizedBox(height: 8),
