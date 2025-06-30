@@ -890,5 +890,808 @@
         ]
       }
     ]
+  },
+  "4": {
+    "type": "training",
+    "level": "Mudah",
+    "title": "Simulasi CPNS",
+    "desc": "Dekripsi tentang simulasi tes",
+    "duration": 6000,
+    "passing_grade": 100,
+    "category": [
+      {
+        "title": "twk",
+        "quiz": [
+          {
+        "question": {
+          "text": "Apa makna semboyan 'Bhinneka Tunggal Ika' bagi bangsa Indonesia?"
+        },
+        "options": [
+          {
+            "label": "A",
+            "text": "Menunjukkan dominasi satu budaya"
+          },
+          {
+            "label": "B",
+            "text": "Perbedaan harus dihilangkan"
+          },
+          {
+            "label": "C",
+            "text": "Mempersatukan perbedaan dalam keragaman"
+          },
+          {
+            "label": "D",
+            "text": "Mengutamakan budaya lokal"
+          },
+          {
+            "label": "E",
+            "text": "Menolak pengaruh budaya asing"
+          }
+        ],
+        "answer": "C",
+        "explanation": "Semboyan 'Bhinneka Tunggal Ika' berarti berbeda-beda tetapi tetap satu. Ini mencerminkan semangat persatuan dalam keragaman budaya, suku, agama, dan bahasa di Indonesia."
+          },
+          {
+            "question": {
+              "text": "Salah satu wujud nilai luhur Pancasila dalam kehidupan sehari-hari adalah..."
+            },
+            "options": [
+              {
+                "label": "A",
+                "text": "Mengutamakan kepentingan pribadi"
+              },
+              {
+                "label": "B",
+                "text": "Menjunjung tinggi musyawarah untuk mufakat"
+              },
+              {
+                "label": "C",
+                "text": "Menghindari perbedaan pendapat"
+              },
+              {
+                "label": "D",
+                "text": "Mendahulukan golongan sendiri"
+              },
+              {
+                "label": "E",
+                "text": "Bersikap pasif dalam lingkungan sosial"
+              }
+            ],
+            "answer": "B",
+            "explanation": "Musyawarah untuk mufakat merupakan pengejawantahan sila keempat Pancasila dalam pengambilan keputusan bersama."
+          },
+          {
+            "question": {
+              "text": "Lembaga yang memiliki kewenangan menguji undang-undang terhadap UUD 1945 adalah..."
+            },
+            "options": [
+              {
+                "label": "A",
+                "text": "DPR"
+              },
+              {
+                "label": "B",
+                "text": "MA"
+              },
+              {
+                "label": "C",
+                "text": "MK"
+              },
+              {
+                "label": "D",
+                "text": "Presiden"
+              },
+              {
+                "label": "E",
+                "text": "MPR"
+              }
+            ],
+            "answer": "C",
+            "explanation": "Mahkamah Konstitusi (MK) memiliki kewenangan menguji undang-undang terhadap Undang-Undang Dasar Negara Republik Indonesia Tahun 1945 (UUD 1945)."
+          },
+          {
+            "question": {
+              "text": "Apa isi pokok dari sila keempat Pancasila?"
+            },
+            "options": [
+              {
+                "label": "A",
+                "text": "Menjunjung tinggi hak asasi manusia"
+              },
+              {
+                "label": "B",
+                "text": "Kedaulatan di tangan rakyat"
+              },
+              {
+                "label": "C",
+                "text": "Keadilan bagi seluruh rakyat Indonesia"
+              },
+              {
+                "label": "D",
+                "text": "Persatuan dalam keberagaman"
+              },
+              {
+                "label": "E",
+                "text": "Ketuhanan Yang Maha Esa"
+              }
+            ],
+            "answer": "B",
+            "explanation": "Sila keempat berbunyi 'Kerakyatan yang dipimpin oleh hikmat kebijaksanaan dalam permusyawaratan/perwakilan', yang berarti kedaulatan berada di tangan rakyat."
+          },
+          {
+            "question": {
+              "text": "Negara Indonesia adalah negara hukum. Hal ini tercantum dalam UUD 1945 Pasal..."
+            },
+            "options": [
+              {
+                "label": "A",
+                "text": "Pasal 1 ayat 1"
+              },
+              {
+                "label": "B",
+                "text": "Pasal 1 ayat 2"
+              },
+              {
+                "label": "C",
+                "text": "Pasal 1 ayat 3"
+              },
+              {
+                "label": "D",
+                "text": "Pasal 2 ayat 1"
+              },
+              {
+                "label": "E",
+                "text": "Pasal 2 ayat 2"
+              }
+            ],
+            "answer": "C",
+            "explanation": "Pasal 1 ayat (3) UUD 1945 menyatakan bahwa 'Negara Indonesia adalah negara hukum'."
+          },
+          {
+            "question": {
+              "text": "Sistem pemerintahan Indonesia berdasarkan UUD 1945 adalah..."
+            },
+            "options": [
+              {
+                "label": "A",
+                "text": "Monarki Parlementer"
+              },
+              {
+                "label": "B",
+                "text": "Presidensial"
+              },
+              {
+                "label": "C",
+                "text": "Parlementer"
+              },
+              {
+                "label": "D",
+                "text": "Konfederasi"
+              },
+              {
+                "label": "E",
+                "text": "Feodal"
+              }
+            ],
+            "answer": "B",
+            "explanation": "Indonesia menganut sistem pemerintahan presidensial, di mana presiden adalah kepala negara sekaligus kepala pemerintahan."
+          },
+          {
+            "question": {
+              "text": "Berikut ini merupakan bentuk ancaman nonmiliter, kecuali..."
+            },
+            "options": [
+              {
+                "label": "A",
+                "text": "Ancaman budaya asing"
+              },
+              {
+                "label": "B",
+                "text": "Penyelundupan narkoba"
+              },
+              {
+                "label": "C",
+                "text": "Pemberontakan bersenjata"
+              },
+              {
+                "label": "D",
+                "text": "Terorisme digital"
+              },
+              {
+                "label": "E",
+                "text": "Hoaks dan disinformasi"
+              }
+            ],
+            "answer": "C",
+            "explanation": "Pemberontakan bersenjata merupakan bentuk ancaman militer, bukan nonmiliter."
+          },
+          {
+            "question": {
+              "text": "Berikut ini merupakan asas hubungan internasional Indonesia, kecuali..."
+            },
+            "options": [
+              {
+                "label": "A",
+                "text": "Kemerdekaan"
+              },
+              {
+                "label": "B",
+                "text": "Perdamaian abadi"
+              },
+              {
+                "label": "C",
+                "text": "Dominasi militer"
+              },
+              {
+                "label": "D",
+                "text": "Keadilan sosial"
+              },
+              {
+                "label": "E",
+                "text": "Persamaan derajat"
+              }
+            ],
+            "answer": "C",
+            "explanation": "Dominasi militer bukan asas hubungan internasional Indonesia. Indonesia menjunjung asas kemerdekaan, perdamaian abadi, dan keadilan sosial."
+          },
+          {
+            "question": {
+              "text": "Tujuan pembentukan NKRI tertuang dalam Pembukaan UUD 1945 alinea ke..."
+            },
+            "options": [
+              {
+                "label": "A",
+                "text": "Pertama"
+              },
+              {
+                "label": "B",
+                "text": "Kedua"
+              },
+              {
+                "label": "C",
+                "text": "Ketiga"
+              },
+              {
+                "label": "D",
+                "text": "Keempat"
+              },
+              {
+                "label": "E",
+                "text": "Kelima"
+              }
+            ],
+            "answer": "D",
+            "explanation": "Alinea keempat Pembukaan UUD 1945 memuat tujuan pembentukan negara Indonesia."
+          },
+          {
+            "question": {
+              "text": "Makna dari demokrasi Pancasila adalah..."
+            },
+            "options": [
+              {
+                "label": "A",
+                "text": "Demokrasi liberal tanpa batas"
+              },
+              {
+                "label": "B",
+                "text": "Demokrasi yang menekankan kekuasaan absolut"
+              },
+              {
+                "label": "C",
+                "text": "Demokrasi yang berlandaskan musyawarah dan moral Pancasila"
+              },
+              {
+                "label": "D",
+                "text": "Demokrasi berdasarkan kekuatan militer"
+              },
+              {
+                "label": "E",
+                "text": "Demokrasi yang meniadakan perbedaan pendapat"
+              }
+            ],
+            "answer": "C",
+            "explanation": "Demokrasi Pancasila adalah demokrasi yang berlandaskan nilai-nilai Pancasila, termasuk musyawarah, keadilan sosial, dan kemanusiaan."
+          }
+        ]
+      },
+      {
+        "title": "tiu",
+        "quiz": [
+          {
+        "question": {
+          "text": "Antonim dari kata 'abstain' adalah..."
+        },
+        "options": [
+          {
+            "label": "A",
+            "text": "Netral"
+          },
+          {
+            "label": "B",
+            "text": "Ikut serta"
+          },
+          {
+            "label": "C",
+            "text": "Menolak"
+          },
+          {
+            "label": "D",
+            "text": "Acuh"
+          },
+          {
+            "label": "E",
+            "text": "Diam"
+          }
+        ],
+        "answer": "B",
+        "explanation": "'Abstain' berarti tidak ikut serta atau bersikap netral, sehingga lawannya adalah 'ikut serta'."
+          },
+          {
+            "question": {
+              "text": "Jika hari ini adalah Kamis, maka 12 hari kemudian adalah hari..."
+            },
+            "options": [
+              {
+                "label": "A",
+                "text": "Senin"
+              },
+              {
+                "label": "B",
+                "text": "Selasa"
+              },
+              {
+                "label": "C",
+                "text": "Rabu"
+              },
+              {
+                "label": "D",
+                "text": "Kamis"
+              },
+              {
+                "label": "E",
+                "text": "Jumat"
+              }
+            ],
+            "answer": "A",
+            "explanation": "12 mod 7 = 5; Kamis + 5 hari = Senin."
+          },
+          {
+            "question": {
+              "text": "Bentuk sederhana dari (3x + 2)(2x - 5) adalah..."
+            },
+            "options": [
+              {
+                "label": "A",
+                "text": "6x² - 15x + 4"
+              },
+              {
+                "label": "B",
+                "text": "6x² - 11x - 10"
+              },
+              {
+                "label": "C",
+                "text": "6x² - 11x + 4"
+              },
+              {
+                "label": "D",
+                "text": "6x² - x - 10"
+              },
+              {
+                "label": "E",
+                "text": "5x² - 13x + 2"
+              }
+            ],
+            "answer": "B",
+            "explanation": "(3x)(2x) = 6x², (3x)(-5) = -15x, (2)(2x) = 4x, (2)(-5) = -10; total: 6x² -11x -10"
+          },
+          {
+            "question": {
+              "text": "Jumlah dari 25 + 36 + 49 adalah..."
+            },
+            "options": [
+              {
+                "label": "A",
+                "text": "110"
+              },
+              {
+                "label": "B",
+                "text": "112"
+              },
+              {
+                "label": "C",
+                "text": "115"
+              },
+              {
+                "label": "D",
+                "text": "120"
+              },
+              {
+                "label": "E",
+                "text": "125"
+              }
+            ],
+            "answer": "B",
+            "explanation": "25 + 36 = 61, 61 + 49 = 110"
+          },
+          {
+            "question": {
+              "text": "Sebuah toko memberikan diskon 20% dari harga Rp150.000. Harga setelah diskon adalah..."
+            },
+            "options": [
+              {
+                "label": "A",
+                "text": "Rp120.000"
+              },
+              {
+                "label": "B",
+                "text": "Rp125.000"
+              },
+              {
+                "label": "C",
+                "text": "Rp130.000"
+              },
+              {
+                "label": "D",
+                "text": "Rp135.000"
+              },
+              {
+                "label": "E",
+                "text": "Rp140.000"
+              }
+            ],
+            "answer": "A",
+            "explanation": "Diskon: 20% × 150.000 = 30.000, maka harga = 150.000 - 30.000 = 120.000"
+          },
+          {
+            "question": {
+              "text": "Jika 3x – 5 = 16, maka nilai x adalah..."
+            },
+            "options": [
+              {
+                "label": "A",
+                "text": "5"
+              },
+              {
+                "label": "B",
+                "text": "6"
+              },
+              {
+                "label": "C",
+                "text": "7"
+              },
+              {
+                "label": "D",
+                "text": "8"
+              },
+              {
+                "label": "E",
+                "text": "9"
+              }
+            ],
+            "answer": "C",
+            "explanation": "3x = 21 → x = 7"
+          },
+          {
+            "question": {
+              "text": "Kata yang memiliki hubungan serupa dengan: 'Dokter : Pasien' adalah..."
+            },
+            "options": [
+              {
+                "label": "A",
+                "text": "Guru : Murid"
+              },
+              {
+                "label": "B",
+                "text": "Supir : Jalan"
+              },
+              {
+                "label": "C",
+                "text": "Pemain : Bola"
+              },
+              {
+                "label": "D",
+                "text": "Pilot : Pesawat"
+              },
+              {
+                "label": "E",
+                "text": "Koki : Makanan"
+              }
+            ],
+            "answer": "A",
+            "explanation": "Dokter berhubungan dengan pasien, seperti guru berhubungan dengan murid."
+          },
+          {
+            "question": {
+              "text": "2, 4, 8, 16, ..., ..."
+            },
+            "options": [
+              {
+                "label": "A",
+                "text": "24, 32"
+              },
+              {
+                "label": "B",
+                "text": "32, 64"
+              },
+              {
+                "label": "C",
+                "text": "24, 48"
+              },
+              {
+                "label": "D",
+                "text": "30, 60"
+              },
+              {
+                "label": "E",
+                "text": "20, 40"
+              }
+            ],
+            "answer": "B",
+            "explanation": "Pola: dikali 2 → 2, 4, 8, 16, 32, 64"
+          }
+        ]
+      },
+      {
+        "title": "tkp",
+        "quiz": [
+          {
+        "question": {
+          "text": "Jon diminta oleh rekan kerja dari bagian lain untuk mengajarkan pembuatan laporan keuangan dengan metode lama. Padahal, metode tersebut sudah diganti dengan metode yang lebih baru. Dibutuhkan waktu yang lama untuk mengajari padahal Jon sedang ada tugas mendesak. Apakah yang sebaiknya dilakukan Jon?"
+        },
+        "options": [
+          {
+            "label": "A",
+            "text": "Mengajari metode lama karena itu yang diminta oleh rekan untuk dipelajari.",
+            "score": 2
+          },
+          {
+            "label": "B",
+            "text": "Tidak bersedia mengajari karena metode lama tidak dipakai lagi, akan buang-buang waktu.",
+            "score": 1
+          },
+          {
+            "label": "C",
+            "text": "Memberikan modul metode lama kepada rekan untuk dipelajari sendiri",
+            "score": 3
+          },
+          {
+            "label": "D",
+            "text": "Menginformasikan bahwa itu adalah metode lama dan menyarankan menggunakan metode baru.",
+            "score": 4
+          },
+          {
+            "label": "E",
+            "text": "Menginformasikan bahwa itu adalah metode lama dan segera mencari waktu untuk mengajarkan",
+            "score": 5
+          }
+        ]
+          },
+          {
+            "question": {
+              "text": "Dalam suatu rapat tim, pendapat Anda berbeda dengan mayoritas anggota. Apa yang akan Anda lakukan?"
+            },
+            "options": [
+              {
+                "label": "A",
+                "text": "Menyetujui pendapat mayoritas agar cepat selesai",
+                "score": 2
+              },
+              {
+                "label": "B",
+                "text": "Mengemukakan pendapat secara logis meskipun berbeda",
+                "score": 5
+              },
+              {
+                "label": "C",
+                "text": "Diam saja dan mengikuti keputusan akhir",
+                "score": 1
+              },
+              {
+                "label": "D",
+                "text": "Mengemukakan pendapat jika didukung oleh atasan",
+                "score": 3
+              },
+              {
+                "label": "E",
+                "text": "Menanyakan apakah ada ruang untuk alternatif lain",
+                "score": 4
+              }
+            ]
+          },
+          {
+            "question": {
+              "text": "Atasan Anda memberikan tugas yang sangat mendesak, sementara Anda sudah merencanakan kegiatan penting dengan keluarga. Apa tindakan Anda?"
+            },
+            "options": [
+              {
+                "label": "A",
+                "text": "Menolak tugas karena sudah ada rencana pribadi",
+                "score": 1
+              },
+              {
+                "label": "B",
+                "text": "Menerima tugas, tetapi dengan setengah hati",
+                "score": 2
+              },
+              {
+                "label": "C",
+                "text": "Mencari rekan untuk menggantikan sementara",
+                "score": 3
+              },
+              {
+                "label": "D",
+                "text": "Menunda kegiatan pribadi demi menyelesaikan tugas",
+                "score": 4
+              },
+              {
+                "label": "E",
+                "text": "Mengkomunikasikan dengan atasan untuk mencari solusi terbaik",
+                "score": 5
+              }
+            ]
+          },
+          {
+            "question": {
+              "text": "Anda melihat rekan kerja melakukan kesalahan yang bisa merugikan organisasi. Apa yang Anda lakukan?"
+            },
+            "options": [
+              {
+                "label": "A",
+                "text": "Membiarkan saja, bukan urusan saya",
+                "score": 1
+              },
+              {
+                "label": "B",
+                "text": "Mengingatkan secara pribadi agar tidak mengulangi",
+                "score": 4
+              },
+              {
+                "label": "C",
+                "text": "Melaporkan langsung kepada atasan",
+                "score": 3
+              },
+              {
+                "label": "D",
+                "text": "Menegurnya di depan umum agar jera",
+                "score": 2
+              },
+              {
+                "label": "E",
+                "text": "Mengajak diskusi untuk memahami dan memperbaiki kesalahan",
+                "score": 5
+              }
+            ]
+          },
+          {
+            "question": {
+              "text": "Saat sedang sibuk bekerja, seorang rekan meminta bantuan Anda untuk pekerjaan yang tidak menjadi tanggung jawab Anda. Apa yang Anda lakukan?"
+            },
+            "options": [
+              {
+                "label": "A",
+                "text": "Menolak langsung tanpa alasan",
+                "score": 1
+              },
+              {
+                "label": "B",
+                "text": "Mengabaikannya karena bukan urusan saya",
+                "score": 2
+              },
+              {
+                "label": "C",
+                "text": "Membantu jika pekerjaan saya telah selesai",
+                "score": 4
+              },
+              {
+                "label": "D",
+                "text": "Menawarkan bantuan jika pekerjaan penting telah selesai",
+                "score": 5
+              },
+              {
+                "label": "E",
+                "text": "Langsung membantu meski pekerjaan sendiri terbengkalai",
+                "score": 3
+              }
+            ]
+          },
+          {
+            "question": {
+              "text": "Rekan kerja Anda sering datang terlambat dan meminta Anda menutupi ketidakhadirannya. Apa yang Anda lakukan?"
+            },
+            "options": [
+              {
+                "label": "A",
+                "text": "Menolak dan menyarankan untuk disiplin",
+                "score": 5
+              },
+              {
+                "label": "B",
+                "text": "Menutupi karena sudah menjadi teman dekat",
+                "score": 1
+              },
+              {
+                "label": "C",
+                "text": "Membantu kali ini saja",
+                "score": 2
+              },
+              {
+                "label": "D",
+                "text": "Menasehatinya secara pribadi lalu membantu sekali",
+                "score": 3
+              },
+              {
+                "label": "E",
+                "text": "Melaporkan ke atasan tanpa memberi tahu rekan",
+                "score": 4
+              }
+            ]
+          },
+          {
+            "question": {
+              "text": "Anda diminta menjadi ketua tim untuk proyek baru, tetapi belum ada pengalaman memimpin. Apa yang Anda lakukan?"
+            },
+            "options": [
+              {
+                "label": "A",
+                "text": "Menolak karena merasa tidak mampu",
+                "score": 1
+              },
+              {
+                "label": "B",
+                "text": "Menerima dengan terbuka dan belajar sambil menjalani",
+                "score": 5
+              },
+              {
+                "label": "C",
+                "text": "Menyerahkan kepada orang lain yang lebih berpengalaman",
+                "score": 2
+              },
+              {
+                "label": "D",
+                "text": "Bertanya kepada atasan apakah ada pelatihan dahulu",
+                "score": 4
+              },
+              {
+                "label": "E",
+                "text": "Menerima sambil meminta bimbingan dari yang berpengalaman",
+                "score": 5
+              }
+            ]
+          },
+          {
+            "question": {
+              "text": "Proyek yang Anda kerjakan gagal karena faktor eksternal. Atasan marah dan menyalahkan Anda. Apa sikap Anda?"
+            },
+            "options": [
+              {
+                "label": "A",
+                "text": "Membela diri dan menyalahkan faktor luar",
+                "score": 2
+              },
+              {
+                "label": "B",
+                "text": "Diam dan menerima dengan pasrah",
+                "score": 1
+              },
+              {
+                "label": "C",
+                "text": "Menerima kritik dan mengevaluasi untuk perbaikan",
+                "score": 5
+              },
+              {
+                "label": "D",
+                "text": "Meminta bantuan rekan untuk membela Anda",
+                "score": 3
+              },
+              {
+                "label": "E",
+                "text": "Membalas kritik dengan emosi",
+                "score": 1
+              }
+            ]
+          }
+        ]
+      }
+    ]
   }
 }

@@ -77,10 +77,20 @@ class _SimulationViewState extends State<SimulationView> {
     final String jsonStr = await rootBundle.loadString(
       'assets/json/try_out.json',
     );
-    final Map<String, dynamic> jsonData = json.decode(jsonStr);
+    final Map<String, dynamic> rawJsonData = json.decode(jsonStr);
+    
+    // Filter the data to include only entries with "type": "simulasi"
+    Map<String, dynamic> filteredData = {};
+    rawJsonData.forEach((key, value) {
+      if (value is Map<String, dynamic> && value['type'] == 'simulasi') {
+        filteredData[key] = value;
+      }
+    });
+
     setState(() {
-      data = jsonData;
-      selectedKey = data.keys.first;
+      data = filteredData;
+      // Set selectedKey to the first key of the filtered data
+      selectedKey = data.keys.isNotEmpty ? data.keys.first : null;
     });
   }
 
@@ -126,8 +136,8 @@ class _SimulationViewState extends State<SimulationView> {
               height: 250,
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20),
             child: Align(
               alignment: Alignment.centerLeft,
               child: Text(
@@ -140,14 +150,14 @@ class _SimulationViewState extends State<SimulationView> {
             ),
           ),
           Container(
-            margin: EdgeInsets.only(left: 20, right: 20, top: 8),
-            padding: EdgeInsets.symmetric(horizontal: 20),
+            margin: const EdgeInsets.only(left: 20, right: 20, top: 8),
+            padding: const EdgeInsets.symmetric(horizontal: 20),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(12),
             ),
             child: DropdownButton<String>(
-              underline: SizedBox(),
+              underline: const SizedBox(),
               isExpanded: true,
               value: selectedKey,
               icon: const Icon(Icons.arrow_drop_down, color: Color(0xFF6A5AE0)),
