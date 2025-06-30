@@ -74,37 +74,43 @@ class _DashboardQuetionViewState extends State<DashboardQuetionView> {
   }
 
   Future<void> _loadQuizData() async {
-    try {
-      final String response = await rootBundle.loadString('assets/json/try_out.json');
-      final Map<String, dynamic> rawData = json.decode(response);
+  try {
+    final String response = await rootBundle.loadString('assets/json/try_out.json');
+    final Map<String, dynamic> rawData = json.decode(response);
 
-      final filteredData = <String, dynamic>{};
-      for (final entry in rawData.entries) {
+    // Access the 'cpns' key first
+    final Map<String, dynamic>? cpnsData = rawData['cpns'];
+
+    final filteredData = <String, dynamic>{};
+
+    if (cpnsData != null) {
+      for (final entry in cpnsData.entries) { // Iterate through the entries within 'cpns'
         if (entry.value is Map<String, dynamic> &&
             entry.value.containsKey('level') &&
-            entry.value.containsKey('type')) { // Check for 'type' key
+            entry.value.containsKey('type')) {
           if (entry.value['level'] == widget.level &&
-              entry.value['type'] == 'training') { // Filter by 'type': 'training'
+              entry.value['type'] == 'training') {
             filteredData[entry.key] = entry.value;
           }
         }
       }
-
-      setState(() {
-        quizData = filteredData;
-        _isLoading = false;
-        // Set the initial selected quiz to the first one if data exists
-        if (quizData != null && quizData!.isNotEmpty) {
-          _selectedQuizKey = quizData!.keys.first;
-        }
-      });
-    } catch (e) {
-      setState(() {
-        _error = 'Gagal memuat soal: $e';
-        _isLoading = false;
-      });
     }
+
+    setState(() {
+      quizData = filteredData;
+      _isLoading = false;
+      // Set the initial selected quiz to the first one if data exists
+      if (quizData != null && quizData!.isNotEmpty) {
+        _selectedQuizKey = quizData!.keys.first;
+      }
+    });
+  } catch (e) {
+    setState(() {
+      _error = 'Gagal memuat soal: $e';
+      _isLoading = false;
+    });
   }
+}
 
   // Helper function to get all questions from all categories of a selected package
   List<dynamic> _getAllQuizzes(Map<String, dynamic> selectedPackage) {

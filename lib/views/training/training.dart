@@ -9,7 +9,8 @@ class TrainingView extends StatelessWidget {
 
   Future<Map<String, dynamic>> loadSoalData() async {
     final jsonString = await rootBundle.loadString('assets/json/try_out.json');
-    return json.decode(jsonString);
+    final Map<String, dynamic> decodedData = json.decode(jsonString);
+    return decodedData['cpns'] ?? {};
   }
 
   @override

@@ -74,25 +74,31 @@ class _SimulationViewState extends State<SimulationView> {
   }
 
   Future<void> loadJson() async {
-    final String jsonStr = await rootBundle.loadString(
-      'assets/json/try_out.json',
-    );
-    final Map<String, dynamic> rawJsonData = json.decode(jsonStr);
-    
-    // Filter the data to include only entries with "type": "simulasi"
-    Map<String, dynamic> filteredData = {};
-    rawJsonData.forEach((key, value) {
+  final String jsonStr = await rootBundle.loadString(
+    'assets/json/try_out.json',
+  );
+  final Map<String, dynamic> rawJsonData = json.decode(jsonStr);
+
+  // Access the 'cpns' key first
+  final Map<String, dynamic>? cpnsData = rawJsonData['cpns'];
+
+  Map<String, dynamic> filteredData = {};
+
+  // Only proceed if 'cpnsData' is not null
+  if (cpnsData != null) {
+    cpnsData.forEach((key, value) {
       if (value is Map<String, dynamic> && value['type'] == 'simulasi') {
         filteredData[key] = value;
       }
     });
-
-    setState(() {
-      data = filteredData;
-      // Set selectedKey to the first key of the filtered data
-      selectedKey = data.keys.isNotEmpty ? data.keys.first : null;
-    });
   }
+
+  setState(() {
+    data = filteredData;
+    // Set selectedKey to the first key of the filtered data
+    selectedKey = data.keys.isNotEmpty ? data.keys.first : null;
+  });
+}
 
   @override
   Widget build(BuildContext context) {
