@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:shared_preferences/shared_preferences.dart'; // Import SharedPreferences
 
-class ScoreSummaryPage extends StatelessWidget {
+class ScoreSummaryPage extends StatefulWidget {
   final List<Map<String, dynamic>> userAnswers;
   final int totalQuestions;
   final int twkScore;
@@ -18,9 +20,94 @@ class ScoreSummaryPage extends StatelessWidget {
     required this.allQuizQuestions,
   });
 
+  @override
+  State<ScoreSummaryPage> createState() => _ScoreSummaryPageState();
+}
+
+class _ScoreSummaryPageState extends State<ScoreSummaryPage> {
+  InterstitialAd? _interstitialAd;
+  static const String _lastAdShownKey = 'lastScoreSummaryAdShownTime'; // Key for SharedPreferences
+
+  // Banner Ad variables
+  BannerAd? _bannerAd;
+  bool _isBannerAdLoaded = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadInterstitialAd(); // Attempt to load and show ad when the page initializes
+    _loadBannerAd(); // Load banner ad
+  }
+
+  void _loadInterstitialAd() async {
+    final prefs = await SharedPreferences.getInstance();
+    final lastAdShown = prefs.getInt(_lastAdShownKey) ?? 0;
+    final currentTime = DateTime.now().millisecondsSinceEpoch;
+    const fiveMinutesInMillis = 5 * 60 * 1000; // 5 minutes in milliseconds
+
+    if (currentTime - lastAdShown < fiveMinutesInMillis) {
+      debugPrint('Interstitial ad on ScoreSummaryPage not shown, less than 5 minutes since last show.');
+      return; // Don't show ad if less than 5 minutes have passed
+    }
+
+    InterstitialAd.load(
+      // Dev ID
+      adUnitId: 'ca-app-pub-3940256099942544/1033173712', // TEST ID, replace with real one
+      // Production ID
+      // adUnitId = 'ca-app-pub-2602479093941928/9052001071';
+      request: const AdRequest(),
+      adLoadCallback: InterstitialAdLoadCallback(
+        onAdLoaded: (ad) {
+          _interstitialAd = ad;
+          _interstitialAd!.fullScreenContentCallback = FullScreenContentCallback(
+            onAdDismissedFullScreenContent: (ad) {
+              ad.dispose();
+              // Update the last ad shown time after the ad is dismissed
+              prefs.setInt(_lastAdShownKey, DateTime.now().millisecondsSinceEpoch);
+            },
+            onAdFailedToShowFullScreenContent: (ad, error) {
+              ad.dispose();
+              debugPrint('InterstitialAd failed to show on ScoreSummaryPage: $error');
+            },
+          );
+          _interstitialAd!.show(); // Show ad if time constraint is met
+        },
+        onAdFailedToLoad: (error) {
+          debugPrint('InterstitialAd failed to load on ScoreSummaryPage: $error');
+        },
+      ),
+    );
+  }
+
+  // Method to load the banner ad
+  void _loadBannerAd() {
+    _bannerAd = BannerAd(
+      adUnitId: 'ca-app-pub-3940256099942544/6300978111', // TEST ID for Banner
+      request: const AdRequest(),
+      size: AdSize.banner,
+      listener: BannerAdListener(
+        onAdLoaded: (ad) {
+          setState(() {
+            _isBannerAdLoaded = true;
+          });
+        },
+        onAdFailedToLoad: (ad, error) {
+          ad.dispose();
+          debugPrint('BannerAd failed to load: $error');
+        },
+      ),
+    );
+    _bannerAd!.load();
+  }
+
+  @override
+  void dispose() {
+    _interstitialAd?.dispose();
+    super.dispose();
+  }
+
   // Helper function to format the answer text with option letter and content.
   String _getFormattedOptionText(String label, List<dynamic> options) {
-    // Check if the options list is not null and not empty
     if (options.isNotEmpty) {
       final option = options.firstWhere(
         (opt) => opt['label'] == label,
@@ -33,6 +120,129 @@ class ScoreSummaryPage extends StatelessWidget {
     return label; // Fallback if option text isn't found or options are invalid
   }
 
+  // Helper widget to build a count display box (Correct, Incorrect, Unanswered)
+  Widget _buildCountBox(String title, int count, Color color) {
+    return Expanded(
+      child: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 4),
+        padding: const EdgeInsets.symmetric(vertical: 8),
+        decoration: BoxDecoration(
+          // ignore: deprecated_member_use
+          color: color.withOpacity(0.1),
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(color: color, width: 1),
+        ),
+        child: Column(
+          children: [
+            Text(
+              count.toString(),
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: color,
+              ),
+            ),
+            Text(title, style: TextStyle(fontSize: 14, color: color)),
+          ],
+        ),
+      ),
+    );
+  }
+
+  // Helper widget to display a row for user's answer or correct answer
+  Widget _buildAnswerRow(String label, String value, Color valueColor) {
+    List<String> parts = value.split('. ');
+    String optionLabelDisplay = '';
+    String optionTextDisplay = value;
+
+    if (parts.length > 1) {
+      optionLabelDisplay = '${parts[0]}.';
+      optionTextDisplay = parts.sublist(1).join('. ');
+    } else {
+      optionTextDisplay = value;
+    }
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          style: const TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.bold,
+            color: Colors.black87,
+          ),
+        ),
+        const SizedBox(height: 4),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            if (optionLabelDisplay.isNotEmpty && optionLabelDisplay != value) ...[
+              Text(
+                optionLabelDisplay,
+                style: const TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              const SizedBox(width: 8),
+            ],
+            Expanded(
+              child: Container(
+                padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 10),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(6),
+                  color: valueColor,
+                ),
+                child: Text(
+                  optionTextDisplay,
+                  style: const TextStyle(
+                    fontSize: 14,
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  // Helper widget to display the TKP score for a specific question
+  Widget _buildScoreRow(String label, int score) {
+    return Row(
+      children: [
+        Text(
+          label,
+          style: const TextStyle(
+            fontWeight: FontWeight.bold,
+            color: Colors.black87,
+          ),
+        ),
+        const SizedBox(width: 8),
+        Container(
+          width: 24,
+          height: 24,
+          decoration: BoxDecoration(
+            color: const Color(0xFF6A5AE0),
+            borderRadius: BorderRadius.circular(6),
+          ),
+          child: Center(
+            child: Text(
+              score.toString(),
+              style: const TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     int correctCount = 0;
@@ -41,12 +251,12 @@ class ScoreSummaryPage extends StatelessWidget {
 
     // Create a map for quick lookup of user answers by overallIndex
     final Map<int, Map<String, dynamic>> userAnswersMap = {
-      for (var ans in userAnswers) (ans['overallIndex'] as int): ans,
+      for (var ans in widget.userAnswers) (ans['overallIndex'] as int): ans,
     };
 
     // Calculate counts for correct, incorrect, and unanswered questions
-    for (int i = 0; i < allQuizQuestions.length; i++) {
-      final currentQuestion = allQuizQuestions[i];
+    for (int i = 0; i < widget.allQuizQuestions.length; i++) {
+      final currentQuestion = widget.allQuizQuestions[i];
       final questionCategory = currentQuestion['category'] as String?;
       final userAnswerForThisQuestion =
           userAnswersMap[i]; // Get user's saved answer for this question index
@@ -86,7 +296,7 @@ class ScoreSummaryPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(height: 12),
-            Text(
+            const Text(
               'Hasil Jawaban TWK & TIU:',
               style: TextStyle(
                 fontSize: 20,
@@ -94,7 +304,7 @@ class ScoreSummaryPage extends StatelessWidget {
                 color: Color(0xFF6A5AE0),
               ),
             ),
-            Text(
+            const Text(
               'Note: TKP tidak ada jawaban yang salah atau benar',
               style: TextStyle(
                 fontSize: 12,
@@ -105,8 +315,6 @@ class ScoreSummaryPage extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                // TKP questions do not contribute to 'Benar' or 'Salah' counts directly.
-                // These counts are specifically for TWK/TIU.
                 _buildCountBox('Benar', correctCount, Colors.green),
                 _buildCountBox('Salah', incorrectCount, Colors.red),
                 _buildCountBox('Tidak Dijawab', unansweredCount, Colors.grey),
@@ -125,9 +333,9 @@ class ScoreSummaryPage extends StatelessWidget {
             ListView.builder(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
-              itemCount: allQuizQuestions.length,
+              itemCount: widget.allQuizQuestions.length,
               itemBuilder: (context, index) {
-                final currentQuestionData = allQuizQuestions[index];
+                final currentQuestionData = widget.allQuizQuestions[index];
                 final userAnswerData = userAnswersMap[index];
 
                 final questionNumber = index + 1;
@@ -138,11 +346,8 @@ class ScoreSummaryPage extends StatelessWidget {
                 final questionCategory = currentQuestionData['category'] as String?;
                 final selectedUserOptionLabel = userAnswerData?['selectedOptionLabel'] as String?;
 
-                // For TKP questions, the score is retrieved from userAnswerData.
-                // If not answered, it will be 0.
                 final tkpUserScore = (questionCategory == 'TKP') ? (userAnswerData?['score'] ?? 0) : null;
 
-                // Determine if the user's answer is correct for TWK/TIU display
                 bool isCorrect = false;
                 if (questionCategory != 'TKP' &&
                     selectedUserOptionLabel != null) {
@@ -151,13 +356,12 @@ class ScoreSummaryPage extends StatelessWidget {
 
                 final formattedUserAnswer = selectedUserOptionLabel != null
                     ? _getFormattedOptionText( selectedUserOptionLabel, allOptions)
-                      : 'Tidak Dijawab';
+                    : 'Tidak Dijawab';
 
                 final formattedCorrectAnswer = correctOptionLabel != null
                     ? _getFormattedOptionText(correctOptionLabel, allOptions)
                     : 'Jawaban Benar Tidak Tersedia';
 
-                // Condition to check if it's a TKP question
                 final bool isTKP = questionCategory == 'TKP';
 
                 return Card(
@@ -185,20 +389,17 @@ class ScoreSummaryPage extends StatelessWidget {
                         ),
                         const SizedBox(height: 12),
 
-                        // Display user's answer (for all types)
                         _buildAnswerRow(
                           'Jawaban Anda:',
                           formattedUserAnswer,
                           selectedUserOptionLabel == null
-                              ? Colors.grey // Not answered
-                                : (isTKP ? Colors.blueAccent // Neutral highlight for TKP chosen answer
+                              ? Colors.grey
+                                : (isTKP ? Colors.blueAccent
                                   : (isCorrect ? Colors.green : Colors.red)
                                   ),
                         ),
 
-                        // Conditional content for TKP vs. non-TKP
                         if (!isTKP) ...[
-                          // For TWK/TIU: show correct answer and explanation
                           Container(
                             height: 1,
                             margin: const EdgeInsets.symmetric(vertical: 8),
@@ -231,7 +432,6 @@ class ScoreSummaryPage extends StatelessWidget {
                             ),
                           ),
                         ] else ...[
-                          // For TKP: show all options with their scores
                           const SizedBox(height: 16),
                           const Text(
                             'Pilihan Jawaban dan Skor:',
@@ -242,7 +442,6 @@ class ScoreSummaryPage extends StatelessWidget {
                             ),
                           ),
                           const SizedBox(height: 8),
-                          // Iterate through all options for TKP questions
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: allOptions.map<Widget>((option) {
@@ -258,7 +457,7 @@ class ScoreSummaryPage extends StatelessWidget {
                                   children: [
                                     Text(
                                       '$optionLabel.',
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                         fontWeight: FontWeight.bold,
                                         color: Colors.black87,
                                       ),
@@ -266,7 +465,7 @@ class ScoreSummaryPage extends StatelessWidget {
                                     const SizedBox(width: 8),
                                     Expanded(
                                       child: Container(
-                                        padding: EdgeInsets.symmetric(
+                                        padding: const EdgeInsets.symmetric(
                                           vertical: 4,
                                           horizontal: 4,
                                         ),
@@ -287,7 +486,7 @@ class ScoreSummaryPage extends StatelessWidget {
                                       height: 24,
                                       width: 24,
                                       decoration: BoxDecoration(
-                                        color: Color(0xFF6A5AE0),
+                                        color: const Color(0xFF6A5AE0),
                                         borderRadius: BorderRadius.circular(4),
                                       ),
                                       child: Center(
@@ -307,7 +506,6 @@ class ScoreSummaryPage extends StatelessWidget {
                             }).toList(),
                           ),
                           const SizedBox(height: 16),
-                          // Display TKP user's score at the end of the TKP section
                           if (tkpUserScore != null)
                             _buildScoreRow(
                               'Skor Anda untuk Soal ini:',
@@ -323,136 +521,16 @@ class ScoreSummaryPage extends StatelessWidget {
           ],
         ),
       ),
-    );
-  }
-
-  // Helper widget to build a count display box (Correct, Incorrect, Unanswered)
-  Widget _buildCountBox(String title, int count, Color color) {
-    return Expanded(
-      child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 4),
-        padding: const EdgeInsets.symmetric(vertical: 8),
-        decoration: BoxDecoration(
-          // ignore: deprecated_member_use
-          color: color.withOpacity(0.1),
-          borderRadius: BorderRadius.circular(8),
-          border: Border.all(color: color, width: 1),
-        ),
-        child: Column(
-          children: [
-            Text(
-              count.toString(),
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: color,
-              ),
-            ),
-            Text(title, style: TextStyle(fontSize: 14, color: color)),
-          ],
-        ),
-      ),
-    );
-  }
-
-  // Helper widget to display a row for user's answer or correct answer
-  Widget _buildAnswerRow(String label, String value, Color valueColor) {
-  // Split the value into option (e.g., "A.") and text (e.g., "Option Text")
-  // We'll assume the format is "LABEL. TEXT"
-  List<String> parts = value.split('. ');
-  String optionLabelDisplay = '';
-  String optionTextDisplay = value; // Default to full value if no split occurs
-
-  if (parts.length > 1) {
-    optionLabelDisplay = '${parts[0]}.'; // "A."
-    optionTextDisplay = parts.sublist(1).join('. '); // "Option Text"
-  } else {
-    // Handle cases like "Tidak Dijawab" or "Jawaban Benar Tidak Tersedia"
-    // where there is no option label.
-    optionTextDisplay = value;
-  }
-
-  return Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      Text(
-        label,
-        style: const TextStyle(
-          fontSize: 14,
-          fontWeight: FontWeight.bold,
-          color: Colors.black87,
-        ),
-      ),
-      const SizedBox(height: 4),
-      Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          // Left component
-          if (optionLabelDisplay.isNotEmpty && optionLabelDisplay != value) ...[
-            Text(
-              optionLabelDisplay,
-              style: const TextStyle(
-                color: Colors.black,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          const SizedBox(width: 8),
-          ], // Only show if it's a true option
-
-          // Right component
-          Expanded(
-            child: Container(
-              padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 10),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(6),
-                color: valueColor,
-              ),
-              child: Text(
-                optionTextDisplay,
-                style: const TextStyle(
-                  fontSize: 14,
-                  color: Colors.white,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    ],
-  );
-}
-
-  // Helper widget to display the TKP score for a specific question
-  Widget _buildScoreRow(String label, int score) {
-    return Row(
-      children: [
-        Text(
-          label,
-          style: const TextStyle(
-            fontWeight: FontWeight.bold,
-            color: Colors.black87,
-          ),
-        ),
-        const SizedBox(width: 8),
-        Container(
-          width: 24,
-          height: 24,
-          decoration: BoxDecoration(
-            color: const Color(0xFF6A5AE0),
-            borderRadius: BorderRadius.circular(6),
-          ),
-          child: Center(
-            child: Text(
-              score.toString(),
-              style: const TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ),
-        ),
-      ],
+      bottomNavigationBar: _isBannerAdLoaded && _bannerAd != null
+      ? Padding(
+        padding: const EdgeInsets.only(bottom: 16, top: 12),
+        child: SizedBox(
+          width: _bannerAd!.size.width.toDouble(),
+          height: _bannerAd!.size.height.toDouble(),
+          child: AdWidget(ad: _bannerAd!),
+        )
+      )
+      : null,
     );
   }
 }

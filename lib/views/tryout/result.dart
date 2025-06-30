@@ -1,7 +1,7 @@
-// result_page.dart
 import 'package:flutter/material.dart';
 import 'package:try_out/main.dart';
 import 'package:try_out/views/tryout/score_summary.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart'; // Import the package
 
 class ResultPage extends StatefulWidget {
   final int totalScore;
@@ -32,6 +32,49 @@ class ResultPage extends StatefulWidget {
 class _ResultPageState extends State<ResultPage> {
   bool _showPassingGradeDetails = false;
 
+  // Declare BannerAd variable
+  BannerAd? _bannerAd;
+  bool _isBannerAdLoaded = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadBannerAd(); // Load the ad when the widget initializes
+  }
+
+  @override
+  void dispose() {
+    _bannerAd?.dispose(); // Dispose the ad when the widget is removed
+    super.dispose();
+  }
+
+  void _loadBannerAd() {
+    _bannerAd = BannerAd(
+      
+      // Test ID
+      adUnitId: 'ca-app-pub-3940256099942544/6300978111', // Test Ad Unit ID
+      // Production ID
+      // final String bannerAdUnitId = 'ca-app-pub-2602479093941928/9052001071';
+      
+      request: const AdRequest(),
+      size: AdSize.banner, // Standard banner size (320x50)
+      listener: BannerAdListener(
+        onAdLoaded: (ad) {
+          setState(() {
+            _isBannerAdLoaded = true;
+          });
+        },
+        onAdFailedToLoad: (ad, err) {
+          debugPrint('BannerAd failed to load: $err');
+          ad.dispose(); // Dispose the ad if it fails to load
+        },
+        onAdOpened: (ad) => debugPrint('BannerAd opened.'),
+        onAdClosed: (ad) => debugPrint('BannerAd closed.'),
+        onAdImpression: (ad) => debugPrint('BannerAd impression.'),
+      ),
+    )..load(); // Load the ad immediately after creation
+  }
+
   String _formatDuration(int seconds) {
     final Duration duration = Duration(seconds: seconds);
     String twoDigits(int n) => n.toString().padLeft(2, '0');
@@ -49,6 +92,8 @@ class _ResultPageState extends State<ResultPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              // ... (your existing UI code) ...
+
               // Score TryOut
               Container(
                 width: 275,
@@ -56,10 +101,12 @@ class _ResultPageState extends State<ResultPage> {
                 decoration: BoxDecoration(
                   image: DecorationImage(
                     image: AssetImage(
-                      widget.twkScore > 64 || widget.tiuScore > 79 || widget.tkpScore > 165 
-                        ? 'assets/training/success.webp'
+                      widget.twkScore > 64 ||
+                              widget.tiuScore > 79 ||
+                              widget.tkpScore > 165
+                          ? 'assets/training/success.webp'
                           : 'assets/training/un_success.webp',
-                    ), // or NetworkImage
+                    ),
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -83,23 +130,27 @@ class _ResultPageState extends State<ResultPage> {
                           fontSize: 76,
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
-                        )
-                      )
-                    ]
-                  )
-                )
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ),
               const SizedBox(height: 20),
 
               // Title and Description
               Text(
-                widget.twkScore > 64 || widget.tiuScore > 79 || widget.tkpScore > 165
+                widget.twkScore > 64 ||
+                        widget.tiuScore > 79 ||
+                        widget.tkpScore > 165
                     ? 'SELAMAT!\nKAMU LULUS'
                     : 'OOUUUCH!\nKAMU BELUM LULUS',
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
-                  color: widget.twkScore > 64 || widget.tiuScore > 79 || widget.tkpScore > 165
+                  color: widget.twkScore > 64 ||
+                          widget.tiuScore > 79 ||
+                          widget.tkpScore > 165
                       ? const Color(0xFF6A5AE0)
                       : const Color(0xFFE53935),
                 ),
@@ -184,7 +235,7 @@ class _ResultPageState extends State<ResultPage> {
                     ),
                   ),
                   child: const Text(
-                    'Ringkasan Jawaban',
+                    'Lihat Jawaban Anda',
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
@@ -228,109 +279,128 @@ class _ResultPageState extends State<ResultPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     _buildScoreBox(
-                      'TWK', 
-                      widget.twkScore, 
+                      'TWK',
+                      widget.twkScore,
                       65,
                       widget.twkScore > 64
-                        ? const Color(0xFFFFE500) 
+                          ? const Color(0xFFFFE500)
                           : const Color(0xFFF71D1D),
-                      widget.twkScore > 64 ? Colors.black : Colors.white
-                      ),
+                      widget.twkScore > 64 ? Colors.black : Colors.white,
+                    ),
                     const SizedBox(width: 10),
                     _buildScoreBox(
-                      'TIU', 
-                      widget.tiuScore, 
+                      'TIU',
+                      widget.tiuScore,
                       80,
-                      widget.tiuScore > 79 
-                        ? const Color(0xFFFFE500) 
+                      widget.tiuScore > 79
+                          ? const Color(0xFFFFE500)
                           : const Color(0xFFF71D1D),
-                      widget.tiuScore > 79 ? Colors.black : Colors.white
-                      ),
+                      widget.tiuScore > 79 ? Colors.black : Colors.white,
+                    ),
                     const SizedBox(width: 10),
                     _buildScoreBox(
-                      'TKP', 
-                      widget.tkpScore, 
+                      'TKP',
+                      widget.tkpScore,
                       166,
-                      widget.tkpScore > 165 
-                        ? const Color(0xFFFFE500) 
+                      widget.tkpScore > 165
+                          ? const Color(0xFFFFE500)
                           : const Color(0xFFF71D1D),
-                      widget.tkpScore > 165 ? Colors.black : Colors.white
-                      ),
+                      widget.tkpScore > 165 ? Colors.black : Colors.white,
+                    ),
                   ],
                 ),
+
+              // Button Shared and Back to Home
+              Container(
+                padding: const EdgeInsets.symmetric(vertical: 16),
+                margin: const EdgeInsets.only(top: 20),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(vertical: 12),
+                          backgroundColor: const Color(0xFFEFF1FE),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
+                        onPressed: () {
+                          // Implement share functionality
+                        },
+                        child: const Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(
+                              Icons.share_outlined,
+                              color: Color(0xFF6A5AE0),
+                              size: 20,
+                            ),
+                            SizedBox(width: 8),
+                            Text(
+                              'Shared',
+                              style: TextStyle(
+                                color: Color(0xFF6A5AE0),
+                                fontSize: 14,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 16),
+                    Expanded(
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(vertical: 12),
+                          backgroundColor: const Color(0xFF6A5AE0),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
+                        onPressed: () {
+                          Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const MyHomePage(),
+                            ),
+                            (Route<dynamic> route) => false,
+                          );
+                        },
+                        child: const Text(
+                          'Kembali ke Beranda',
+                          style: TextStyle(fontSize: 14, color: Colors.white),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ],
           ),
         ),
       ),
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.only(
-          left: 20,
-          right: 20,
-          bottom: 32,
-          top: 12,
-        ),
-        child: Row(
-          children: [
-            Expanded(
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(vertical: 12),
-                  backgroundColor: const Color(0xFFEFF1FE),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                ),
-                onPressed: () {
-                  // Implement share functionality
-                },
-                child: const Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(
-                      Icons.share_outlined,
-                      color: Color(0xFF6A5AE0),
-                      size: 20,
-                    ),
-                    SizedBox(width: 8),
-                    Text(
-                      'Shared',
-                      style: TextStyle(color: Color(0xFF6A5AE0), fontSize: 14),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            const SizedBox(width: 16),
-            Expanded(
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(vertical: 12),
-                  backgroundColor: const Color(0xFF6A5AE0),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                ),
-                onPressed: () {
-                  Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute(builder: (context) => const MyHomePage()),
-                    (Route<dynamic> route) => false,
-                  );
-                },
-                child: const Text(
-                  'Kembali ke Beranda',
-                  style: TextStyle(fontSize: 14, color: Colors.white),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
+      // Integrate the banner ad into bottomNavigationBar
+      bottomNavigationBar: _isBannerAdLoaded && _bannerAd != null
+          ? Padding(
+            padding: const EdgeInsets.only(bottom: 16, top: 12),
+            child: SizedBox(
+              width: _bannerAd!.size.width.toDouble(),
+              height: _bannerAd!.size.height.toDouble(),
+              child: AdWidget(ad: _bannerAd!),
+            )
+          ) : null,
     );
   }
 
   // Helper method to build a score box
-  Widget _buildScoreBox(title, int score, int passScore, Color valueColor, Color textColor) {
+  Widget _buildScoreBox(
+    title,
+    int score,
+    int passScore,
+    Color valueColor,
+    Color textColor,
+  ) {
     return Expanded(
       child: Card(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
@@ -343,10 +413,7 @@ class _ResultPageState extends State<ResultPage> {
             children: [
               Text(
                 title,
-                style: TextStyle(
-                  color: textColor,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: TextStyle(color: textColor, fontWeight: FontWeight.bold),
               ),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.end,
@@ -361,10 +428,7 @@ class _ResultPageState extends State<ResultPage> {
                   ),
                   Text(
                     '/$passScore',
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: textColor,
-                    ),
+                    style: TextStyle(fontSize: 14, color: textColor),
                   ),
                 ],
               ),

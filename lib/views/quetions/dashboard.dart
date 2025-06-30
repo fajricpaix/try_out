@@ -3,6 +3,7 @@ import 'package:flutter/services.dart' show rootBundle;
 import 'dart:convert';
 import 'package:try_out/widgets/tools/quiz_preview.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class DashboardQuetionView extends StatefulWidget {
   final String level;
@@ -17,35 +18,55 @@ class _DashboardQuetionViewState extends State<DashboardQuetionView> {
   Map<String, dynamic>? quizData;
   bool _isLoading = true;
   String _error = '';
-  
-  InterstitialAd? _interstitialAd;
 
-  void _loadInterstitialAd() {
-  InterstitialAd.load(
+  InterstitialAd? _interstitialAd;
+  static const String _lastAdShownKey = 'lastAdShownTime'; // Key for SharedPreferences
+
+  void _loadInterstitialAd() async {
+    // Make it async
+    final prefs = await SharedPreferences.getInstance();
+    final lastAdShown = prefs.getInt(_lastAdShownKey) ?? 0;
+    final currentTime = DateTime.now().millisecondsSinceEpoch;
+    const fiveMinutesInMillis = 5 * 60 * 1000; // 5 minutes in milliseconds
+
+    if (currentTime - lastAdShown < fiveMinutesInMillis) {
+      debugPrint(
+        'Interstitial ad not shown yet, less than 5 minutes since last show.',
+      );
+      return; // Don't show ad if less than 5 minutes have passed
+    }
+
+    InterstitialAd.load(
       // Dev ID
-      adUnitId: 'ca-app-pub-3940256099942544/1033173712', // TEST ID, replace with real one
+      adUnitId:'ca-app-pub-3940256099942544/1033173712', // TEST ID, replace with real one
       // Production ID
       // adUnitId = 'ca-app-pub-2602479093941928/9052001071';
-    request: const AdRequest(),
-    adLoadCallback: InterstitialAdLoadCallback(
-      onAdLoaded: (InterstitialAd ad) {
-        _interstitialAd = ad;
-        _interstitialAd!.fullScreenContentCallback = FullScreenContentCallback(
-          onAdDismissedFullScreenContent: (ad) {
-            ad.dispose();
-          },
-          onAdFailedToShowFullScreenContent: (ad, error) {
-            ad.dispose();
-          },
-        );
-        _interstitialAd!.show(); // <-- tampilkan iklan saat sudah siap
-      },
-      onAdFailedToLoad: (LoadAdError error) {
-        debugPrint('InterstitialAd failed to load: $error');
-      },
-    ),
-  );
-}
+      request: const AdRequest(),
+      adLoadCallback: InterstitialAdLoadCallback(
+        onAdLoaded: (InterstitialAd ad) {
+          _interstitialAd = ad;
+          _interstitialAd!.fullScreenContentCallback =
+              FullScreenContentCallback(
+                onAdDismissedFullScreenContent: (ad) {
+                  ad.dispose();
+                  // Update the last ad shown time after the ad is dismissed
+                  prefs.setInt(
+                    _lastAdShownKey,
+                    DateTime.now().millisecondsSinceEpoch,
+                  );
+                },
+                onAdFailedToShowFullScreenContent: (ad, error) {
+                  ad.dispose();
+                },
+              );
+          _interstitialAd!.show();
+        },
+        onAdFailedToLoad: (LoadAdError error) {
+          debugPrint('InterstitialAd failed to load: $error');
+        },
+      ),
+    );
+  }
 
   @override
   void initState() {
@@ -55,10 +76,10 @@ class _DashboardQuetionViewState extends State<DashboardQuetionView> {
   }
 
   @override
-void dispose() {
-  _interstitialAd?.dispose();
-  super.dispose();
-}
+  void dispose() {
+    _interstitialAd?.dispose();
+    super.dispose();
+  }
 
   Future<void> _loadQuizData() async {
     try {
@@ -129,7 +150,10 @@ void dispose() {
         appBar: AppBar(
           title: Text(
             'Latihan Soal - ${widget.level}',
-            style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+            style: const TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+            ),
           ),
           leading: IconButton(
             icon: const Icon(Icons.close, color: Colors.white),

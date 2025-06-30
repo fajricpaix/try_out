@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:try_out/views/home/content/menu.dart';
 import 'package:try_out/views/home/header/header.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart'; // Import library AdMob
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -31,8 +31,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   late BannerAd _bannerAd;
   bool _isBannerAdLoaded = false;
-
-  // Android Test ID: ca-app-pub-3940256099942544/6300978111
+  // Test ID
   final String bannerAdUnitId = 'ca-app-pub-3940256099942544/6300978111';
   // Production ID
   // final String bannerAdUnitId = 'ca-app-pub-2602479093941928/9052001071';
@@ -95,13 +94,17 @@ class _MyHomePageState extends State<MyHomePage> {
       // Add bottomNavigationBar for adsBanner
       bottomNavigationBar: _isBannerAdLoaded
           ? Container(
-              color: Colors.white,
-              width: _bannerAd.size.width.toDouble(),
-              height: _bannerAd.size.height.toDouble(),
-              alignment: Alignment.center,
-              child: AdWidget(ad: _bannerAd), // Widget to show ads
+            color: Colors.white,
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 16.0, top: 12.0),
+              child: SizedBox(
+                width: _bannerAd.size.width.toDouble(),
+                height: _bannerAd.size.height.toDouble(),
+                child: AdWidget(ad: _bannerAd), // Widget to show ads
+              )
             )
-          : const SizedBox.shrink(), // If ads not show, show empty widget
+          )
+          : null, // If ads not show, show empty widget
     );
   }
 }

@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:try_out/views/tryout/try_out.dart';
 import 'package:try_out/widgets/tools/box_quiz.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:shared_preferences/shared_preferences.dart'; // Import SharedPreferences
 
 class SimulationView extends StatefulWidget {
   const SimulationView({super.key});
@@ -15,16 +16,29 @@ class SimulationView extends StatefulWidget {
 class _SimulationViewState extends State<SimulationView> {
   Map<String, dynamic> data = {};
   String? selectedKey;
+  
+  // Ads
   InterstitialAd? _interstitialAd;
+  static const String _lastAdShownKey = 'lastSimulationAdShownTime'; // Key for SharedPreferences
 
   @override
   void initState() {
     super.initState();
     loadJson();
-    _loadInterstitialAd(); // Load ad on init
+    _loadInterstitialAd(); // Attempt to load and show ad on init
   }
 
-  void _loadInterstitialAd() {
+  void _loadInterstitialAd() async { // Made async to use SharedPreferences
+    final prefs = await SharedPreferences.getInstance();
+    final lastAdShown = prefs.getInt(_lastAdShownKey) ?? 0;
+    final currentTime = DateTime.now().millisecondsSinceEpoch;
+    const fiveMinutesInMillis = 5 * 60 * 1000; // 5 minutes in milliseconds
+
+    if (currentTime - lastAdShown < fiveMinutesInMillis) {
+      debugPrint('Interstitial ad not shown yet, less than 5 minutes since last show.');
+      return; // Don't show ad if less than 5 minutes have passed
+    }
+
     InterstitialAd.load(
       // Dev ID
       adUnitId: 'ca-app-pub-3940256099942544/1033173712', // TEST ID, replace with real one
@@ -34,13 +48,25 @@ class _SimulationViewState extends State<SimulationView> {
       adLoadCallback: InterstitialAdLoadCallback(
         onAdLoaded: (ad) {
           _interstitialAd = ad;
-          _interstitialAd?.show(); // Show ad immediately
+          _interstitialAd!.fullScreenContentCallback = FullScreenContentCallback(
+            onAdDismissedFullScreenContent: (ad) {
+              ad.dispose();
+              // Update the last ad shown time after the ad is dismissed
+              prefs.setInt(_lastAdShownKey, DateTime.now().millisecondsSinceEpoch);
+            },
+            onAdFailedToShowFullScreenContent: (ad, error) {
+              ad.dispose();
+              debugPrint('InterstitialAd failed to show: $error');
+            },
+          );
+          _interstitialAd!.show(); // Show ad if time constraint is met
         },
-        onAdFailedToLoad: (error) { },
+        onAdFailedToLoad: (error) {
+          debugPrint('InterstitialAd failed to load: $error');
+        },
       ),
     );
   }
-
   @override
   void dispose() {
     _interstitialAd?.dispose();
