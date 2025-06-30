@@ -240,32 +240,7 @@ class _QuizViewState extends State<QuizView> {
               Navigator.of(context).pop();
             }
           },
-        ),
-        actions: [
-          IconButton(
-            icon: const Icon(
-              Icons.ballot_rounded,
-              color: Colors.white,
-              size: 28,
-            ),
-            tooltip: 'Lihat Semua Soal',
-            onPressed: () {
-              showDialog(
-                context: context,
-                builder: (context) => QuizModal(
-                  totalQuestions: _quizQuestions.length,
-                  currentIndex: _currentIndex,
-                  onSelectQuestion: (index) {
-                    setState(() {
-                      _currentIndex = index;
-                    });
-                    Navigator.of(context).pop();
-                  },
-                ),
-              );
-            },
-          ),
-        ],
+        )
       ),
       body: SingleChildScrollView(
         child: Column(
