@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "620758831637",
+    "firebase_url": "https://cpns-simulation-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "cpns-simulation",
+    "storage_bucket": "cpns-simulation.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:620758831637:android:65a6d501818ebfc5f0f41c",
+        "android_client_info": {
+          "package_name": "com.example.try_out"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBU522zmz72av5eRSZ4gZlDCniw8HT9eAQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

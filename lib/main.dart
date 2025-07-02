@@ -2,10 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:try_out/views/home/content/menu.dart';
 import 'package:try_out/views/home/header/header.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:firebase_core/firebase_core.dart'; // Import Firebase Core
+import 'firebase_options.dart'; // Import the generated Firebase options
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   MobileAds.instance.initialize();
+
+  // Initialize Firebase
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
   runApp(const MyApp());
 }
 
@@ -94,16 +102,14 @@ class _MyHomePageState extends State<MyHomePage> {
       // Add bottomNavigationBar for adsBanner
       bottomNavigationBar: _isBannerAdLoaded
           ? Container(
-            color: Colors.white,
-            child: Padding(
-              padding: const EdgeInsets.only(bottom: 16.0, top: 12.0),
-              child: SizedBox(
-                width: _bannerAd.size.width.toDouble(),
-                height: _bannerAd.size.height.toDouble(),
-                child: AdWidget(ad: _bannerAd), // Widget to show ads
-              )
-            )
-          )
+              color: Colors.white,
+              child: Padding(
+                  padding: const EdgeInsets.only(bottom: 16.0, top: 12.0),
+                  child: SizedBox(
+                    width: _bannerAd.size.width.toDouble(),
+                    height: _bannerAd.size.height.toDouble(),
+                    child: AdWidget(ad: _bannerAd), // Widget to show ads
+                  )))
           : null, // If ads not show, show empty widget
     );
   }

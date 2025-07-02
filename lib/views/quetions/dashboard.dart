@@ -1,10 +1,9 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart' show rootBundle;
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:try_out/views/quetions/quiz.dart';
 import 'package:try_out/widgets/tools/box_quiz.dart';
+import 'package:firebase_database/firebase_database.dart'; // Re-added Firebase Database import
 
 class DashboardQuetionView extends StatefulWidget {
   final String level;
@@ -22,17 +21,19 @@ class _DashboardQuetionViewState extends State<DashboardQuetionView> {
   String? _selectedQuizKey;
 
   InterstitialAd? _interstitialAd;
-  static const String _lastAdShownKey = 'lastAdShownTime'; // Key for SharedPreferences
+  static const String _lastAdShownKey = 'lastAdShownTime';
 
   void _loadInterstitialAd() async {
     final prefs = await SharedPreferences.getInstance();
     final lastAdShown = prefs.getInt(_lastAdShownKey) ?? 0;
     final currentTime = DateTime.now().millisecondsSinceEpoch;
-    const fiveMinutesInMillis = 5 * 60 * 1000; // 5 minutes in milliseconds
+    const fiveMinutesInMillis = 5 * 60 * 1000;
 
     if (currentTime - lastAdShown < fiveMinutesInMillis) {
-      debugPrint('Interstitial ad not shown, less than 5 minutes since last show.');
-      return; // Don't show ad if less than 5 minutes have passed
+      debugPrint(
+        'Interstitial ad not shown, less than 5 minutes since last show.',
+      );
+      return;
     }
 
     InterstitialAd.load(
@@ -41,16 +42,20 @@ class _DashboardQuetionViewState extends State<DashboardQuetionView> {
       adLoadCallback: InterstitialAdLoadCallback(
         onAdLoaded: (InterstitialAd ad) {
           _interstitialAd = ad;
-          _interstitialAd!.fullScreenContentCallback = FullScreenContentCallback(
-            onAdDismissedFullScreenContent: (ad) {
-              ad.dispose();
-              prefs.setInt(_lastAdShownKey, DateTime.now().millisecondsSinceEpoch);
-            },
-            onAdFailedToShowFullScreenContent: (ad, error) {
-              debugPrint('InterstitialAd failed to show: $error');
-              ad.dispose();
-            },
-          );
+          _interstitialAd!.fullScreenContentCallback =
+              FullScreenContentCallback(
+                onAdDismissedFullScreenContent: (ad) {
+                  ad.dispose();
+                  prefs.setInt(
+                    _lastAdShownKey,
+                    DateTime.now().millisecondsSinceEpoch,
+                  );
+                },
+                onAdFailedToShowFullScreenContent: (ad, error) {
+                  debugPrint('InterstitialAd failed to show: $error');
+                  ad.dispose();
+                },
+              );
           _interstitialAd!.show();
         },
         onAdFailedToLoad: (LoadAdError error) {
@@ -74,78 +79,117 @@ class _DashboardQuetionViewState extends State<DashboardQuetionView> {
   }
 
   Future<void> _loadQuizData() async {
-  try {
-    final String response = await rootBundle.loadString('assets/json/try_out.json');
-    final Map<String, dynamic> rawData = json.decode(response);
+    try {
+      final DatabaseReference cpnsRef = FirebaseDatabase.instance.ref('cpns');
+      final DataSnapshot snapshot = await cpnsRef.get();
 
-    // Access the 'cpns' key first
-    final Map<String, dynamic>? cpnsData = rawData['cpns'];
+      final filteredData = <String, dynamic>{};
+      int packageCounter = 0;
 
-    final filteredData = <String, dynamic>{};
+      if (snapshot.exists && snapshot.value != null) {
+        final dynamic rawValue = snapshot.value;
+        if (rawValue is List) {
+          final List<dynamic> cpnsList = rawValue
+              .where((e) => e != null && e is Map)
+              .toList();
 
-    if (cpnsData != null) {
-      for (final entry in cpnsData.entries) { // Iterate through the entries within 'cpns'
-        if (entry.value is Map<String, dynamic> &&
-            entry.value.containsKey('level') &&
-            entry.value.containsKey('type')) {
-          if (entry.value['level'] == widget.level &&
-              entry.value['type'] == 'training') {
-            filteredData[entry.key] = entry.value;
+          for (final dynamic item in cpnsList) {
+            final Map<String, dynamic> packageData = Map<String, dynamic>.from(
+              item as Map,
+            );
+
+            if (packageData.containsKey('level') &&
+                packageData.containsKey('type')) {
+              if (packageData['level'] == widget.level &&
+                  packageData['type'] == 'training') {
+                final String generatedKey = 'package_${packageCounter++}';
+                filteredData[generatedKey] = packageData;
+              }
+            }
           }
+        } else {
+          debugPrint(
+            "Firebase node 'cpns_quizzes' is not a List. It's a ${rawValue.runtimeType}.",
+          );
+          _error = "Kesalahan format data Firebase: 'cpns_quizzes' bukan list.";
         }
+      } else {
+        debugPrint(
+          "Firebase snapshot does not exist or value is null at 'cpns_quizzes'. Check your Firebase path and data.",
+        );
+        _error =
+            "Tidak ada data soal ditemukan di Firebase. Cek koneksi & struktur data Anda.";
       }
+
+      setState(() {
+        quizData = filteredData;
+        _isLoading = false;
+        if (quizData != null && quizData!.isNotEmpty) {
+          _selectedQuizKey = quizData!.keys.first;
+        } else if (_error.isEmpty) {
+          _error = 'Tidak ada paket soal yang ditemukan untuk level ini.';
+        }
+      });
+    } catch (e) {
+      setState(() {
+        _error = 'Gagal memuat soal: $e';
+        _isLoading = false;
+        debugPrint('Error loading quiz data from Firebase: $e');
+      });
     }
-
-    setState(() {
-      quizData = filteredData;
-      _isLoading = false;
-      // Set the initial selected quiz to the first one if data exists
-      if (quizData != null && quizData!.isNotEmpty) {
-        _selectedQuizKey = quizData!.keys.first;
-      }
-    });
-  } catch (e) {
-    setState(() {
-      _error = 'Gagal memuat soal: $e';
-      _isLoading = false;
-    });
   }
-}
 
-  // Helper function to get all questions from all categories of a selected package
   List<dynamic> _getAllQuizzes(Map<String, dynamic> selectedPackage) {
     List<dynamic> allQuizzes = [];
-    final List<dynamic>? categories = selectedPackage['category'];
+    final List<dynamic>? categories =
+        selectedPackage['category'] as List<dynamic>?;
 
     if (categories != null) {
-      for (var category in categories) {
-        if (category is Map<String, dynamic> && category.containsKey('quiz')) {
-          allQuizzes.addAll(category['quiz']);
+      for (var category in categories.where((e) => e != null && e is Map)) {
+        final Map<String, dynamic> categoryMap = Map<String, dynamic>.from(
+          category as Map,
+        );
+        if (categoryMap.containsKey('quiz') && categoryMap['quiz'] is List) {
+          allQuizzes.addAll(
+            (categoryMap['quiz'] as List).where((q) => q != null),
+          );
         }
       }
     }
     return allQuizzes;
   }
 
-  // New helper function to get question counts by category
-  Map<String, int> _getCategoryQuestionCounts(Map<String, dynamic> selectedPackage) {
-  // Initialize counts for each category with 0
-  Map<String, int> counts = {'twk': 0, 'tiu': 0, 'tkp': 0};
-  final List<dynamic>? categories = selectedPackage['category'];
+  Map<String, int> _getCategoryQuestionCounts(
+    Map<String, dynamic>? selectedPackage,
+  ) {
+    Map<String, int> counts = {'twk': 0, 'tiu': 0, 'tkp': 0};
 
-  if (categories != null) {
-    for (var category in categories) {
-      if (category is Map<String, dynamic> && category.containsKey('title') && category.containsKey('quiz')) {
-        String categoryTitle = category['title']; // Get the category name (e.g., "twk", "tiu", "tkp")
-        if (counts.containsKey(categoryTitle)) {
-          // If the category name matches, count the number of items in its 'quiz' list
-          counts[categoryTitle] = (category['quiz'] as List).length;
+    if (selectedPackage == null) {
+      return counts;
+    }
+
+    final List<dynamic>? categories =
+        selectedPackage['category'] as List<dynamic>?;
+
+    if (categories != null) {
+      for (var category in categories.where((e) => e != null && e is Map)) {
+        final Map<String, dynamic> categoryMap = Map<String, dynamic>.from(
+          category as Map,
+        );
+        if (categoryMap.containsKey('title') &&
+            categoryMap.containsKey('quiz') &&
+            categoryMap['quiz'] is List) {
+          String categoryTitle = (categoryMap['title'] as String).toLowerCase();
+          if (counts.containsKey(categoryTitle)) {
+            counts[categoryTitle] = (categoryMap['quiz'] as List)
+                .where((q) => q != null)
+                .length;
+          }
         }
       }
     }
+    return counts;
   }
-  return counts; // Returns a map like {'twk': 2, 'tiu': 1, 'tkp': 1}
-}
 
   @override
   Widget build(BuildContext context) {
@@ -160,58 +204,59 @@ class _DashboardQuetionViewState extends State<DashboardQuetionView> {
       return Scaffold(
         backgroundColor: const Color(0xFF6A5AE0),
         body: Center(
-          child: Text(
-            _error,
-            style: const TextStyle(color: Colors.white, fontSize: 16),
-            textAlign: TextAlign.center,
-          ),
-        ),
-      );
-    }
-
-    if (quizData == null || quizData!.isEmpty) {
-      return Scaffold(
-        backgroundColor: const Color(0xFF6A5AE0),
-        appBar: AppBar(
-        title: Text(
-          'Kembali',
-          style: const TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        leading: IconButton(
-          icon: const Icon(Icons.close, color: Colors.white),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
-        backgroundColor: const Color(0xFF6A5AE0),
-      ),
-        body: const Center(
-          child: Text(
-            'Tidak ada soal untuk level ini.',
-            style: TextStyle(color: Colors.white, fontSize: 16),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Icon(Icons.error_outline, color: Colors.white, size: 48),
+              const SizedBox(height: 16),
+              Text(
+                _error,
+                style: const TextStyle(color: Colors.white, fontSize: 16),
+                textAlign: TextAlign.center,
+              ),
+              Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: ElevatedButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
+                  child: const Text(
+                    'Kembali ke Halaman Sebelumnya',
+                    style: TextStyle(fontSize: 16, color: Color(0xFF6A5AE0)),
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
       );
     }
 
     final keys = quizData!.keys.toList();
-    final selectedQuiz = _selectedQuizKey != null ? quizData![_selectedQuizKey!] : null;
+    final selectedQuiz = _selectedQuizKey != null
+        ? quizData![_selectedQuizKey!]
+        : null;
 
-    final Map<String, int> categoryCounts = _getCategoryQuestionCounts(selectedQuiz);
-
-    // Guard against null selectedQuiz if somehow _selectedQuizKey doesn't point to valid data
     if (selectedQuiz == null) {
       return Scaffold(
         backgroundColor: const Color(0xFF6A5AE0),
         body: const Center(
           child: Text(
-            'Paket soal tidak ditemukan. Silakan coba lagi.',
+            'Paket soal tidak ditemukan atau tidak valid. Silakan coba lagi.',
             style: TextStyle(color: Colors.white, fontSize: 16),
           ),
         ),
       );
     }
+
+    final Map<String, int> categoryCounts = _getCategoryQuestionCounts(
+      selectedQuiz,
+    );
 
     return Scaffold(
       backgroundColor: const Color(0xFF6A5AE0),
@@ -240,7 +285,6 @@ class _DashboardQuetionViewState extends State<DashboardQuetionView> {
               height: 250,
             ),
           ),
-          // Dropdown for selecting quizzes
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20.0),
             child: Container(
@@ -266,10 +310,11 @@ class _DashboardQuetionViewState extends State<DashboardQuetionView> {
                   },
                   items: keys.map<DropdownMenuItem<String>>((String key) {
                     final int index = keys.indexOf(key) + 1;
-                    final title = quizData![key]['level'] ?? key.toUpperCase();
+                    final package = quizData![key];
+                    final String displayText = package['level'] as String? ?? 'Level $index';
                     return DropdownMenuItem<String>(
                       value: key,
-                      child: Text('Soal - $title $index'),
+                      child: Text('Soal - $displayText $index'),
                     );
                   }).toList(),
                 ),
@@ -295,40 +340,44 @@ class _DashboardQuetionViewState extends State<DashboardQuetionView> {
                     children: [
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
+                        children: const [
                           Text(
                             'Latihan Soal',
                             style: TextStyle(
                               fontSize: 12,
                               color: Color(0xFF6A5AE0),
-                              fontWeight: FontWeight.w600
+                              fontWeight: FontWeight.w600,
                             ),
                           ),
                         ],
                       ),
                       const SizedBox(height: 8),
                       Text(
-                        selectedQuiz['title'],
+                        selectedQuiz['title'] as String? ??
+                            'Judul Tidak Tersedia',
                         style: const TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       const SizedBox(height: 4),
-                      Text(selectedQuiz['desc']),
+                      Text(
+                        selectedQuiz['desc'] as String? ??
+                            'Deskripsi Tidak Tersedia',
+                      ),
                     ],
                   ),
                 ),
                 Container(
-                  padding: EdgeInsets.symmetric(horizontal: 20),
-                  margin: EdgeInsets.only(bottom: 8),
-                  child: Align(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  margin: const EdgeInsets.only(bottom: 8),
+                  child: const Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
                       'Jumlah Soal',
                       style: TextStyle(
                         fontWeight: FontWeight.w600,
-                        color: Colors.white
+                        color: Colors.white,
                       ),
                     ),
                   ),
@@ -340,18 +389,18 @@ class _DashboardQuetionViewState extends State<DashboardQuetionView> {
                     children: [
                       BoxQuizComponents(
                         label: 'TWK',
-                        text: '${categoryCounts['twk']} Soal',
+                        text: '${categoryCounts['twk'] ?? 0} Soal',
                       ),
                       const SizedBox(width: 8),
                       BoxQuizComponents(
                         label: 'TIU',
-                        text: '${categoryCounts['tiu']} Soal',
+                        text: '${categoryCounts['tiu'] ?? 0} Soal',
                       ),
                       const SizedBox(width: 8),
                       BoxQuizComponents(
                         label: 'TKP',
-                        text: '${categoryCounts['tkp']} Soal',
-                      )
+                        text: '${categoryCounts['tkp'] ?? 0} Soal',
+                      ),
                     ],
                   ),
                 ),
@@ -363,15 +412,25 @@ class _DashboardQuetionViewState extends State<DashboardQuetionView> {
                   ),
                   child: ElevatedButton(
                     onPressed: () {
-                      final List<dynamic> allQuizzes = _getAllQuizzes(selectedQuiz);
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => QuizView(
-                            quizData: allQuizzes
-                          ),
-                        ),
+                      final List<dynamic> allQuizzes = _getAllQuizzes(
+                        selectedQuiz,
                       );
+                      if (allQuizzes.isNotEmpty) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => QuizView(quizData: allQuizzes),
+                          ),
+                        );
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text(
+                              'Tidak ada soal dalam paket terpilih.',
+                            ),
+                          ),
+                        );
+                      }
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.white,
@@ -382,10 +441,7 @@ class _DashboardQuetionViewState extends State<DashboardQuetionView> {
                     ),
                     child: const Text(
                       'Mulai Latihan Soal',
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Color(0xFF6A5AE0),
-                      ),
+                      style: TextStyle(fontSize: 16, color: Color(0xFF6A5AE0)),
                     ),
                   ),
                 ),

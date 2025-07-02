@@ -183,7 +183,7 @@ class _QuizViewState extends State<QuizView> {
               Navigator.of(context).pop();
             }
           },
-        )
+        ),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -230,8 +230,8 @@ class _QuizViewState extends State<QuizView> {
                               style: const TextStyle(
                                 fontWeight: FontWeight.bold,
                               ),
-                            )
-                          ]
+                            ),
+                          ],
                         ),
                         const SizedBox(height: 8),
                         Text(
@@ -439,16 +439,48 @@ class _QuizViewState extends State<QuizView> {
                 ),
                 onPressed:
                     (_currentIndex == _quizQuestions.length - 1 && !isAnswered)
-                    ? null
+                    ? null // Disable button if on last question and not answered
                     : (_currentIndex == _quizQuestions.length - 1 && isAnswered)
                     ? () {
-                        if (_isAdReady && _interstitialAd != null) {
-                          _interstitialAd!.show();
-                        } else {
-                          Navigator.pop(context); // fallback jika iklan gagal
-                        }
+                        // Show confirmation dialog when on the last question and answered
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: const Text('Konfirmasi Keluar'),
+                              content: const Text(
+                                'Apakah Anda yakin ingin keluar halaman ini?',
+                              ),
+                              actions: <Widget>[
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.of(
+                                      context,
+                                    ).pop(); // Close the dialog
+                                  },
+                                  child: const Text('Batal'),
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.of(
+                                      context,
+                                    ).pop(); // Close the dialog first
+                                    if (_isAdReady && _interstitialAd != null) {
+                                      _interstitialAd!.show();
+                                    } else {
+                                      Navigator.pop(
+                                        context,
+                                      ); // Fallback if ad fails
+                                    }
+                                  },
+                                  child: const Text('Keluar'),
+                                ),
+                              ],
+                            );
+                          },
+                        );
                       }
-                    : _goToNextQuestion,
+                    : _goToNextQuestion, // Go to next question for other cases
                 child: _currentIndex == _quizQuestions.length - 1
                     ? const Text(
                         'Selesai',

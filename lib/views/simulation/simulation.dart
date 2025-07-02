@@ -16,7 +16,8 @@ class SimulationView extends StatefulWidget {
 class _SimulationViewState extends State<SimulationView> {
   Map<String, dynamic> data = {};
   String? selectedKey;
-  
+  bool _isLoading = true; // Added loading state
+
   // Ads
   InterstitialAd? _interstitialAd;
   static const String _lastAdShownKey = 'lastSimulationAdShownTime'; // Key for SharedPreferences
@@ -67,6 +68,7 @@ class _SimulationViewState extends State<SimulationView> {
       ),
     );
   }
+
   @override
   void dispose() {
     _interstitialAd?.dispose();
@@ -74,46 +76,91 @@ class _SimulationViewState extends State<SimulationView> {
   }
 
   Future<void> loadJson() async {
-  final String jsonStr = await rootBundle.loadString(
-    'assets/json/try_out.json',
-  );
-  final Map<String, dynamic> rawJsonData = json.decode(jsonStr);
+    try {
+      final String jsonStr = await rootBundle.loadString(
+        'assets/json/try_out.json',
+      );
+      final Map<String, dynamic> rawJsonData = json.decode(jsonStr);
 
-  // Access the 'cpns' key first
-  final Map<String, dynamic>? cpnsData = rawJsonData['cpns'];
+      // Expect 'cpns' to be a List of dynamic
+      final List<dynamic>? cpnsList = rawJsonData['cpns'];
 
-  Map<String, dynamic> filteredData = {};
+      Map<String, dynamic> filteredData = {};
+      int packageCounter = 0; // To generate unique keys for the map
 
-  // Only proceed if 'cpnsData' is not null
-  if (cpnsData != null) {
-    cpnsData.forEach((key, value) {
-      if (value is Map<String, dynamic> && value['type'] == 'simulasi') {
-        filteredData[key] = value;
+      if (cpnsList != null) {
+        // Filter out null values and then process valid maps
+        for (final dynamic item in cpnsList.where((e) => e != null)) {
+          if (item is Map<String, dynamic>) {
+            // 'item' is already the quiz package data (e.g., {"level": "Mudah", "type": "simulasi", ...})
+            final Map<String, dynamic> packageData = item; 
+
+            if (packageData.containsKey('type') && packageData['type'] == 'simulasi') {
+              // Generate a unique key for this simulation package
+              final String generatedKey = 'simulasi_${packageCounter++}';
+              filteredData[generatedKey] = packageData;
+            }
+          }
+        }
       }
-    });
-  }
 
-  setState(() {
-    data = filteredData;
-    // Set selectedKey to the first key of the filtered data
-    selectedKey = data.keys.isNotEmpty ? data.keys.first : null;
-  });
-}
+      setState(() {
+        data = filteredData;
+        selectedKey = data.keys.isNotEmpty ? data.keys.first : null;
+        _isLoading = false; // Set loading to false once data is loaded
+      });
+    } catch (e) {
+      debugPrint('Error loading JSON: $e');
+      setState(() {
+        _isLoading = false; // Set loading to false even on error
+        // Optionally set an error message to display
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    if (selectedKey == null || data.isEmpty) {
+    if (_isLoading) {
       return const Scaffold(
         backgroundColor: Color(0xFF6A5AE0),
-        body: Center(child: CircularProgressIndicator()),
+        body: Center(child: CircularProgressIndicator(color: Colors.white)),
+      );
+    }
+
+    if (selectedKey == null || data.isEmpty) {
+      return Scaffold(
+        backgroundColor: const Color(0xFF6A5AE0),
+        appBar: AppBar(
+          title: const Text(
+            'Simulasi',
+            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+          ),
+          leading: IconButton(
+            icon: const Icon(Icons.close, color: Colors.white),
+            onPressed: () => Navigator.of(context).pop(),
+          ),
+          backgroundColor: const Color(0xFF6A5AE0),
+        ),
+        body: const Center(
+          child: Text(
+            'Tidak ada data simulasi yang tersedia.',
+            style: TextStyle(color: Colors.white, fontSize: 16),
+          ),
+        ),
       );
     }
 
     final selectedData = data[selectedKey!];
-    final jumlahSoal = selectedData['category'].fold(
-      0,
-      (sum, cat) => sum + (cat['quiz'] as List).length,
-    );
+    
+    // Safely calculate jumlahSoal
+    int jumlahSoal = 0;
+    if (selectedData != null && selectedData.containsKey('category') && selectedData['category'] is List) {
+      for (var cat in selectedData['category']) {
+        if (cat is Map<String, dynamic> && cat.containsKey('quiz') && cat['quiz'] is List) {
+          jumlahSoal += (cat['quiz'] as List).length;
+        }
+      }
+    }
 
     return Scaffold(
       backgroundColor: const Color(0xFF6A5AE0),
@@ -173,7 +220,9 @@ class _SimulationViewState extends State<SimulationView> {
                 fontWeight: FontWeight.bold,
               ),
               items: data.entries.map((entry) {
-                final level = entry.value['level'];
+                final level = entry.value['level'] ?? 'Unknown Level'; // Provide a fallback
+                // You can add a number here if each level repeats (e.g., "Mudah 1", "Mudah 2")
+                // For simulations, it's often just the level like "Mudah", "Sedang"
                 return DropdownMenuItem<String>(
                   value: entry.key,
                   child: Text(level),
@@ -198,19 +247,19 @@ class _SimulationViewState extends State<SimulationView> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text(
-                  'Latihan Soal',
+                  'Simulasi Soal', // Changed from 'Latihan Soal'
                   style: TextStyle(fontSize: 12, color: Color(0xFF6A5AE0)),
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  selectedData['title'],
+                  selectedData['title'] ?? 'Judul Tidak Tersedia', // Added null check
                   style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 const SizedBox(height: 4),
-                Text(selectedData['desc']),
+                Text(selectedData['desc'] ?? 'Deskripsi Tidak Tersedia'), // Added null check
               ],
             ),
           ),
@@ -239,12 +288,12 @@ class _SimulationViewState extends State<SimulationView> {
               children: [
                 BoxQuizComponents(
                   label: 'Passing Grade',
-                  text: '${selectedData['passing_grade']}/1000',
+                  text: '${selectedData['passing_grade'] ?? 'N/A'}/1000', // Added null check
                 ),
                 const SizedBox(width: 16),
                 BoxQuizComponents(
                   label: 'Tingkat Kesulitan',
-                  text: selectedData['level'],
+                  text: selectedData['level'] ?? 'N/A', // Added null check
                 ),
               ],
             ),
@@ -254,12 +303,18 @@ class _SimulationViewState extends State<SimulationView> {
             margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
             child: ElevatedButton(
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => TryOutViews(data: selectedData),
-                  ),
-                );
+                if (selectedData != null) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => TryOutViews(data: selectedData),
+                    ),
+                  );
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Tidak ada data simulasi yang dipilih.')),
+                  );
+                }
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.white,
@@ -269,7 +324,7 @@ class _SimulationViewState extends State<SimulationView> {
                 ),
               ),
               child: const Text(
-                'Mulai Latihan Soal',
+                'Mulai Simulasi', // Changed from 'Mulai Latihan Soal'
                 style: TextStyle(fontSize: 16, color: Color(0xFF6A5AE0)),
               ),
             ),
