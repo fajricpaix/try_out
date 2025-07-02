@@ -1,10 +1,9 @@
-import 'dart:convert';
+import 'package:firebase_database/firebase_database.dart'; // Firebase Realtime Database
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:try_out/views/tryout/try_out.dart';
-import 'package:try_out/widgets/tools/box_quiz.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:shared_preferences/shared_preferences.dart'; // Import SharedPreferences
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:try_out/views/tryout/try_out.dart'; // Ensure this path is correct for TryOutViews
+import 'package:try_out/widgets/tools/box_quiz.dart'; // Ensure this path is correct for BoxQuizComponents
 
 class SimulationView extends StatefulWidget {
   const SimulationView({super.key});
@@ -18,6 +17,9 @@ class _SimulationViewState extends State<SimulationView> {
   String? selectedKey;
   bool _isLoading = true; // Added loading state
 
+  // Firebase Database reference
+  final DatabaseReference _databaseRef = FirebaseDatabase.instance.ref();
+
   // Ads
   InterstitialAd? _interstitialAd;
   static const String _lastAdShownKey = 'lastSimulationAdShownTime'; // Key for SharedPreferences
@@ -25,11 +27,11 @@ class _SimulationViewState extends State<SimulationView> {
   @override
   void initState() {
     super.initState();
-    loadJson();
+    _loadSimulationsFromFirebase(); // Load data from Firebase
     _loadInterstitialAd(); // Attempt to load and show ad on init
   }
 
-  void _loadInterstitialAd() async { // Made async to use SharedPreferences
+  void _loadInterstitialAd() async {
     final prefs = await SharedPreferences.getInstance();
     final lastAdShown = prefs.getInt(_lastAdShownKey) ?? 0;
     final currentTime = DateTime.now().millisecondsSinceEpoch;
@@ -37,14 +39,12 @@ class _SimulationViewState extends State<SimulationView> {
 
     if (currentTime - lastAdShown < fiveMinutesInMillis) {
       debugPrint('Interstitial ad not shown yet, less than 5 minutes since last show.');
-      return; // Don't show ad if less than 5 minutes have passed
+      return;
     }
 
     InterstitialAd.load(
-      // Dev ID
-      adUnitId: 'ca-app-pub-3940256099942544/1033173712', // TEST ID, replace with real one
-      // Production ID
-      // adUnitId = 'ca-app-pub-2602479093941928/9052001071';
+      // Dev ID - REPLACE WITH YOUR REAL AD UNIT ID FOR PRODUCTION
+      adUnitId: 'ca-app-pub-3940256099942544/1033173712',
       request: const AdRequest(),
       adLoadCallback: InterstitialAdLoadCallback(
         onAdLoaded: (ad) {
@@ -75,32 +75,44 @@ class _SimulationViewState extends State<SimulationView> {
     super.dispose();
   }
 
-  Future<void> loadJson() async {
+  Future<void> _loadSimulationsFromFirebase() async {
     try {
-      final String jsonStr = await rootBundle.loadString(
-        'assets/json/try_out.json',
-      );
-      final Map<String, dynamic> rawJsonData = json.decode(jsonStr);
-
-      // Expect 'cpns' to be a List of dynamic
-      final List<dynamic>? cpnsList = rawJsonData['cpns'];
+      // Get a snapshot of the 'cpns' node in your Firebase Realtime Database
+      final DatabaseEvent event = await _databaseRef.child('cpns').once();
+      final DataSnapshot snapshot = event.snapshot;
 
       Map<String, dynamic> filteredData = {};
       int packageCounter = 0; // To generate unique keys for the map
 
-      if (cpnsList != null) {
-        // Filter out null values and then process valid maps
-        for (final dynamic item in cpnsList.where((e) => e != null)) {
-          if (item is Map<String, dynamic>) {
-            // 'item' is already the quiz package data (e.g., {"level": "Mudah", "type": "simulasi", ...})
-            final Map<String, dynamic> packageData = item; 
+      if (snapshot.value != null) {
+        // Firebase Realtime Database typically returns lists as dynamic objects
+        // when the data is an array in the JSON.
+        if (snapshot.value is List) {
+          final List<dynamic> cpnsList = snapshot.value as List<dynamic>;
 
-            if (packageData.containsKey('type') && packageData['type'] == 'simulasi') {
-              // Generate a unique key for this simulation package
-              final String generatedKey = 'simulasi_${packageCounter++}';
-              filteredData[generatedKey] = packageData;
+          for (final dynamic item in cpnsList.where((e) => e != null)) {
+            if (item is Map) { // Check if it's a generic Map first
+              // Explicitly convert to Map<String, dynamic>
+              final Map<String, dynamic> packageData = Map<String, dynamic>.from(item);
+
+              if (packageData.containsKey('type') && packageData['type'] == 'simulasi') {
+                // Generate a unique key for this simulation package
+                final String generatedKey = 'simulasi_${packageCounter++}';
+                filteredData[generatedKey] = packageData;
+              }
             }
           }
+        } else if (snapshot.value is Map) {
+          // This case handles if 'cpns' itself is an object with numeric keys
+          // (e.g., if you pushed an array and Firebase converted it)
+          (snapshot.value as Map<dynamic, dynamic>).forEach((key, value) {
+            if (value is Map) {
+              final Map<String, dynamic> packageData = Map<String, dynamic>.from(value);
+              if (packageData.containsKey('type') && packageData['type'] == 'simulasi') {
+                filteredData[key.toString()] = packageData; // Use the actual key from Firebase
+              }
+            }
+          });
         }
       }
 
@@ -110,7 +122,7 @@ class _SimulationViewState extends State<SimulationView> {
         _isLoading = false; // Set loading to false once data is loaded
       });
     } catch (e) {
-      debugPrint('Error loading JSON: $e');
+      debugPrint('Error loading data from Firebase: $e');
       setState(() {
         _isLoading = false; // Set loading to false even on error
         // Optionally set an error message to display
@@ -151,14 +163,29 @@ class _SimulationViewState extends State<SimulationView> {
     }
 
     final selectedData = data[selectedKey!];
-    
-    // Safely calculate jumlahSoal
+
+    // Safely calculate jumlahSoal with robust type checking
     int jumlahSoal = 0;
-    if (selectedData != null && selectedData.containsKey('category') && selectedData['category'] is List) {
-      for (var cat in selectedData['category']) {
-        if (cat is Map<String, dynamic> && cat.containsKey('quiz') && cat['quiz'] is List) {
-          jumlahSoal += (cat['quiz'] as List).length;
+    if (selectedData != null) {
+      var categories = selectedData['category'];
+      if (categories is List) {
+        for (var cat in categories) {
+          if (cat is Map) { // Ensure 'cat' is a Map first
+            final Map<String, dynamic> categoryMap = Map<String, dynamic>.from(cat); // Explicit conversion
+            if (categoryMap.containsKey('quiz') && categoryMap['quiz'] is List) {
+              jumlahSoal += (categoryMap['quiz'] as List).length;
+            }
+          }
         }
+      } else if (categories is Map) { // Handle case where 'category' might be a Map (e.g., if array keys are numeric strings)
+        categories.forEach((key, value) {
+          if (value is Map) {
+            final Map<String, dynamic> categoryMap = Map<String, dynamic>.from(value);
+            if (categoryMap.containsKey('quiz') && categoryMap['quiz'] is List) {
+              jumlahSoal += (categoryMap['quiz'] as List).length;
+            }
+          }
+        });
       }
     }
 
@@ -184,7 +211,7 @@ class _SimulationViewState extends State<SimulationView> {
             alignment: Alignment.center,
             padding: const EdgeInsets.only(top: 20, bottom: 12),
             child: Image.asset(
-              'assets/training/question.webp',
+              'assets/training/question.webp', // Ensure this image asset exists
               width: 250,
               height: 250,
             ),
@@ -221,8 +248,6 @@ class _SimulationViewState extends State<SimulationView> {
               ),
               items: data.entries.map((entry) {
                 final level = entry.value['level'] ?? 'Unknown Level'; // Provide a fallback
-                // You can add a number here if each level repeats (e.g., "Mudah 1", "Mudah 2")
-                // For simulations, it's often just the level like "Mudah", "Sedang"
                 return DropdownMenuItem<String>(
                   value: entry.key,
                   child: Text(level),
@@ -247,7 +272,7 @@ class _SimulationViewState extends State<SimulationView> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text(
-                  'Simulasi Soal', // Changed from 'Latihan Soal'
+                  'Simulasi Soal',
                   style: TextStyle(fontSize: 12, color: Color(0xFF6A5AE0)),
                 ),
                 const SizedBox(height: 8),
@@ -275,7 +300,7 @@ class _SimulationViewState extends State<SimulationView> {
                 const SizedBox(width: 16),
                 BoxQuizComponents(
                   label: 'Durasi',
-                  text: '${(selectedData['duration'] / 60).round()} Menit',
+                  text: selectedData.containsKey('duration') ? '${(selectedData['duration'] / 60).round()} Menit' : 'N/A', // Null check for duration
                 ),
               ],
             ),
@@ -324,7 +349,7 @@ class _SimulationViewState extends State<SimulationView> {
                 ),
               ),
               child: const Text(
-                'Mulai Simulasi', // Changed from 'Mulai Latihan Soal'
+                'Mulai Simulasi',
                 style: TextStyle(fontSize: 16, color: Color(0xFF6A5AE0)),
               ),
             ),
