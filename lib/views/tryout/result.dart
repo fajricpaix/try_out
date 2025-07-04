@@ -32,12 +32,10 @@ class ResultPage extends StatefulWidget {
 }
 
 class _ResultPageState extends State<ResultPage> {
-  bool _showPassingGradeDetails = false;
 
   @override
   void initState() {
     super.initState();
-    // Interstitial ad akan dimuat dan ditampilkan oleh AdManager saat ResultPage ini dibuat
   }
 
   String _formatDuration(int seconds) {
@@ -49,6 +47,7 @@ class _ResultPageState extends State<ResultPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Container(
           margin: const EdgeInsets.only(top: 48),
@@ -57,8 +56,6 @@ class _ResultPageState extends State<ResultPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              // ... (kode UI yang sudah ada) ...
-
               // Score TryOut
               Container(
                 width: 275,
@@ -113,7 +110,8 @@ class _ResultPageState extends State<ResultPage> {
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
-                  color: widget.twkScore > 64 ||
+                  color:
+                      widget.twkScore > 64 ||
                           widget.tiuScore > 79 ||
                           widget.tkpScore > 165
                       ? const Color(0xFF6A5AE0)
@@ -121,7 +119,41 @@ class _ResultPageState extends State<ResultPage> {
                 ),
                 textAlign: TextAlign.center,
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: 16),
+
+              // Display the "Passing Grade Detail" button
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  _buildScoreBox(
+                    'TWK',
+                    widget.twkScore,
+                    65,
+                    widget.twkScore > 64
+                        ? const Color(0xFF14AE5C)
+                        : const Color(0xFFF71D1D)
+                  ),
+                  const SizedBox(width: 10),
+                  _buildScoreBox(
+                    'TIU',
+                    widget.tiuScore,
+                    80,
+                    widget.tiuScore > 79
+                        ? const Color(0xFF14AE5C)
+                        : const Color(0xFFF71D1D)
+                  ),
+                  const SizedBox(width: 10),
+                  _buildScoreBox(
+                    'TKP',
+                    widget.tkpScore,
+                    166,
+                    widget.tkpScore > 165
+                        ? const Color(0xFF14AE5C)
+                        : const Color(0xFFF71D1D)
+                  ),
+                ],
+              ),
+              const SizedBox(height: 16),
 
               // Duration
               Column(
@@ -162,17 +194,7 @@ class _ResultPageState extends State<ResultPage> {
                   ),
                 ],
               ),
-
-              // Separator
-              Container(
-                height: 24,
-                margin: const EdgeInsets.only(top: 16),
-                decoration: const BoxDecoration(
-                  border: Border(
-                    top: BorderSide(color: Colors.black38, width: 1.0),
-                  ),
-                ),
-              ),
+              const SizedBox(height: 16),
 
               // Button Check Summary Answers
               SizedBox(
@@ -193,87 +215,23 @@ class _ResultPageState extends State<ResultPage> {
                     );
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blueAccent,
+                    backgroundColor: Color(0xFFFFE500),
                     padding: const EdgeInsets.symmetric(vertical: 16),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),
                   ),
                   child: const Text(
-                    'Lihat Jawaban Anda',
+                    'Lihat Detail Jawaban',
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
-                      color: Colors.white,
+                      color: Colors.black,
                     ),
                   ),
                 ),
               ),
               const SizedBox(height: 20),
-
-              // Conditionally display the "Passing Grade Detail" button
-              if (!_showPassingGradeDetails)
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      setState(() {
-                        _showPassingGradeDetails = true;
-                      });
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFFFFE500),
-                      padding: const EdgeInsets.symmetric(vertical: 16),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                    ),
-                    child: const Text(
-                      'Detail Skor Try Out',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
-                      ),
-                    ),
-                  ),
-                )
-              else
-                // Display the three score boxes when _showPassingGradeDetails is true
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    _buildScoreBox(
-                      'TWK',
-                      widget.twkScore,
-                      65,
-                      widget.twkScore > 64
-                          ? const Color(0xFFFFE500)
-                          : const Color(0xFFF71D1D),
-                      widget.twkScore > 64 ? Colors.black : Colors.white,
-                    ),
-                    const SizedBox(width: 10),
-                    _buildScoreBox(
-                      'TIU',
-                      widget.tiuScore,
-                      80,
-                      widget.tiuScore > 79
-                          ? const Color(0xFFFFE500)
-                          : const Color(0xFFF71D1D),
-                      widget.tiuScore > 79 ? Colors.black : Colors.white,
-                    ),
-                    const SizedBox(width: 10),
-                    _buildScoreBox(
-                      'TKP',
-                      widget.tkpScore,
-                      166,
-                      widget.tkpScore > 165
-                          ? const Color(0xFFFFE500)
-                          : const Color(0xFFF71D1D),
-                      widget.tkpScore > 165 ? Colors.black : Colors.white,
-                    ),
-                  ],
-                ),
 
               // Button Shared and Back to Home
               Container(
@@ -348,7 +306,7 @@ class _ResultPageState extends State<ResultPage> {
       // Gunakan AdManager untuk menampilkan banner ad dan interstitial ad
       bottomNavigationBar: const AdManager(
         showBanner: true,
-        bannerAdUnitId: AdsConstants.bannerAdUnitId
+        bannerAdUnitId: AdsConstants.bannerAdUnitId,
       ),
     );
   }
@@ -358,8 +316,7 @@ class _ResultPageState extends State<ResultPage> {
     title,
     int score,
     int passScore,
-    Color valueColor,
-    Color textColor,
+    Color valueColor
   ) {
     return Expanded(
       child: Card(
@@ -373,7 +330,7 @@ class _ResultPageState extends State<ResultPage> {
             children: [
               Text(
                 title,
-                style: TextStyle(color: textColor, fontWeight: FontWeight.bold),
+                style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
               ),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.end,
@@ -383,12 +340,12 @@ class _ResultPageState extends State<ResultPage> {
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
-                      color: textColor,
+                      color: Colors.white,
                     ),
                   ),
                   Text(
                     '/$passScore',
-                    style: TextStyle(fontSize: 14, color: textColor),
+                    style: TextStyle(fontSize: 14, color: Colors.white),
                   ),
                 ],
               ),

@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'CPNS Try Out 2025',
+      title: 'Bank Soal CPNS',
       home: const MyHomePage(),
     );
   }

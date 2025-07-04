@@ -2,7 +2,7 @@
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES"/>
 
     <application
-        android:label="CPNS Try Out 2025"
+        android:label="Bank Soal CPNS"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <meta-data
