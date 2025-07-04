@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:try_out/main.dart';
 import 'package:try_out/views/tryout/score_summary.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart'; // Import the package
+import 'package:try_out/widgets/ads/ads_constant.dart';
+// Import komponen AdManager
+import 'package:try_out/widgets/ads/ads_manager.dart';
 
 class ResultPage extends StatefulWidget {
   final int totalScore;
@@ -32,47 +34,10 @@ class ResultPage extends StatefulWidget {
 class _ResultPageState extends State<ResultPage> {
   bool _showPassingGradeDetails = false;
 
-  // Declare BannerAd variable
-  BannerAd? _bannerAd;
-  bool _isBannerAdLoaded = false;
-
   @override
   void initState() {
     super.initState();
-    _loadBannerAd(); // Load the ad when the widget initializes
-  }
-
-  @override
-  void dispose() {
-    _bannerAd?.dispose(); // Dispose the ad when the widget is removed
-    super.dispose();
-  }
-
-  void _loadBannerAd() {
-    _bannerAd = BannerAd(
-      
-      // Test ID
-      adUnitId: 'ca-app-pub-3940256099942544/6300978111', // Test Ad Unit ID
-      // Production ID
-      // final String bannerAdUnitId = 'ca-app-pub-2602479093941928/9052001071';
-      
-      request: const AdRequest(),
-      size: AdSize.banner, // Standard banner size (320x50)
-      listener: BannerAdListener(
-        onAdLoaded: (ad) {
-          setState(() {
-            _isBannerAdLoaded = true;
-          });
-        },
-        onAdFailedToLoad: (ad, err) {
-          debugPrint('BannerAd failed to load: $err');
-          ad.dispose(); // Dispose the ad if it fails to load
-        },
-        onAdOpened: (ad) => debugPrint('BannerAd opened.'),
-        onAdClosed: (ad) => debugPrint('BannerAd closed.'),
-        onAdImpression: (ad) => debugPrint('BannerAd impression.'),
-      ),
-    )..load(); // Load the ad immediately after creation
+    // Interstitial ad akan dimuat dan ditampilkan oleh AdManager saat ResultPage ini dibuat
   }
 
   String _formatDuration(int seconds) {
@@ -92,7 +57,7 @@ class _ResultPageState extends State<ResultPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              // ... (your existing UI code) ...
+              // ... (kode UI yang sudah ada) ...
 
               // Score TryOut
               Container(
@@ -380,16 +345,11 @@ class _ResultPageState extends State<ResultPage> {
           ),
         ),
       ),
-      // Integrate the banner ad into bottomNavigationBar
-      bottomNavigationBar: _isBannerAdLoaded && _bannerAd != null
-          ? Padding(
-            padding: const EdgeInsets.only(bottom: 16, top: 12),
-            child: SizedBox(
-              width: _bannerAd!.size.width.toDouble(),
-              height: _bannerAd!.size.height.toDouble(),
-              child: AdWidget(ad: _bannerAd!),
-            )
-          ) : null,
+      // Gunakan AdManager untuk menampilkan banner ad dan interstitial ad
+      bottomNavigationBar: const AdManager(
+        showBanner: true,
+        bannerAdUnitId: AdsConstants.bannerAdUnitId
+      ),
     );
   }
 

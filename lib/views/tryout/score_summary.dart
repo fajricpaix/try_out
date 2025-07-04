@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:shared_preferences/shared_preferences.dart'; // Import SharedPreferences
+import 'package:try_out/widgets/ads/ads_constant.dart';
+// Import AdManager
+import 'package:try_out/widgets/ads/ads_manager.dart';
+
 
 class ScoreSummaryPage extends StatefulWidget {
   final List<Map<String, dynamic>> userAnswers;
@@ -25,84 +27,14 @@ class ScoreSummaryPage extends StatefulWidget {
 }
 
 class _ScoreSummaryPageState extends State<ScoreSummaryPage> {
-  InterstitialAd? _interstitialAd;
-  static const String _lastAdShownKey = 'lastScoreSummaryAdShownTime'; // Key for SharedPreferences
-
-  // Banner Ad variables
-  BannerAd? _bannerAd;
-  bool _isBannerAdLoaded = false;
-
   @override
   void initState() {
     super.initState();
-    _loadInterstitialAd(); // Attempt to load and show ad when the page initializes
-    _loadBannerAd(); // Load banner ad
-  }
-
-  void _loadInterstitialAd() async {
-    final prefs = await SharedPreferences.getInstance();
-    final lastAdShown = prefs.getInt(_lastAdShownKey) ?? 0;
-    final currentTime = DateTime.now().millisecondsSinceEpoch;
-    const fiveMinutesInMillis = 5 * 60 * 1000; // 5 minutes in milliseconds
-
-    if (currentTime - lastAdShown < fiveMinutesInMillis) {
-      debugPrint('Interstitial ad on ScoreSummaryPage not shown, less than 5 minutes since last show.');
-      return; // Don't show ad if less than 5 minutes have passed
-    }
-
-    InterstitialAd.load(
-      // Dev ID
-      adUnitId: 'ca-app-pub-3940256099942544/1033173712', // TEST ID, replace with real one
-      // Production ID
-      // adUnitId = 'ca-app-pub-2602479093941928/9052001071';
-      request: const AdRequest(),
-      adLoadCallback: InterstitialAdLoadCallback(
-        onAdLoaded: (ad) {
-          _interstitialAd = ad;
-          _interstitialAd!.fullScreenContentCallback = FullScreenContentCallback(
-            onAdDismissedFullScreenContent: (ad) {
-              ad.dispose();
-              // Update the last ad shown time after the ad is dismissed
-              prefs.setInt(_lastAdShownKey, DateTime.now().millisecondsSinceEpoch);
-            },
-            onAdFailedToShowFullScreenContent: (ad, error) {
-              ad.dispose();
-              debugPrint('InterstitialAd failed to show on ScoreSummaryPage: $error');
-            },
-          );
-          _interstitialAd!.show(); // Show ad if time constraint is met
-        },
-        onAdFailedToLoad: (error) {
-          debugPrint('InterstitialAd failed to load on ScoreSummaryPage: $error');
-        },
-      ),
-    );
-  }
-
-  // Method to load the banner ad
-  void _loadBannerAd() {
-    _bannerAd = BannerAd(
-      adUnitId: 'ca-app-pub-3940256099942544/6300978111', // TEST ID for Banner
-      request: const AdRequest(),
-      size: AdSize.banner,
-      listener: BannerAdListener(
-        onAdLoaded: (ad) {
-          setState(() {
-            _isBannerAdLoaded = true;
-          });
-        },
-        onAdFailedToLoad: (ad, error) {
-          ad.dispose();
-          debugPrint('BannerAd failed to load: $error');
-        },
-      ),
-    );
-    _bannerAd!.load();
+    // Interstitial ad akan dimuat dan ditampilkan oleh AdManager saat ScoreSummaryPage ini dibuat
   }
 
   @override
   void dispose() {
-    _interstitialAd?.dispose();
     super.dispose();
   }
 
@@ -127,7 +59,6 @@ class _ScoreSummaryPageState extends State<ScoreSummaryPage> {
         margin: const EdgeInsets.symmetric(horizontal: 4),
         padding: const EdgeInsets.symmetric(vertical: 8),
         decoration: BoxDecoration(
-          // ignore: deprecated_member_use
           color: color.withOpacity(0.1),
           borderRadius: BorderRadius.circular(8),
           border: Border.all(color: color, width: 1),
@@ -521,16 +452,13 @@ class _ScoreSummaryPageState extends State<ScoreSummaryPage> {
           ],
         ),
       ),
-      bottomNavigationBar: _isBannerAdLoaded && _bannerAd != null
-      ? Padding(
-        padding: const EdgeInsets.only(bottom: 16, top: 12),
-        child: SizedBox(
-          width: _bannerAd!.size.width.toDouble(),
-          height: _bannerAd!.size.height.toDouble(),
-          child: AdWidget(ad: _bannerAd!),
-        )
-      )
-      : null,
+      bottomNavigationBar: const AdManager(
+        showBanner: true,
+        bannerAdUnitId: AdsConstants.bannerAdUnitId, // Test ID Banner
+        showInterstitial: true,
+        interstitialAdUnitId: AdsConstants.interstitialAdUnitId,
+        interstitialCooldownKey: 'lastScoreSummaryAdShownTime', // Kunci unik untuk cooldown interstitial
+      ),
     );
   }
 }

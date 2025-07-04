@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:try_out/main.dart';
 import 'package:try_out/widgets/modal/confirmation_dialog.dart';
 import 'package:try_out/widgets/modal/quiz.dart';
 import 'package:try_out/widgets/tools/select_quiz_button.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 class QuizView extends StatefulWidget {
   final List<dynamic> quizData;
@@ -21,48 +21,10 @@ class _QuizViewState extends State<QuizView> {
   List<bool> _answeredStatus = [];
   bool _isLoading = true;
 
-  // Ads
-  InterstitialAd? _interstitialAd;
-  bool _isAdReady = false;
-
-  void _loadInterstitialAd() {
-    InterstitialAd.load(
-      // Dev ID
-      adUnitId:
-          'ca-app-pub-3940256099942544/1033173712', // TEST ID, replace with real one
-      // Production ID
-      // adUnitId = 'ca-app-pub-2602479093941928/9052001071';
-      request: const AdRequest(),
-      adLoadCallback: InterstitialAdLoadCallback(
-        onAdLoaded: (InterstitialAd ad) {
-          _interstitialAd = ad;
-          _isAdReady = true;
-
-          _interstitialAd!.fullScreenContentCallback =
-              FullScreenContentCallback(
-                onAdDismissedFullScreenContent: (ad) {
-                  ad.dispose();
-                  Navigator.pop(context); // Kembali setelah iklan
-                },
-                onAdFailedToShowFullScreenContent: (ad, error) {
-                  ad.dispose();
-                  Navigator.pop(context); // Tetap kembali jika gagal tampil
-                },
-              );
-        },
-        onAdFailedToLoad: (error) {
-          debugPrint('InterstitialAd gagal dimuat: $error');
-          _isAdReady = false;
-        },
-      ),
-    );
-  }
-
   @override
   void initState() {
     super.initState();
     _loadQuizData();
-    _loadInterstitialAd();
   }
 
   void _loadQuizData() {
@@ -121,7 +83,7 @@ class _QuizViewState extends State<QuizView> {
 
   @override
   void dispose() {
-    _interstitialAd?.dispose();
+    // Removed: _interstitialAd?.dispose();
     super.dispose();
   }
 
@@ -464,14 +426,14 @@ class _QuizViewState extends State<QuizView> {
                                   onPressed: () {
                                     Navigator.of(
                                       context,
-                                    ).pop(); // Close the dialog first
-                                    if (_isAdReady && _interstitialAd != null) {
-                                      _interstitialAd!.show();
-                                    } else {
-                                      Navigator.pop(
-                                        context,
-                                      ); // Fallback if ad fails
-                                    }
+                                    ).pop(); // Close the AlertDialog
+                                    Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            const MyHomePage(),
+                                      ),
+                                    );
                                   },
                                   child: const Text('Keluar'),
                                 ),

@@ -1,9 +1,9 @@
-import 'package:flutter/material.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:try_out/views/quetions/quiz.dart';
-import 'package:try_out/widgets/tools/box_quiz.dart';
 import 'package:firebase_database/firebase_database.dart'; // Re-added Firebase Database import
+import 'package:flutter/material.dart';
+import 'package:try_out/views/quetions/quiz.dart';
+import 'package:try_out/widgets/ads/ads_constant.dart';
+import 'package:try_out/widgets/ads/ads_manager.dart';
+import 'package:try_out/widgets/tools/box_quiz.dart';
 
 class DashboardQuetionView extends StatefulWidget {
   final String level;
@@ -20,61 +20,14 @@ class _DashboardQuetionViewState extends State<DashboardQuetionView> {
   String _error = '';
   String? _selectedQuizKey;
 
-  InterstitialAd? _interstitialAd;
-  static const String _lastAdShownKey = 'lastAdShownTime';
-
-  void _loadInterstitialAd() async {
-    final prefs = await SharedPreferences.getInstance();
-    final lastAdShown = prefs.getInt(_lastAdShownKey) ?? 0;
-    final currentTime = DateTime.now().millisecondsSinceEpoch;
-    const fiveMinutesInMillis = 5 * 60 * 1000;
-
-    if (currentTime - lastAdShown < fiveMinutesInMillis) {
-      debugPrint(
-        'Interstitial ad not shown, less than 5 minutes since last show.',
-      );
-      return;
-    }
-
-    InterstitialAd.load(
-      adUnitId: 'ca-app-pub-3940256099942544/1033173712', // TEST ID, replace with real one
-      request: const AdRequest(),
-      adLoadCallback: InterstitialAdLoadCallback(
-        onAdLoaded: (InterstitialAd ad) {
-          _interstitialAd = ad;
-          _interstitialAd!.fullScreenContentCallback =
-              FullScreenContentCallback(
-                onAdDismissedFullScreenContent: (ad) {
-                  ad.dispose();
-                  prefs.setInt(
-                    _lastAdShownKey,
-                    DateTime.now().millisecondsSinceEpoch,
-                  );
-                },
-                onAdFailedToShowFullScreenContent: (ad, error) {
-                  debugPrint('InterstitialAd failed to show: $error');
-                  ad.dispose();
-                },
-              );
-          _interstitialAd!.show();
-        },
-        onAdFailedToLoad: (LoadAdError error) {
-          debugPrint('InterstitialAd failed to load: $error');
-        },
-      ),
-    );
-  }
-
   @override
   void initState() {
     super.initState();
     _loadQuizData();
-    _loadInterstitialAd();
   }
 
   @override
   void dispose() {
-    _interstitialAd?.dispose();
     super.dispose();
   }
 
@@ -447,6 +400,13 @@ class _DashboardQuetionViewState extends State<DashboardQuetionView> {
                 ),
               ],
             ),
+          ),
+          // your AdManager for the interstitial ad
+          const AdManager(
+            showBanner: false,
+            showInterstitial: true,
+            interstitialAdUnitId: AdsConstants.interstitialAdUnitId,
+            interstitialCooldownKey: 'lastSimulationAdShownTime',
           ),
         ],
       ),

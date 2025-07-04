@@ -67,7 +67,6 @@ flutter:
   assets:
     - assets/
     - assets/icon/
-    - assets/json/
     - assets/menus/
     - assets/pdf/
     - assets/slides/
