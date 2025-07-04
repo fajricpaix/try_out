@@ -14,7 +14,7 @@ class DocumentsView extends StatelessWidget {
         backgroundColor: const Color(0xFF5E00B0),
         iconTheme: const IconThemeData(color: Colors.white),
         bottom: PreferredSize(
-          preferredSize: Size.fromHeight(1.0),
+          preferredSize: const Size.fromHeight(1.0),
           child: Container(
             color: Colors.white,
             height: 1.0,
@@ -51,23 +51,48 @@ class DocumentsView extends StatelessWidget {
                     child: Column(
                       children: [
                         TutorialContent(
-                          title: 'Buku Pendaftaran PPPK Guru - Sistem Seleksi CASN 2024',
-                          newPage: const ReadTipsScreen(),
-                        ),
-                        const SizedBox(height: 16),
-                        TutorialContent(
-                          title: 'Buku Pendaftaran PPPK NAKES - Sistem Seleksi CASN 2024',
-                          newPage: const ReadTipsScreen(),
-                        ),
-                        const SizedBox(height: 16),
-                        TutorialContent(
-                          title: 'Buku Pendaftaran PPPK Teknis - Sistem Seleksi CASN 2024 V2',
-                          newPage: const SizedBox(),
+                          title: 'E-Book Seleksi CPNS',
+                          newPage: ReadTipsScreen(
+                            pdfSource: 'assets/pdf/ebook_cpns.pdf', 
+                            isNetwork: false, 
+                            title: 'E-Book Seleksi CPN'
+                          ),
                         ),
                         const SizedBox(height: 16),
                         TutorialContent(
                           title: 'Buku Petunjuk DRH 2024',
-                          newPage: const SizedBox(),
+                          newPage: ReadTipsScreen(
+                            pdfSource: 'assets/pdf/ebook_drh.pdf', 
+                            isNetwork: false,
+                            title: 'Buku Petunjuk DRH 2024',
+                          )
+                        ),
+                        const SizedBox(height: 16),
+                        TutorialContent(
+                          title: 'E-Book PPPK Guru - Sistem Seleksi CASN 2024',
+                          newPage: ReadTipsScreen(
+                            pdfSource: 'assets/pdf/ebook_pppk_guru.pdf', 
+                            isNetwork: false,
+                            title: 'E-Book PPPK Guru - Sistem Seleksi CASN 2024',
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                        const TutorialContent(
+                          title: 'E-Book PPPK NAKES - Sistem Seleksi CASN 2024',
+                          newPage: ReadTipsScreen(
+                            pdfSource: 'assets/pdf/ebook_pppk_nakes.pdf', 
+                            isNetwork: false,
+                            title: 'E-Book PPPK NAKES - Sistem Seleksi CASN 2024',
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                        const TutorialContent(
+                          title: 'E-Book PPPK Teknis - Sistem Seleksi CASN 2024',
+                          newPage: ReadTipsScreen(
+                            pdfSource: 'assets/pdf/ebook_pppk_teknis.pdf',
+                            isNetwork: false,
+                            title: 'E-Book PPPK Teknis - Sistem Seleksi CASN 2024',
+                          ),
                         ),
                       ],
                     ),
