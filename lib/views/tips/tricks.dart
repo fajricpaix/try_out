@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:try_out/widgets/ads/ads_constant.dart';
+import 'package:try_out/widgets/ads/ads_manager.dart';
 import 'package:try_out/widgets/documents/desc.dart';
 import 'package:try_out/widgets/documents/title.dart';
 
@@ -186,6 +188,10 @@ class TricksView extends StatelessWidget {
             ),
           ],
         ),
+      ),
+      bottomNavigationBar: AdManager(
+        showBanner: true,
+        bannerAdUnitId: AdsConstants.bannerAdUnitId, // Gunakan ID dari constants
       ),
     );
   }

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
+import 'package:try_out/widgets/ads/ads_constant.dart';
+import 'package:try_out/widgets/ads/ads_manager.dart';
 
 class ReadTipsScreen extends StatefulWidget {
   final String pdfSource;
@@ -29,6 +31,11 @@ class _ReadTipsScreenState extends State<ReadTipsScreen> {
       body: widget.isNetwork
           ? SfPdfViewer.network(widget.pdfSource)
           : SfPdfViewer.asset(widget.pdfSource),
+      // Gunakan AdManager untuk menampilkan banner ad
+      bottomNavigationBar: AdManager(
+        showBanner: true,
+        bannerAdUnitId: AdsConstants.bannerAdUnitId, // Gunakan ID dari constants
+      ),
     );
   }
 }

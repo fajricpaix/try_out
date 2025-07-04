@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:try_out/views/tips/read/read.dart';
+import 'package:try_out/widgets/ads/ads_constant.dart';
+import 'package:try_out/widgets/ads/ads_manager.dart';
 import 'package:try_out/widgets/documents/tutorial.dart';
 
 class DocumentsView extends StatelessWidget {
@@ -102,6 +104,11 @@ class DocumentsView extends StatelessWidget {
             ),
           ],
         ),
+      ),
+      // Gunakan AdManager untuk menampilkan banner ad
+      bottomNavigationBar: AdManager(
+        showBanner: true,
+        bannerAdUnitId: AdsConstants.bannerAdUnitId, // Gunakan ID dari constants
       ),
     );
   }
