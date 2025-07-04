@@ -59,6 +59,7 @@ class _ScoreSummaryPageState extends State<ScoreSummaryPage> {
         margin: const EdgeInsets.symmetric(horizontal: 4),
         padding: const EdgeInsets.symmetric(vertical: 8),
         decoration: BoxDecoration(
+          // ignore: deprecated_member_use
           color: color.withOpacity(0.1),
           borderRadius: BorderRadius.circular(8),
           border: Border.all(color: color, width: 1),
