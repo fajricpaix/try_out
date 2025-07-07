@@ -307,7 +307,7 @@ class _QuizViewState extends State<QuizView> {
                                 child: Text(
                                   selectedScore != null
                                       ? 'Skor Anda: $selectedScore'
-                                      : 'Jawaban: $correctAnswerLabel',
+                                      : 'Jawaban: ${correctAnswerLabel?.toUpperCase()}',
                                   style: const TextStyle(color: Colors.white),
                                 ),
                               ),

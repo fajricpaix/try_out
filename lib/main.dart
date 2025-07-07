@@ -57,10 +57,9 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),
       ),
-      // Gunakan AdManager untuk menampilkan banner ad
       bottomNavigationBar: AdManager(
         showBanner: true,
-        bannerAdUnitId: AdsConstants.bannerAdUnitId, // Gunakan ID dari constants
+        bannerAdUnitId: AdsConstants.bannerAdUnitId,
       ),
     );
   }

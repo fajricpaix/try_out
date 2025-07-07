@@ -47,7 +47,7 @@ class SelectQuizButton extends StatelessWidget {
       child: Row(
         children: [
           Text(
-            '$label.',
+            '${label.toUpperCase()}.',
             style: TextStyle(
               color: Color(0xFF604FDE),
               fontWeight: FontWeight.bold,
