@@ -214,6 +214,7 @@ class _ScoreSummaryPageState extends State<ScoreSummaryPage> {
     }
 
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: const Color(0xFF6A5AE0),
         iconTheme: const IconThemeData(color: Colors.white),
