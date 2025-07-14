@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:try_out/views/credits/credits.dart';
 import 'package:try_out/views/simulation/simulation.dart';
 import 'package:try_out/views/training/training.dart';
 import 'package:try_out/widgets/thumbnail/thumbnail_home.dart';
@@ -54,7 +55,7 @@ class MenuContent extends StatelessWidget {
         
         // Credit & Support Card
         ThumbnailHome(
-          menuPage: const SizedBox(),
+          menuPage: const CreditsView(),
           isBackground: 'assets/menus/bg_credits.webp',
           imagePath: 'assets/menus/credits.webp',
           title: 'Credit & Support',
