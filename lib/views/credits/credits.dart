@@ -75,7 +75,7 @@ class CreditsView extends StatelessWidget {
                     onPressed: () {
                     Navigator.of(context).pop();
                     final Uri url =
-                      Uri.parse('https://www.google.com');
+                      Uri.parse('https://www.candramawa.space');
                     Future<void> launchUrlBrowser() async {
                       if (!await launchUrl(
                       url,
