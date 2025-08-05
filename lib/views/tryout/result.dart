@@ -313,6 +313,7 @@ class _ResultPageState extends State<ResultPage> {
 
   // Helper method to build a score box
   Widget _buildScoreBox(
+    // ignore: strict_top_level_inference
     title,
     int score,
     int passScore,

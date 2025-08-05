@@ -7,9 +7,14 @@ import 'package:try_out/widgets/ads/ads_constant.dart';
 import 'package:try_out/widgets/ads/ads_manager.dart';
 
 import 'firebase_options.dart';
+import 'package:flutter/services.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
   MobileAds.instance.initialize();
 
   await Firebase.initializeApp(
