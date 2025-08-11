@@ -19,7 +19,7 @@ if (keystorePropertiesFile.exists()) {
 }
 
 android {
-    namespace = "com.example.try_out"
+    namespace = "com.candramawa.try_out"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = "29.0.13599879"
 

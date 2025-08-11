@@ -1,4 +1,4 @@
-package com.example.try_out
+package com.candramawa.try_out
 
 import io.flutter.embedding.android.FlutterActivity
 
