@@ -1,198 +1,198 @@
 import 'package:flutter/material.dart';
+import 'dart:async';
 import 'package:try_out/widgets/ads/ads_constant.dart';
 import 'package:try_out/widgets/ads/ads_manager.dart';
-import 'package:try_out/widgets/documents/desc.dart';
-import 'package:try_out/widgets/documents/title.dart';
 
-class TricksView extends StatelessWidget {
+class TricksView extends StatefulWidget {
   const TricksView({super.key});
+
+  @override
+  State<TricksView> createState() => _TricksViewState();
+}
+
+class _TricksViewState extends State<TricksView> {
+  final PageController _pageController = PageController();
+  int _currentIndex = 0;
+  Timer? _timer;
+  Timer? _loadingTimer;
+  double _loadingProgress = 0.0;
+
+  // Sample data for 5 slides - replace with your actual content
+  final List<Map<String, dynamic>> _slides = [
+    {'imgUrl': 'assets/tips/tips-1.webp'},
+    {'imgUrl': 'assets/tips/tips-1.webp'},
+    {'imgUrl': 'assets/tips/tips-1.webp'},
+    {'imgUrl': 'assets/tips/tips-1.webp'},
+    {'imgUrl': 'assets/tips/tips-1.webp'},
+  ];
+
+  @override
+  void initState() {
+    super.initState();
+    _startLoadingAnimation();
+    _startAutoScroll();
+  }
+
+  void _startLoadingAnimation() {
+    _loadingTimer = Timer.periodic(const Duration(milliseconds: 100), (timer) {
+      if (mounted) {
+        setState(() {
+          _loadingProgress += 0.0125; // 8000ms / 100ms = 80 steps, 1/80 = 0.0125
+          if (_loadingProgress >= 1.0) {
+            _loadingProgress = 1.0;
+            _loadingTimer?.cancel();
+          }
+        });
+      }
+    });
+  }
+
+  void _resetLoadingForNextSlide() {
+    _loadingProgress = 0.0;
+    _loadingTimer?.cancel();
+    
+    // Mulai loading animation untuk semua slide (termasuk slide terakhir)
+    _startLoadingAnimation();
+  }
+
+  void _startAutoScroll() {
+    _timer = Timer.periodic(const Duration(seconds: 8), (timer) {
+      if (_pageController.hasClients && mounted) {
+        // Jangan lanjut jika sudah di slide terakhir
+        if (_currentIndex < _slides.length - 1) {
+          int nextIndex = _currentIndex + 1;
+          
+          _pageController.animateToPage(
+            nextIndex,
+            duration: const Duration(milliseconds: 500),
+            curve: Curves.easeInOut,
+          );
+        } else {
+          // Hentikan auto scroll jika sudah di slide terakhir, tapi tetap jalankan loading
+          _timer?.cancel();
+        }
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    _loadingTimer?.cancel();
+    _pageController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFFC7E37),
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text('Tips & Trik', style: TextStyle(color: Colors.white)),
-        backgroundColor: const Color(0xFFFC7E37),
-        iconTheme: const IconThemeData(color: Colors.white),
+        backgroundColor: Colors.white,
+        title: const Text(
+          'Tip Dokumen',
+          style: TextStyle(color: Color(0xFFFC7E37), fontWeight: FontWeight.bold),
+        ),
+        iconTheme: const IconThemeData(color: Color(0xFFFC7E37)),
         bottom: PreferredSize(
-          preferredSize: Size.fromHeight(1.0),
+          preferredSize: const Size.fromHeight(1.0),
           child: Container(color: Colors.white, height: 1.0),
         ),
       ),
-      body: SingleChildScrollView(
+      body: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 12),
         child: Column(
           children: [
-            const Align(
-              alignment: Alignment.centerLeft,
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-                child: Text(
-                  '10 Tips Lolos CPNS 2024 yang Bisa Kamu Praktikkan',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
+            // Dot Indicators dengan Loading Bar Effect
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: List.generate(
+                _slides.length,
+                (index) => Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 4),
+                  height: 6,
+                  width: (MediaQuery.of(context).size.width / 5) - 14,
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFFFD8C3), // Background color
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                  child: Stack(
+                    children: [
+                      // Loading bar effect
+                      AnimatedContainer(
+                        duration: const Duration(milliseconds: 100),
+                        curve: Curves.linear,
+                        height: 6,
+                        width: _getLoadingWidth(index),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFFC7E37), // Active color
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),
             ),
 
+            // Story Slider Container
             Container(
-              width: double.infinity,
-              margin: EdgeInsets.only(left: 16, right: 16, bottom: 24),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    DescComponents(
-                      desc:
-                          'CPNS 2024 sebentar lagi dibuka. Bagaimana nih taktik kamu untuk bisa lolos CPNS di tahun ini? Untuk bisa lolos CPNS, kamu juga harus punya taktik sendiri mengingat kamu akan bersaing dengan jutaan orang dari seluruh Indonesia. Jika kamu butuh tips lolos CPNS 2024, coba baca di bawah ini!',
-                    ),
-                    TitleComponents(title: 'Tips Lolos CPNS 2024'),
-                    DescComponents(
-                      desc:
-                          'Sudah bukan rahasia lagi, setiap tahun pasti pendaftaran CPNS selalu dibanjiri oleh peserta. Nah, kalau sudah begitu, tentu kamu harus punya cara ampuh yang membuat kamu bisa lolos CPNS. Berikut ini tips lolos CPNS yang bisa kamu terapkan.',
-                    ),
-                    TitleComponents(title: '1. Rencanakan jadwal belajarmu'),
-                    DescComponents(
-                      desc:
-                          'Tips lolos CPNS yang pertama adalah merencanakan jadwal belajar untuk bisa mengasah soal-soal ujian SKD. Luangkanlah waktu belajar secara intensif untuk berlatih soal, mempelajari kisi-kisi, dan membaca berbagai materi.',
-                    ),
-                    TitleComponents(title: '2. Rajin latihan soal-soal tes'),
-                    DescComponents(
-                      desc:
-                          'Seperti kata pepatah “practice makes perfect”. Nah begitu juga saat kamu ingin lolos seleksi CPNS di tahun ini. Rajinlah melatih diri dengan mengerjakan soal-soal tes untuk mempersiapkan diri dari jauh-jauh hari.',
-                    ),
-                    DescComponents(
-                      desc:
-                          'Seperti yang kita tahu, di CPNS kamu akan dua kali melalui tes, pertama tes SKD (Seleksi Kemampuan Dasar) dan SKB (Seleksi Kemampuan Bidang).',
-                    ),
-                    DescComponents(
-                      desc:
-                          'Sekarang, tidak sulit buat menemukan contoh soal CPNS. Kamu bisa berlatih soal-soal CPNS, bisa melalui soal yang kamu temukan di internet, melalui buku soal, atau juga aplikasi yang menyediakan soal CPNS.',
-                    ),
-                    TitleComponents(
-                      title:
-                          '3. Mengenali dan mempelajari kisi-kisi dan materi CPNS',
-                    ),
-                    DescComponents(
-                      desc:
-                          'Jangan sampai kamu mengabaikan hal yang satu ini dari tips lolos CPNS! Cobalah untuk mencari tahu seperti apa kisis-kisi dan materi CPNS di tahun lalu.',
-                    ),
-                    DescComponents(
-                      desc:
-                          'Kamu bisa menemukan kisi-kisi tersebut dalam buku atau juga aplikasi yang dapat menjadi pedoman untuk belajar tes CPNS.',
-                    ),
-                    TitleComponents(
-                      title: '4. Ikut kelompok belajar atau bimbel',
-                    ),
-                    DescComponents(
-                      desc:
-                          'Belajar sendiri buat beberapa orang kadang terasa berat dan cepat membuat ngantuk. Apa kamu termasuk tipe seperti itu?',
-                    ),
-                    DescComponents(
-                      desc:
-                          'Nah, kamu bisa mengatasi masalah belajar kamu dengan membentuk kelompok belajar bersama teman-teman, atau juga ikut bimbel CPNS baik tatap muka atau juga kelas online.',
-                    ),
-                    TitleComponents(
-                      title: '5. Selalu update informasi mengenai CPNS',
-                    ),
-                    DescComponents(
-                      desc:
-                          'Hal penting berikutnya adalah pastikan kamu selalu mengikuti informasi terbaru mengenai CPNS. Kamu bisa mengikuti info di media sosial atau blog KitaLulus.',
-                    ),
-                    DescComponents(
-                      desc:
-                          'Sebab, bukan tidak mungkin ada perubahan ketentuan maupun tanggal. Atau juga bisa jadi BKN memberikan kisi-kisi mengenai tes seleksi.',
-                    ),
-                    TitleComponents(
-                      title: '6. Persiapkan dokumen yang diperlukan',
-                    ),
-                    DescComponents(
-                      desc:
-                          'Mengingat kelengkapan dokumen merupakan syarat mutlak, tips lolos CPNS 2023 ini tak boleh kamu lewatkan.',
-                    ),
-                    DescComponents(
-                      desc:
-                          'Pastikan kamu sudah menyiapkan seluruh kebutuhan dokumen untuk pendaftaran dengan lengkap. Jangan lupa, pastikan lagi apakah semua dokumen tersebut valid dan tepat sesuai persyaratan yang ditetapkan oleh instansi dan formasi yang dibuka.',
-                    ),
-                    TitleComponents(title: '7. Memperhatikan passing grade'),
-                    DescComponents(
-                      desc:
-                          'Tidak ada salahnya juga kamu memperhatikan passing grade, agar tidak gagal.',
-                    ),
-                    DescComponents(
-                      desc:
-                          'Memang, seperti apa sih passing grade dalam tes CPNS? Mari kita pelajari sistem passing grade dari pelaksanaan seleksi CPNS 2019.',
-                    ),
-                    DescComponents(
-                      desc:
-                          'Di CPNS 2019, passing grade tercantum dalam Permenpan RB No. 24 Tahun 2019.',
-                    ),
-                    DescComponents(
-                      desc:
-                          'Berdasarkan Peraturan Menteri PANRB No. 24/2019 tentang Nilai Ambang Batas SKD Pengadaan CPNS 2019, para pelamar dengan jalur formasi umum dan formasi khusus tenaga pengamanan siber (cyber security) harus melampaui passing grade sebesar 126 untuk Tes Karakteristik Pribadi (TKP), 80 untuk Tes Intelegensia Umum (TIU), dan 65 untuk Tes Wawasan Kebangsaan (TWK). Dan kamu akan dinyatakan lulus bila passing grade perbagian (TKP, TIU, TWK) memperoleh nilai SKD minimal 271 poin dari jumlah 100 soal.',
-                    ),
-                    TitleComponents(
-                      title: '8. Istirahatkan pikiran sebelum ujian dimulai',
-                    ),
-                    DescComponents(
-                      desc:
-                          'Saat kamu sudah mendekati hari ujian, usahakan untuk mengistirahatkan pikiran. Untuk sementara, jauhkan dulu latihan soal, materi, dan lainnya. Ini cara terbaik menghindari cemas yang bisa kamu alami.',
-                    ),
-                    DescComponents(
-                      desc:
-                          'Pikiran yang tenang akan memudahkan kamu saat mengerjakan soal ujian.',
-                    ),
-                    DescComponents(
-                      desc:
-                          'Apalagi nantinya kamu akan mengerjakan soal tes berbasis CAT yang membutuhkan konsentrasi tinggi. Jangan sampai karena kelelahan, malah menyulitkan kamu saat mengerjakan soal.',
-                    ),
-                    TitleComponents(title: '9. Pahami lokasi tes'),
-                    DescComponents(
-                      desc:
-                          'Tips lolos seleksi CPNS selanjutnya, datanglah lebih awal ke lokasi tes. Ini untuk menghindari hal yang tidak diinginkan, seperti terjebak macet, tersesat menuju lokasi, dan lainnya. Datang lebih awal juga membantu kamu untuk lebih tenang.',
-                    ),
-                    TitleComponents(
-                      title: '10. Teliti dan memperhatikan waktu',
-                    ),
-                    DescComponents(
-                      desc:
-                          'Saat mengerjakan soal-soal SKD dan SKB, kamu harus lebih teliti. Sebab, akan banyak soal-soal tes yang menjebak, dengan jawaban yang mirip-mirip. Dengan teliti, kamu juga bisa menjawab soal dengan cepat dan tepat.',
-                    ),
-                    DescComponents(
-                      desc:
-                          'Perlu kamu ketahui juga, dalam tes CPNS nanti, memperhatikan waktu adalah hal yang penting. Jangan sampai kamu membuang banyak waktu hanya untuk mengerjakan satu soal. Kerjakan terlebih dahulu soal yang menurut kamu mudah, seperti soal yang sifatnya hafalan. Tentunya jenis soal ini tidak akan memakan banyak waktu dibanding soal logika atau hitungan.',
-                    ),
-                    DescComponents(
-                      desc:
-                          'Soal SKD terdiri dari 35 soal TWK, 30 soal TIU, dan 35 soal TKP.',
-                    ),
-                    DescComponents(
-                      desc:
-                          'Beruntungnya, dalam sistem CAT, kamu bisa menandai soal yang kamu kira ragu jawabannya benar atau salahnya. Jadi, jika kamu masih ada waktu tersisa, kamu bisa cek ulang beberapa soal yang masih ragu.',
-                    ),
-                    DescComponents(
-                      desc:
-                          'Selanjutnya, kamu bisa mengerjakan soal-soal TKP dahulu. Soal-soal TKP ini berisikan pertanyaan seputar dirimu, dan tentunya tidak akan memakan banyak waktu. Tidak ada jawaban yang benar atau salah, hanya ada nilai paling tinggi dan paling rendah.',
-                    ),
-                  ],
-                ),
+              height: MediaQuery.of(context).size.height - 203,
+              margin: const EdgeInsets.only(top: 24),
+              child: PageView.builder(
+                controller: _pageController,
+                onPageChanged: (index) {
+                  setState(() {
+                    _currentIndex = index;
+                  });
+                  _resetLoadingForNextSlide();
+                },
+                itemCount: _slides.length,
+                itemBuilder: (context, index) {
+                  return Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        child: Image.asset(
+                          _slides[index]['imgUrl'],
+                          width: MediaQuery.of(context).size.width,
+                          fit: BoxFit.fitHeight,
+                        ),
+                      ),
+                    ],
+                  );
+                },
               ),
             ),
+            const SizedBox(height: 16),
+
+            // Add more content below if needed
+            const SizedBox(height: 24),
+            // Your other widgets can go here
           ],
         ),
       ),
+      // Gunakan AdManager untuk menampilkan banner ad
       bottomNavigationBar: AdManager(
         showBanner: true,
-        bannerAdUnitId: AdsConstants.bannerAdUnitId, // Gunakan ID dari constants
+        bannerAdUnitId:
+            AdsConstants.bannerAdUnitId, // Gunakan ID dari constants
       ),
     );
+  }
+
+  double _getLoadingWidth(int index) {
+    double fullWidth = (MediaQuery.of(context).size.width / 5) - 14;
+    
+    if (index < _currentIndex) {
+      // Slide yang sudah selesai - full width
+      return fullWidth;
+    } else if (index == _currentIndex) {
+      // Slide yang sedang aktif - loading progress
+      return fullWidth * _loadingProgress;
+    } else {
+      // Slide yang belum aktif - width 0
+      return 0;
+    }
   }
 }
