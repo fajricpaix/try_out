@@ -100,7 +100,7 @@ class _DocumentsViewState extends State<DocumentsView> {
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 12),
+        padding: const EdgeInsets.only(top: 12),
         child: Column(
           children: [
             // Dot Indicators dengan Loading Bar Effect
@@ -137,7 +137,7 @@ class _DocumentsViewState extends State<DocumentsView> {
 
             // Story Slider Container
             Container(
-              height: MediaQuery.of(context).size.height - 203,
+              height: MediaQuery.of(context).size.height - 200,
               margin: const EdgeInsets.only(top: 24),
               child: PageView.builder(
                 controller: _pageController,
@@ -155,7 +155,6 @@ class _DocumentsViewState extends State<DocumentsView> {
                       Expanded(
                         child: Image.asset(
                           _slides[index]['imgUrl'],
-                          width: MediaQuery.of(context).size.width,
                           fit: BoxFit.fitHeight,
                         ),
                       ),
@@ -164,11 +163,6 @@ class _DocumentsViewState extends State<DocumentsView> {
                 },
               ),
             ),
-            const SizedBox(height: 16),
-
-            // Add more content below if needed
-            const SizedBox(height: 24),
-            // Your other widgets can go here
           ],
         ),
       ),
@@ -185,13 +179,10 @@ class _DocumentsViewState extends State<DocumentsView> {
     double fullWidth = (MediaQuery.of(context).size.width / 5) - 14;
     
     if (index < _currentIndex) {
-      // Slide yang sudah selesai - full width
       return fullWidth;
     } else if (index == _currentIndex) {
-      // Slide yang sedang aktif - loading progress
       return fullWidth * _loadingProgress;
     } else {
-      // Slide yang belum aktif - width 0
       return 0;
     }
   }
