@@ -20,10 +20,10 @@ class _DocumentsViewState extends State<DocumentsView> {
   // Sample data for 5 slides - replace with your actual content
   final List<Map<String, dynamic>> _slides = [
     {'imgUrl': 'assets/tips/tips-1.webp'},
-    {'imgUrl': 'assets/tips/tips-1.webp'},
-    {'imgUrl': 'assets/tips/tips-1.webp'},
-    {'imgUrl': 'assets/tips/tips-1.webp'},
-    {'imgUrl': 'assets/tips/tips-1.webp'},
+    {'imgUrl': 'assets/tips/tips-2.webp'},
+    {'imgUrl': 'assets/tips/tips-3.webp'},
+    {'imgUrl': 'assets/tips/tips-4.webp'},
+    {'imgUrl': 'assets/tips/tips-5.webp'},
   ];
 
   @override
@@ -90,13 +90,12 @@ class _DocumentsViewState extends State<DocumentsView> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         title: const Text(
-          'Tip Dokumen',
+          'Tips Dokumen',
           style: TextStyle(color: Color(0xFF5E00B0), fontWeight: FontWeight.bold),
         ),
-        iconTheme: const IconThemeData(color: Color(0xFF5E00B0)),
-        bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(1.0),
-          child: Container(color: Colors.white, height: 1.0),
+        leading: IconButton(
+          icon: const Icon(Icons.close, color: Color(0xFF5E00B0)),
+          onPressed: () => Navigator.of(context).pop(),
         ),
       ),
       body: Padding(
@@ -137,7 +136,7 @@ class _DocumentsViewState extends State<DocumentsView> {
 
             // Story Slider Container
             Container(
-              height: MediaQuery.of(context).size.height - 200,
+              height: MediaQuery.of(context).size.height - 230,
               margin: const EdgeInsets.only(top: 24),
               child: PageView.builder(
                 controller: _pageController,

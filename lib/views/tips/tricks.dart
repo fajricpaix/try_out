@@ -19,11 +19,11 @@ class _TricksViewState extends State<TricksView> {
 
   // Sample data for 5 slides - replace with your actual content
   final List<Map<String, dynamic>> _slides = [
-    {'imgUrl': 'assets/tips/tips-1.webp'},
-    {'imgUrl': 'assets/tips/tips-1.webp'},
-    {'imgUrl': 'assets/tips/tips-1.webp'},
-    {'imgUrl': 'assets/tips/tips-1.webp'},
-    {'imgUrl': 'assets/tips/tips-1.webp'},
+    {'imgUrl': 'assets/donts/donts-1.webp'},
+    {'imgUrl': 'assets/donts/donts-2.webp'},
+    {'imgUrl': 'assets/donts/donts-3.webp'},
+    {'imgUrl': 'assets/donts/donts-4.webp'},
+    {'imgUrl': 'assets/donts/donts-5.webp'},
   ];
 
   @override
@@ -90,13 +90,12 @@ class _TricksViewState extends State<TricksView> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         title: const Text(
-          'Tip Dokumen',
+          'Do`s & Don`t',
           style: TextStyle(color: Color(0xFFFC7E37), fontWeight: FontWeight.bold),
         ),
-        iconTheme: const IconThemeData(color: Color(0xFFFC7E37)),
-        bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(1.0),
-          child: Container(color: Colors.white, height: 1.0),
+        leading: IconButton(
+          icon: const Icon(Icons.close, color: Color(0xFFFC7E37)),
+          onPressed: () => Navigator.of(context).pop(),
         ),
       ),
       body: Padding(
@@ -137,7 +136,7 @@ class _TricksViewState extends State<TricksView> {
 
             // Story Slider Container
             Container(
-              height: MediaQuery.of(context).size.height - 200,
+              height: MediaQuery.of(context).size.height - 241,
               margin: const EdgeInsets.only(top: 24),
               child: PageView.builder(
                 controller: _pageController,
