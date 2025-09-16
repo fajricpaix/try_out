@@ -17,9 +17,7 @@ void main() async {
   ]);
   MobileAds.instance.initialize();
 
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   runApp(const MyApp());
 }
@@ -29,10 +27,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Bank Soal CPNS',
-      home: const MyHomePage(),
-    );
+    return MaterialApp(title: 'Bank Soal CPNS', home: const MyHomePage());
   }
 }
 
@@ -44,7 +39,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
   @override
   void dispose() {
     super.dispose();
@@ -63,16 +57,27 @@ class _MyHomePageState extends State<MyHomePage> {
                 children: [
                   Header(),
                   MenuContent(),
+                  Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.only(bottom: 16),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(36),
+                        topRight: Radius.circular(36),
+                      ),
+                    ),
+                    child: AdManager(
+                      showBanner: true,
+                      bannerAdUnitId: AdsConstants
+                          .bannerAdUnitId, // Gunakan ID dari constants
+                    ),
+                  ),
                 ],
               ),
             ),
           ],
         ),
-      ),
-      // Gunakan AdManager untuk menampilkan banner ad
-      bottomNavigationBar: AdManager(
-        showBanner: true,
-        bannerAdUnitId: AdsConstants.bannerAdUnitId, // Gunakan ID dari constants
       ),
     );
   }

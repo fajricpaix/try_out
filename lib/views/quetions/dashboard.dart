@@ -229,184 +229,192 @@ class _DashboardQuetionViewState extends State<DashboardQuetionView> {
       ),
       body: Column(
         children: [
-          Container(
-            alignment: Alignment.center,
-            padding: const EdgeInsets.only(top: 20, bottom: 12),
-            child: Image.asset(
-              'assets/training/question.webp',
-              width: 250,
-              height: 250,
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20.0),
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: DropdownButtonHideUnderline(
-                child: DropdownButton<String>(
-                  isExpanded: true,
-                  value: _selectedQuizKey,
-                  dropdownColor: Colors.white,
-                  style: const TextStyle(
-                    color: Color(0xFF6A5AE0),
-                    fontWeight: FontWeight.w600,
-                  ),
-                  iconEnabledColor: const Color(0xFF6A5AE0),
-                  onChanged: (String? newValue) {
-                    setState(() {
-                      _selectedQuizKey = newValue;
-                    });
-                  },
-                  items: keys.map<DropdownMenuItem<String>>((String key) {
-                    final int index = keys.indexOf(key) + 1;
-                    final package = quizData![key];
-                    final String displayText = package['level'] as String? ?? 'Level $index';
-                    return DropdownMenuItem<String>(
-                      value: key,
-                      child: Text('Soal - $displayText $index'),
-                    );
-                  }).toList(),
-                ),
-              ),
-            ),
-          ),
           Expanded(
-            child: Column(
-              children: [
-                Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(12),
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  Container(
+                    alignment: Alignment.center,
+                    padding: const EdgeInsets.only(top: 20, bottom: 12),
+                    child: Image.asset(
+                      'assets/training/question.webp',
+                      width: 250,
+                      height: 250,
+                    ),
                   ),
-                  margin: const EdgeInsets.symmetric(
-                    vertical: 16,
-                    horizontal: 20,
-                  ),
-                  padding: const EdgeInsets.all(16),
-                  width: double.infinity,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: const [
-                          Text(
-                            'Latihan Soal',
-                            style: TextStyle(
-                              fontSize: 12,
-                              color: Color(0xFF6A5AE0),
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ],
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 12),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(8),
                       ),
-                      const SizedBox(height: 8),
-                      Text(
-                        selectedQuiz['title'] as String? ??
-                            'Judul Tidak Tersedia',
-                        style: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
+                      child: DropdownButtonHideUnderline(
+                        child: DropdownButton<String>(
+                          isExpanded: true,
+                          value: _selectedQuizKey,
+                          dropdownColor: Colors.white,
+                          style: const TextStyle(
+                            color: Color(0xFF6A5AE0),
+                            fontWeight: FontWeight.w600,
+                          ),
+                          iconEnabledColor: const Color(0xFF6A5AE0),
+                          onChanged: (String? newValue) {
+                            setState(() {
+                              _selectedQuizKey = newValue;
+                            });
+                          },
+                          items: keys.map<DropdownMenuItem<String>>((
+                            String key,
+                          ) {
+                            final int index = keys.indexOf(key) + 1;
+                            final package = quizData![key];
+                            final String displayText =
+                                package['level'] as String? ?? 'Level $index';
+                            return DropdownMenuItem<String>(
+                              value: key,
+                              child: Text('Soal - $displayText $index'),
+                            );
+                          }).toList(),
                         ),
                       ),
-                      const SizedBox(height: 4),
-                      Text(
-                        selectedQuiz['desc'] as String? ??
-                            'Deskripsi Tidak Tersedia',
-                      ),
-                    ],
-                  ),
-                ),
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  margin: const EdgeInsets.only(bottom: 8),
-                  child: const Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      'Jumlah Soal',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        color: Colors.white,
-                      ),
                     ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      BoxQuizComponents(
-                        label: 'TWK',
-                        text: '${categoryCounts['twk'] ?? 0} Soal',
-                      ),
-                      const SizedBox(width: 8),
-                      BoxQuizComponents(
-                        label: 'TIU',
-                        text: '${categoryCounts['tiu'] ?? 0} Soal',
-                      ),
-                      const SizedBox(width: 8),
-                      BoxQuizComponents(
-                        label: 'TKP',
-                        text: '${categoryCounts['tkp'] ?? 0} Soal',
-                      ),
-                    ],
-                  ),
-                ),
-                Container(
-                  width: double.infinity,
-                  margin: const EdgeInsets.symmetric(
-                    horizontal: 20,
-                    vertical: 24,
-                  ),
-                  child: ElevatedButton(
-                    onPressed: () {
-                      final List<dynamic> allQuizzes = _getAllQuizzes(
-                        selectedQuiz,
-                      );
-                      if (allQuizzes.isNotEmpty) {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) => QuizView(quizData: allQuizzes),
-                          ),
-                        );
-                      } else {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text(
-                              'Tidak ada soal dalam paket terpilih.',
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    margin: const EdgeInsets.symmetric(
+                      vertical: 16,
+                      horizontal: 20,
+                    ),
+                    padding: const EdgeInsets.all(16),
+                    width: double.infinity,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: const [
+                            Text(
+                              'Latihan Soal',
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: Color(0xFF6A5AE0),
+                                fontWeight: FontWeight.w600,
+                              ),
                             ),
+                          ],
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          selectedQuiz['title'] as String? ??
+                              'Judul Tidak Tersedia',
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
                           ),
-                        );
-                      }
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.white,
-                      padding: const EdgeInsets.symmetric(vertical: 16),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                    ),
-                    child: const Text(
-                      'Mulai Latihan Soal',
-                      style: TextStyle(fontSize: 16, color: Color(0xFF6A5AE0)),
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          selectedQuiz['desc'] as String? ??
+                              'Deskripsi Tidak Tersedia',
+                        ),
+                      ],
                     ),
                   ),
-                ),
-              ],
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    margin: const EdgeInsets.only(bottom: 8),
+                    child: const Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        'Jumlah Soal',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        BoxQuizComponents(
+                          label: 'TWK',
+                          text: '${categoryCounts['twk'] ?? 0} Soal',
+                        ),
+                        const SizedBox(width: 8),
+                        BoxQuizComponents(
+                          label: 'TIU',
+                          text: '${categoryCounts['tiu'] ?? 0} Soal',
+                        ),
+                        const SizedBox(width: 8),
+                        BoxQuizComponents(
+                          label: 'TKP',
+                          text: '${categoryCounts['tkp'] ?? 0} Soal',
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    width: double.infinity,
+                    margin: const EdgeInsets.symmetric(
+                      horizontal: 20,
+                      vertical: 24,
+                    ),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        final List<dynamic> allQuizzes = _getAllQuizzes(
+                          selectedQuiz,
+                        );
+                        if (allQuizzes.isNotEmpty) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => QuizView(quizData: allQuizzes),
+                            ),
+                          );
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text(
+                                'Tidak ada soal dalam paket terpilih.',
+                              ),
+                            ),
+                          );
+                        }
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.white,
+                        padding: const EdgeInsets.symmetric(vertical: 16),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                      child: const Text(
+                        'Mulai Latihan Soal',
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Color(0xFF6A5AE0),
+                        ),
+                      ),
+                    ),
+                  ),
+                  // your AdManager for the interstitial ad
+                  const AdManager(
+                    showBanner: false,
+                    showInterstitial: true,
+                    interstitialAdUnitId: AdsConstants.interstitialAdUnitId,
+                    interstitialCooldownKey: 'lastSimulationAdShownTime',
+                  ),
+                ],
+              ),
             ),
-          ),
-          // your AdManager for the interstitial ad
-          const AdManager(
-            showBanner: false,
-            showInterstitial: true,
-            interstitialAdUnitId: AdsConstants.interstitialAdUnitId,
-            interstitialCooldownKey: 'lastSimulationAdShownTime',
           ),
         ],
       ),

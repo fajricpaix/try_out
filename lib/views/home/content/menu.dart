@@ -17,8 +17,7 @@ class MenuContent extends StatelessWidget {
           topRight: Radius.circular(36),
         ),
       ),
-      height: MediaQuery.of(context).size.height - 420,
-      padding: const EdgeInsets.only(left: 16, right: 16, top: 32),
+      padding: const EdgeInsets.only(left: 16, right: 16, top: 32, bottom: 20),
       child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
