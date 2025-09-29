@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:try_out/main.dart';
 import 'package:try_out/widgets/modal/confirmation_dialog.dart';
 import 'package:try_out/widgets/modal/quiz.dart';
@@ -20,11 +21,14 @@ class _QuizViewState extends State<QuizView> {
   List<int?> _selectedScores = []; // New: To store scores for TKP questions
   List<bool> _answeredStatus = [];
   bool _isLoading = true;
+  InterstitialAd? _interstitialAd;
+  int _interstitialAdCounter = 0;
 
   @override
   void initState() {
     super.initState();
     _loadQuizData();
+    _loadInterstitialAd();
   }
 
   void _loadQuizData() {
@@ -38,6 +42,39 @@ class _QuizViewState extends State<QuizView> {
       ); // Initialize scores for TKP
       _answeredStatus = List<bool>.filled(_quizQuestions.length, false);
     });
+  }
+
+  void _loadInterstitialAd() {
+    InterstitialAd.load(
+      adUnitId: 'ca-app-pub-3940256099942544/1033173712',
+      request: const AdRequest(),
+      adLoadCallback: InterstitialAdLoadCallback(
+        onAdLoaded: (InterstitialAd ad) {
+          _interstitialAd = ad;
+          _interstitialAd!.fullScreenContentCallback =
+              FullScreenContentCallback(
+            onAdDismissedFullScreenContent: (InterstitialAd ad) {
+              ad.dispose();
+              _loadInterstitialAd();
+            },
+            onAdFailedToShowFullScreenContent: (InterstitialAd ad, error) {
+              ad.dispose();
+              _loadInterstitialAd();
+            },
+          );
+        },
+        onAdFailedToLoad: (LoadAdError error) {
+          print('InterstitialAd failed to load: $error');
+        },
+      ),
+    );
+  }
+
+  void _showInterstitialAd() {
+    if (_interstitialAd != null) {
+      _interstitialAd!.show();
+      _interstitialAdCounter = 0; // Reset counter after showing ad
+    }
   }
 
   void _selectOption(String optionLabel, {int? score}) {
@@ -70,6 +107,10 @@ class _QuizViewState extends State<QuizView> {
       setState(() {
         _currentIndex++;
       });
+      _interstitialAdCounter++;
+      if (_interstitialAdCounter >= 15) {
+        _showInterstitialAd();
+      }
     }
   }
 
@@ -83,7 +124,7 @@ class _QuizViewState extends State<QuizView> {
 
   @override
   void dispose() {
-    // Removed: _interstitialAd?.dispose();
+    _interstitialAd?.dispose();
     super.dispose();
   }
 
