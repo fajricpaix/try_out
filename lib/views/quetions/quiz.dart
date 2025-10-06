@@ -23,6 +23,7 @@ class _QuizViewState extends State<QuizView> {
   bool _isLoading = true;
   InterstitialAd? _interstitialAd;
   int _interstitialAdCounter = 0;
+  DateTime? _lastAdShownTime; // New: Track when the last ad was shown
 
   @override
   void initState() {
@@ -46,7 +47,7 @@ class _QuizViewState extends State<QuizView> {
 
   void _loadInterstitialAd() {
     InterstitialAd.load(
-      adUnitId: 'ca-app-pub-3940256099942544/1033173712',
+      adUnitId: 'ca-app-pub-2602479093941928/6425837737',
       request: const AdRequest(),
       adLoadCallback: InterstitialAdLoadCallback(
         onAdLoaded: (InterstitialAd ad) {
@@ -64,17 +65,49 @@ class _QuizViewState extends State<QuizView> {
           );
         },
         onAdFailedToLoad: (LoadAdError error) {
+          // ignore: avoid_print
           print('InterstitialAd failed to load: $error');
         },
       ),
     );
   }
 
-  void _showInterstitialAd() {
-    if (_interstitialAd != null) {
+  Future<bool> _showInterstitialAd() async {
+    // Always show confirmation dialog before showing any interstitial ad
+    final shouldShowAd = await showDialog<bool>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Pemberitahuan'),
+          content: const Text(
+            'Untuk melanjutkan ke latihan berikutnya, iklan akan ditampilkan terlebih dahulu. Lanjutkan?',
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(false); // Return false (No)
+              },
+              child: const Text('Tidak'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(true); // Return true (Yes)
+              },
+              child: const Text('Ya'),
+            ),
+          ],
+        );
+      },
+    );
+    
+    // Only show ad if user clicked "Ya"
+    if (shouldShowAd == true && _interstitialAd != null) {
       _interstitialAd!.show();
       _interstitialAdCounter = 0; // Reset counter after showing ad
+      _lastAdShownTime = DateTime.now(); // Record when ad was shown
+      return true; // Ad was shown
     }
+    return false; // Ad was not shown
   }
 
   void _selectOption(String optionLabel, {int? score}) {
@@ -102,14 +135,44 @@ class _QuizViewState extends State<QuizView> {
     });
   }
 
-  void _goToNextQuestion() {
+  void _goToNextQuestion() async {
     if (_currentIndex < _quizQuestions.length - 1) {
-      setState(() {
-        _currentIndex++;
-      });
       _interstitialAdCounter++;
+      
+      // Check if we need to show interstitial ad
       if (_interstitialAdCounter >= 15) {
-        _showInterstitialAd();
+        // Check if 2 minutes have passed since last ad
+        final now = DateTime.now();
+        bool canShowAd = true;
+        
+        if (_lastAdShownTime != null) {
+          final timeDifference = now.difference(_lastAdShownTime!);
+          canShowAd = timeDifference.inMinutes >= 2;
+        }
+        
+        if (canShowAd) {
+          // Show confirmation dialog and handle ad display within _showInterstitialAd
+          final adWasShown = await _showInterstitialAd();
+          
+          // Only proceed to next question if ad was shown
+          if (adWasShown) {
+            setState(() {
+              _currentIndex++;
+            });
+          }
+          // If user declined ad, stay on current question but keep counter incremented
+        } else {
+          // Less than 2 minutes passed, just go to next question without ad
+          setState(() {
+            _currentIndex++;
+          });
+          _interstitialAdCounter = 0; // Reset counter to wait for next cycle
+        }
+      } else {
+        // No ad needed, just go to next question
+        setState(() {
+          _currentIndex++;
+        });
       }
     }
   }

@@ -405,6 +405,16 @@ class _DashboardQuetionViewState extends State<DashboardQuetionView> {
                       ),
                     ),
                   ),
+
+                  Text(
+                  'Akan muncul iklan saat memulai latihan\n& diantara paket-paket soal',
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600,
+                  ),
+                  textAlign: TextAlign.center,
+                  ),
                   // your AdManager for the interstitial ad
                   const AdManager(
                     showBanner: false,
