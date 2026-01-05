@@ -20,6 +20,7 @@ class TNCView extends StatelessWidget {
           },
         ),
         title: const Text('Syarat & Ketentuan'),
+        titleSpacing: 0,
       ),
       backgroundColor: Colors.white,
       body: SingleChildScrollView(

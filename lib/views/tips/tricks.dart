@@ -97,6 +97,7 @@ class _TricksViewState extends State<TricksView> {
           icon: const Icon(Icons.close, color: Color(0xFFFC7E37)),
           onPressed: () => Navigator.of(context).pop(),
         ),
+        titleSpacing: 0,
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(vertical: 12),

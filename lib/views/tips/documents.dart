@@ -97,6 +97,7 @@ class _DocumentsViewState extends State<DocumentsView> {
           icon: const Icon(Icons.close, color: Color(0xFF5E00B0)),
           onPressed: () => Navigator.of(context).pop(),
         ),
+        titleSpacing: 0,
       ),
       body: Padding(
         padding: const EdgeInsets.only(top: 12),

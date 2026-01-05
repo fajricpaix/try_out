@@ -21,6 +21,7 @@ class CreditsView extends StatelessWidget {
             Navigator.pop(context);
           },
         ),
+        titleSpacing: 0,
       ),
       body: Container(
         padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
