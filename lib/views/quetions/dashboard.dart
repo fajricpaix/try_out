@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:try_out/views/quetions/quiz.dart';
 import 'package:try_out/widgets/ads/ads_constant.dart';
 import 'package:try_out/widgets/ads/ads_manager.dart';
-import 'package:try_out/widgets/tools/box_quiz.dart';
+import 'dart:math';
 
 class DashboardQuetionView extends StatefulWidget {
   final String? level;
@@ -30,6 +30,10 @@ class _DashboardQuetionViewState extends State<DashboardQuetionView> {
   String?
   _forcedCategory; // when provided, only show questions for this category
 
+  // New: batches for 5 latihan, 30 soal each
+  List<List<dynamic>> _latihanBatches = [];
+  int _selectedLatihanIndex = 0;
+
   @override
   void initState() {
     super.initState();
@@ -41,6 +45,7 @@ class _DashboardQuetionViewState extends State<DashboardQuetionView> {
       };
       _selectedQuizKey = 'package_0';
       _isLoading = false;
+      _prepareBatchesForSelectedQuiz();
     } else {
       _loadQuizData();
     }
@@ -99,6 +104,7 @@ class _DashboardQuetionViewState extends State<DashboardQuetionView> {
         _isLoading = false;
         if (quizData != null && quizData!.isNotEmpty) {
           _selectedQuizKey = quizData!.keys.first;
+          _prepareBatchesForSelectedQuiz();
         } else if (_error.isEmpty) {
           _error = 'Tidak ada paket soal yang ditemukan untuk level ini.';
         }
@@ -157,48 +163,59 @@ class _DashboardQuetionViewState extends State<DashboardQuetionView> {
     return allQuizzes;
   }
 
-  Map<String, int> _getCategoryQuestionCounts(
-    Map<String, dynamic>? selectedPackage,
-  ) {
-    Map<String, int> counts = {'twk': 0, 'tiu': 0, 'tkp': 0};
 
-    if (selectedPackage == null) {
-      return counts;
+
+  // Determine batch size depending on category
+  int _determineBatchSize(Map<String, dynamic>? selectedPackage) {
+    const Map<String, int> sizeMap = {'twk': 30, 'tiu': 35, 'tkp': 45};
+    // If user forced a category (via initialCategory), use that mapping
+    if (_forcedCategory != null && sizeMap.containsKey(_forcedCategory)) {
+      return sizeMap[_forcedCategory] as int;
     }
 
-    // Format 1: categories as list of {title, quiz}
-    final List<dynamic>? categories =
-        selectedPackage['category'] as List<dynamic>?;
+    if (selectedPackage == null) return 30;
 
-    if (categories != null) {
-      for (var category in categories.where((e) => e != null && e is Map)) {
-        final Map<String, dynamic> categoryMap = Map<String, dynamic>.from(
-          category as Map,
-        );
-        if (categoryMap.containsKey('title') &&
-            categoryMap.containsKey('quiz') &&
-            categoryMap['quiz'] is List) {
-          String categoryTitle = (categoryMap['title'] as String).toLowerCase();
-          if (counts.containsKey(categoryTitle)) {
-            counts[categoryTitle] = (categoryMap['quiz'] as List)
-                .where((q) => q != null)
-                .length;
-          }
-        }
-      }
-      return counts;
-    }
-
-    // Format 2: categories are keys (twk/tiu/tkp)
+    // If package contains exactly one non-empty category key, use that mapping
+    int found = 0;
+    String lastKey = '';
     for (final cat in ['twk', 'tiu', 'tkp']) {
-      if (selectedPackage.containsKey(cat) && selectedPackage[cat] is List) {
-        counts[cat] = (selectedPackage[cat] as List)
-            .where((q) => q != null)
-            .length;
+      if (selectedPackage.containsKey(cat) && selectedPackage[cat] is List && (selectedPackage[cat] as List).isNotEmpty) {
+        found++;
+        lastKey = cat;
       }
     }
+    if (found == 1 && sizeMap.containsKey(lastKey)) {
+      return sizeMap[lastKey] as int;
+    }
 
-    return counts;
+    // Default fallback
+    return 30;
+  }
+
+  // Prepare 5 latihan batches (variable soal per latihan depending on category)
+  void _prepareBatchesForSelectedQuiz() {
+    final selected = _selectedQuizKey != null ? quizData![_selectedQuizKey!] as Map<String, dynamic>? : null;
+    final List<dynamic> allQuizzes = selected != null ? _getAllQuizzes(selected) : [];
+    final List<dynamic> shuffled = List<dynamic>.from(allQuizzes);
+    shuffled.shuffle();
+    final int batchSize = _determineBatchSize(selected);
+    _latihanBatches = [];
+    final int total = shuffled.length;
+    for (int i = 0; i < 5; i++) {
+      if (total == 0) {
+        _latihanBatches.add([]);
+        continue;
+      }
+      // create a fresh shuffle for each latihan and take up to batchSize items
+      final List<dynamic> tmp = List<dynamic>.from(shuffled);
+      tmp.shuffle();
+      final int take = min(batchSize, tmp.length);
+      _latihanBatches.add(tmp.sublist(0, take));
+    }
+    // keep previously selected index if valid, otherwise reset to 0
+    if (_selectedLatihanIndex >= _latihanBatches.length || _selectedLatihanIndex < 0) {
+      _selectedLatihanIndex = 0;
+    }
   }
 
   @override
@@ -247,7 +264,6 @@ class _DashboardQuetionViewState extends State<DashboardQuetionView> {
       );
     }
 
-    final keys = quizData!.keys.toList();
     final selectedQuiz = _selectedQuizKey != null
         ? quizData![_selectedQuizKey!]
         : null;
@@ -264,9 +280,9 @@ class _DashboardQuetionViewState extends State<DashboardQuetionView> {
       );
     }
 
-    final Map<String, int> categoryCounts = _getCategoryQuestionCounts(
-      selectedQuiz,
-    );
+    final int selectedLatihanCount = _latihanBatches.isNotEmpty
+        ? _latihanBatches[_selectedLatihanIndex].length
+        : _getAllQuizzes(selectedQuiz).length;
 
     return Scaffold(
       backgroundColor: const Color(0xFF6A5AE0),
@@ -309,29 +325,49 @@ class _DashboardQuetionViewState extends State<DashboardQuetionView> {
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: DropdownButtonHideUnderline(
-                        child: DropdownButton<String>(
+                        child: DropdownButton<int>(
                           isExpanded: true,
-                          value: _selectedQuizKey,
+                          value: _selectedLatihanIndex,
                           dropdownColor: Colors.white,
                           style: const TextStyle(
                             color: Color(0xFF6A5AE0),
                             fontWeight: FontWeight.w600,
                           ),
                           iconEnabledColor: const Color(0xFF6A5AE0),
-                          onChanged: (String? newValue) {
+                          onChanged: (int? newValue) {
                             setState(() {
-                              _selectedQuizKey = newValue;
+                              _selectedLatihanIndex = newValue ?? 0;
                             });
                           },
-                          items: keys.map<DropdownMenuItem<String>>((
-                            String key,
-                          ) {
-                            final int index = keys.indexOf(key) + 1;
-                            return DropdownMenuItem<String>(
-                              value: key,
-                              child: Text('Latihan Soal $index'),
+                          items: List<DropdownMenuItem<int>>.generate(5, (i) {
+                            final int count = _latihanBatches.length > i ? _latihanBatches[i].length : 0;
+                            final selectedPackage = _selectedQuizKey != null ? quizData![_selectedQuizKey!] as Map<String, dynamic>? : null;
+                            String prefix;
+                            if (_forcedCategory != null) {
+                              prefix = _forcedCategory!.toUpperCase();
+                            } else if (selectedPackage != null) {
+                              final List<String> present = [];
+                              for (final c in ['twk', 'tiu', 'tkp']) {
+                                if (selectedPackage.containsKey(c) && selectedPackage[c] is List && (selectedPackage[c] as List).isNotEmpty) {
+                                  present.add(c.toUpperCase());
+                                }
+                              }
+                              if (present.isEmpty) {
+                                prefix = 'Latihan';
+                              } else if (present.length == 1) {
+                                prefix = present.first;
+                              } else {
+                                prefix = present.join('/');
+                              }
+                            } else {
+                              prefix = 'Latihan';
+                            }
+
+                            return DropdownMenuItem<int>(
+                              value: i,
+                              child: Text('Latihan $prefix ${i + 1} ($count Soal)'),
                             );
-                          }).toList(),
+                          }),
                         ),
                       ),
                     ),
@@ -362,7 +398,7 @@ class _DashboardQuetionViewState extends State<DashboardQuetionView> {
                               ),
                             ),
                             Text(
-                              '${categoryCounts['twk'] ?? 0} Soal',
+                              '$selectedLatihanCount Soal',
                               style: const TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w600,
@@ -386,6 +422,7 @@ class _DashboardQuetionViewState extends State<DashboardQuetionView> {
                       ],
                     ),
                   ),
+                  
                   Container(
                     width: double.infinity,
                     margin: const EdgeInsets.symmetric(
@@ -394,14 +431,12 @@ class _DashboardQuetionViewState extends State<DashboardQuetionView> {
                     ),
                     child: ElevatedButton(
                       onPressed: () {
-                        final List<dynamic> allQuizzes = _getAllQuizzes(
-                          selectedQuiz,
-                        );
-                        if (allQuizzes.isNotEmpty) {
+                        if (_latihanBatches.isNotEmpty && _latihanBatches[_selectedLatihanIndex].isNotEmpty) {
+                          final List<dynamic> batch = List<dynamic>.from(_latihanBatches[_selectedLatihanIndex])..shuffle();
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (_) => QuizView(quizData: allQuizzes),
+                              builder: (_) => QuizView(quizData: batch),
                             ),
                           );
                         } else {
@@ -440,6 +475,7 @@ class _DashboardQuetionViewState extends State<DashboardQuetionView> {
                     ),
                     textAlign: TextAlign.center,
                   ),
+                  
                   // your AdManager for the interstitial ad
                   const AdManager(
                     showBanner: false,
