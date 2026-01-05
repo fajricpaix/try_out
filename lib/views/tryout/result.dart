@@ -4,6 +4,11 @@ import 'package:try_out/views/tryout/score_summary.dart';
 import 'package:try_out/widgets/ads/ads_constant.dart';
 // Import komponen AdManager
 import 'package:try_out/widgets/ads/ads_manager.dart';
+import 'dart:io';
+import 'dart:ui' as ui;
+import 'package:flutter/rendering.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:share_plus/share_plus.dart';
 
 class ResultPage extends StatefulWidget {
   final int totalScore;
@@ -32,10 +37,40 @@ class ResultPage extends StatefulWidget {
 }
 
 class _ResultPageState extends State<ResultPage> {
+  final GlobalKey _repaintBoundaryKey = GlobalKey();
+  bool _isSharing = false;
 
   @override
   void initState() {
     super.initState();
+  }
+
+  Future<void> _shareResult() async {
+    try {
+      setState(() { _isSharing = true; });
+      final boundary = _repaintBoundaryKey.currentContext?.findRenderObject() as RenderRepaintBoundary?;
+      if (boundary == null) {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Gagal mengambil screenshot')));
+        return;
+      }
+      final ui.Image image = await boundary.toImage(pixelRatio: 2.0);
+      final byteData = await image.toByteData(format: ui.ImageByteFormat.png);
+      if (byteData == null) {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Gagal memproses gambar')));
+        return;
+      }
+      final pngBytes = byteData.buffer.asUint8List();
+      final tempDir = await getTemporaryDirectory();
+      final file = await File('${tempDir.path}/result_${DateTime.now().millisecondsSinceEpoch}.png').create();
+      await file.writeAsBytes(pngBytes);
+      // ignore: deprecated_member_use
+      await Share.shareXFiles([XFile(file.path)], text: 'Lihat hasil saya: https://play.google.com/store/apps/details?id=com.candramawa.try_out&pcampaignid=web_share');
+    } catch (e) {
+      // ignore: use_build_context_synchronously
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error: $e')));
+    } finally {
+      setState(() { _isSharing = false; });
+    }
   }
 
   String _formatDuration(int seconds) {
@@ -49,8 +84,10 @@ class _ResultPageState extends State<ResultPage> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
-        child: Container(
-          margin: const EdgeInsets.only(top: 48),
+        child: RepaintBoundary(
+          key: _repaintBoundaryKey,
+          child: Container(
+            margin: const EdgeInsets.only(top: 48),
           padding: const EdgeInsets.all(20.0),
           width: MediaQuery.of(context).size.width,
           child: Column(
@@ -248,27 +285,41 @@ class _ResultPageState extends State<ResultPage> {
                             borderRadius: BorderRadius.circular(8),
                           ),
                         ),
-                        onPressed: () {
-                          // Implement share functionality
+                        onPressed: _isSharing ? null : () {
+                          _shareResult();
                         },
-                        child: const Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Icon(
-                              Icons.share_outlined,
-                              color: Color(0xFF6A5AE0),
-                              size: 20,
-                            ),
-                            SizedBox(width: 8),
-                            Text(
-                              'Shared',
-                              style: TextStyle(
-                                color: Color(0xFF6A5AE0),
-                                fontSize: 14,
+                        child: _isSharing
+                            ? SizedBox(
+                                height: 24,
+                                child: Center(
+                                  child: SizedBox(
+                                    width: 16,
+                                    height: 16,
+                                    child: CircularProgressIndicator(
+                                      strokeWidth: 2.0,
+                                      color: Color(0xFF6A5AE0),
+                                    ),
+                                  ),
+                                ),
+                              )
+                            : Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Icon(
+                                    Icons.share_outlined,
+                                    color: Color(0xFF6A5AE0),
+                                    size: 20,
+                                  ),
+                                  SizedBox(width: 8),
+                                  Text(
+                                    'Shared',
+                                    style: TextStyle(
+                                      color: Color(0xFF6A5AE0),
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ),
-                          ],
-                        ),
                       ),
                     ),
                     const SizedBox(width: 16),
@@ -303,6 +354,7 @@ class _ResultPageState extends State<ResultPage> {
           ),
         ),
       ),
+    ),
       // Gunakan AdManager untuk menampilkan banner ad dan interstitial ad
       bottomNavigationBar: const AdManager(
         showBanner: true,

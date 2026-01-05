@@ -222,6 +222,7 @@ class _ScoreSummaryPageState extends State<ScoreSummaryPage> {
           'Ringkasan Jawaban',
           style: TextStyle(color: Colors.white),
         ),
+        titleSpacing: 0,
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),

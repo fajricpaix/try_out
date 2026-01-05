@@ -372,6 +372,7 @@ class _TryOutViewsState extends State<TryOutViews> {
             }
           },
         ),
+        titleSpacing: 0,
       ),
       body: SingleChildScrollView(
         child: Column(
