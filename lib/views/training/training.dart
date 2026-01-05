@@ -50,6 +50,7 @@ class TrainingView extends StatelessWidget {
             bottomLeft: Radius.circular(22),
           ),
         ),
+        titleSpacing: 0,
       ),
       body: FutureBuilder<List<dynamic>>(
         future: loadSoalData(),

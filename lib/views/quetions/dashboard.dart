@@ -8,7 +8,8 @@ import 'package:try_out/widgets/tools/box_quiz.dart';
 class DashboardQuetionView extends StatefulWidget {
   final String? level;
   final String? initialCategory; // e.g. 'twk' | 'tiu' | 'tkp'
-  final Map<String, dynamic>? initialPackage; // pass a specific package object directly
+  final Map<String, dynamic>?
+  initialPackage; // pass a specific package object directly
 
   const DashboardQuetionView({
     super.key,
@@ -26,7 +27,8 @@ class _DashboardQuetionViewState extends State<DashboardQuetionView> {
   bool _isLoading = true;
   String _error = '';
   String? _selectedQuizKey;
-  String? _forcedCategory; // when provided, only show questions for this category
+  String?
+  _forcedCategory; // when provided, only show questions for this category
 
   @override
   void initState() {
@@ -34,7 +36,9 @@ class _DashboardQuetionViewState extends State<DashboardQuetionView> {
     _forcedCategory = widget.initialCategory;
     // If an initial package was provided, use it directly and skip network load
     if (widget.initialPackage != null) {
-      quizData = {'package_0': Map<String, dynamic>.from(widget.initialPackage!)};
+      quizData = {
+        'package_0': Map<String, dynamic>.from(widget.initialPackage!),
+      };
       _selectedQuizKey = 'package_0';
       _isLoading = false;
     } else {
@@ -111,14 +115,16 @@ class _DashboardQuetionViewState extends State<DashboardQuetionView> {
   List<dynamic> _getAllQuizzes(Map<String, dynamic> selectedPackage) {
     List<dynamic> allQuizzes = [];
     // If the selected package uses a 'category' list (older format)
-    final List<dynamic>? categories = selectedPackage['category'] as List<dynamic>?;
+    final List<dynamic>? categories =
+        selectedPackage['category'] as List<dynamic>?;
 
     if (categories != null) {
       for (var category in categories.where((e) => e != null && e is Map)) {
         final Map<String, dynamic> categoryMap = Map<String, dynamic>.from(
           category as Map,
         );
-        final String catTitle = (categoryMap['title'] as String? ?? '').toLowerCase();
+        final String catTitle = (categoryMap['title'] as String? ?? '')
+            .toLowerCase();
         if (_forcedCategory != null) {
           if (catTitle == _forcedCategory &&
               categoryMap.containsKey('quiz') &&
@@ -142,7 +148,9 @@ class _DashboardQuetionViewState extends State<DashboardQuetionView> {
     for (final cat in ['twk', 'tiu', 'tkp']) {
       if (_forcedCategory != null && _forcedCategory != cat) continue;
       if (selectedPackage.containsKey(cat) && selectedPackage[cat] is List) {
-        allQuizzes.addAll((selectedPackage[cat] as List).where((q) => q != null));
+        allQuizzes.addAll(
+          (selectedPackage[cat] as List).where((q) => q != null),
+        );
       }
     }
 
@@ -159,7 +167,8 @@ class _DashboardQuetionViewState extends State<DashboardQuetionView> {
     }
 
     // Format 1: categories as list of {title, quiz}
-    final List<dynamic>? categories = selectedPackage['category'] as List<dynamic>?;
+    final List<dynamic>? categories =
+        selectedPackage['category'] as List<dynamic>?;
 
     if (categories != null) {
       for (var category in categories.where((e) => e != null && e is Map)) {
@@ -183,7 +192,9 @@ class _DashboardQuetionViewState extends State<DashboardQuetionView> {
     // Format 2: categories are keys (twk/tiu/tkp)
     for (final cat in ['twk', 'tiu', 'tkp']) {
       if (selectedPackage.containsKey(cat) && selectedPackage[cat] is List) {
-        counts[cat] = (selectedPackage[cat] as List).where((q) => q != null).length;
+        counts[cat] = (selectedPackage[cat] as List)
+            .where((q) => q != null)
+            .length;
       }
     }
 
@@ -261,7 +272,7 @@ class _DashboardQuetionViewState extends State<DashboardQuetionView> {
       backgroundColor: const Color(0xFF6A5AE0),
       appBar: AppBar(
         title: Text(
-          'Latihan Soal${widget.level != null && widget.level!.isNotEmpty ? ' - ${widget.level}' : ''}',
+          widget.level != null && widget.level!.isNotEmpty ? '${widget.level}' : '',
           style: const TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,
@@ -272,6 +283,7 @@ class _DashboardQuetionViewState extends State<DashboardQuetionView> {
           onPressed: () => Navigator.of(context).pop(),
         ),
         backgroundColor: const Color(0xFF6A5AE0),
+        titleSpacing: 0,
       ),
       body: Column(
         children: [
@@ -315,12 +327,9 @@ class _DashboardQuetionViewState extends State<DashboardQuetionView> {
                             String key,
                           ) {
                             final int index = keys.indexOf(key) + 1;
-                            final package = quizData![key];
-                            final String displayText =
-                                package['level'] as String? ?? 'Level $index';
                             return DropdownMenuItem<String>(
                               value: key,
-                              child: Text('Soal - $displayText $index'),
+                              child: Text('Latihan Soal $index'),
                             );
                           }).toList(),
                         ),
@@ -343,12 +352,19 @@ class _DashboardQuetionViewState extends State<DashboardQuetionView> {
                       children: [
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: const [
-                            Text(
+                          children: [
+                            const Text(
                               'Latihan Soal',
                               style: TextStyle(
                                 fontSize: 12,
                                 color: Color(0xFF6A5AE0),
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            Text(
+                              '${categoryCounts['twk'] ?? 0} Soal',
+                              style: const TextStyle(
+                                fontSize: 14,
                                 fontWeight: FontWeight.w600,
                               ),
                             ),
@@ -365,44 +381,7 @@ class _DashboardQuetionViewState extends State<DashboardQuetionView> {
                         ),
                         const SizedBox(height: 4),
                         Text(
-                          selectedQuiz['desc'] as String? ??
-                              'Deskripsi Tidak Tersedia',
-                        ),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    margin: const EdgeInsets.only(bottom: 8),
-                    child: const Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        'Jumlah Soal',
-                        style: TextStyle(
-                          fontWeight: FontWeight.w600,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        BoxQuizComponents(
-                          label: 'TWK',
-                          text: '${categoryCounts['twk'] ?? 0} Soal',
-                        ),
-                        const SizedBox(width: 8),
-                        BoxQuizComponents(
-                          label: 'TIU',
-                          text: '${categoryCounts['tiu'] ?? 0} Soal',
-                        ),
-                        const SizedBox(width: 8),
-                        BoxQuizComponents(
-                          label: 'TKP',
-                          text: '${categoryCounts['tkp'] ?? 0} Soal',
+                          selectedQuiz['desc'] as String? ?? 'Deskripsi Tidak Tersedia',
                         ),
                       ],
                     ),
@@ -453,13 +432,13 @@ class _DashboardQuetionViewState extends State<DashboardQuetionView> {
                   ),
 
                   Text(
-                  'Akan muncul iklan saat memulai latihan\n& diantara paket-paket soal',
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: Colors.white,
-                    fontWeight: FontWeight.w600,
-                  ),
-                  textAlign: TextAlign.center,
+                    'Akan muncul iklan saat memulai latihan\n& diantara paket-paket soal',
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: Colors.white,
+                      fontWeight: FontWeight.w600,
+                    ),
+                    textAlign: TextAlign.center,
                   ),
                   // your AdManager for the interstitial ad
                   const AdManager(
