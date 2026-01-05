@@ -68,7 +68,7 @@ class TrainingView extends StatelessWidget {
           Map<String, dynamic>? findCategory(String key) {
             for (final item in cpnsData) {
               if (item is Map && item.containsKey(key)) {
-                return Map<String, dynamic>.from(item as Map);
+                return Map<String, dynamic>.from(item);
               }
             }
             return null;
