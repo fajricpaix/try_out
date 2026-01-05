@@ -34,11 +34,11 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
   flutter_launcher_icons: "^0.14.4"
-  google_mobile_ads: ^6.0.0
+  google_mobile_ads: ^7.0.0
   shared_preferences: ^2.0.15
   firebase_core: ^4.0.0
   firebase_database: ^12.0.0
-  syncfusion_flutter_pdfviewer: ^31.1.22
+  syncfusion_flutter_pdfviewer: ^32.1.21
   url_launcher: ^6.3.2
 
 dev_dependencies:

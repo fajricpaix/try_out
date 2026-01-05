@@ -64,27 +64,27 @@ class TrainingView extends StatelessWidget {
 
           final List<dynamic> cpnsData = snapshot.data!;
 
-          // Helper function to safely get a property from a package at a given index
-          String getSafeProperty(int index, String property, String defaultValue) {
-            if (index < cpnsData.length && cpnsData[index] is Map) {
-              final Map<String, dynamic> packageMap = Map<String, dynamic>.from(cpnsData[index] as Map);
-              return packageMap[property] as String? ?? defaultValue;
+          // Find category objects (twk, tiu, tkp) from the fetched list
+          Map<String, dynamic>? findCategory(String key) {
+            for (final item in cpnsData) {
+              if (item is Map && item.containsKey(key)) {
+                return Map<String, dynamic>.from(item as Map);
+              }
             }
-            return defaultValue;
+            return null;
           }
 
-          final String easyLevel = getSafeProperty(0, 'level', 'Mudah');
-          final String mediumLevel = getSafeProperty(1, 'level', 'Sedang');
-          final String hardLevel = getSafeProperty(2, 'level', 'Susah');
-
+          final twkItem = findCategory('twk');
+          final tiuItem = findCategory('tiu');
+          final tkpItem = findCategory('tkp');
 
           return SingleChildScrollView(
             child: Column(
               children: [
                 ThumbnailTraining(
                   imagePath: 'assets/training/latihan_1.webp',
-                  title: 'Paket 1 : Pemanasan Awal',
-                  description: 'Langkah Kecil Menuju Sukses',
+                  title: twkItem?['title'] as String? ?? 'TWK : Pemanasan Awal',
+                  description: twkItem?['desc'] as String? ?? 'Langkah Kecil Menuju Sukses',
                   isColorTop: Colors.white,
                   isColor: const Color(0xFF8376E5),
                   onPressed: () {
@@ -92,7 +92,9 @@ class TrainingView extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                         builder: (_) => DashboardQuetionView(
-                          level: easyLevel,
+                          initialPackage: twkItem,
+                          initialCategory: 'twk',
+                          level: twkItem?['title'] as String?,
                         ),
                       ),
                     );
@@ -100,8 +102,8 @@ class TrainingView extends StatelessWidget {
                 ),
                 ThumbnailTraining(
                   imagePath: 'assets/training/latihan_2.webp',
-                  title: 'Paket 2: Tantangan Lanjutan',
-                  description: 'Uji Kemampuan & Tambah Percaya Diri',
+                  title: tiuItem?['title'] as String? ?? 'TIU: Tantangan Pengetahuan Umum',
+                  description: tiuItem?['desc'] as String? ?? 'Uji Kemampuan & Tambah Percaya Diri',
                   isColorTop: const Color(0xFF8376E5),
                   isColor: const Color(0xFF604FDE),
                   onPressed: () {
@@ -109,7 +111,9 @@ class TrainingView extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                         builder: (_) => DashboardQuetionView(
-                          level: mediumLevel,
+                          initialPackage: tiuItem,
+                          initialCategory: 'tiu',
+                          level: tiuItem?['title'] as String?,
                         ),
                       ),
                     );
@@ -117,8 +121,8 @@ class TrainingView extends StatelessWidget {
                 ),
                 ThumbnailTraining(
                   imagePath: 'assets/training/latihan_3.webp',
-                  title: 'Paket 3: Latihan Soal Terbaru',
-                  description: 'Belajar soal-soal terbaru',
+                  title: tkpItem?['title'] as String? ?? 'TKP: Latihan Menilai Integrasi Diri',
+                  description: tkpItem?['desc'] as String? ?? 'Belajar soal-soal terbaru',
                   isColorTop: const Color(0xFF604FDE),
                   isColor: const Color(0xFF301FA7),
                   onPressed: () {
@@ -126,7 +130,9 @@ class TrainingView extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                         builder: (_) => DashboardQuetionView(
-                          level: hardLevel,
+                          initialPackage: tkpItem,
+                          initialCategory: 'tkp',
+                          level: tkpItem?['title'] as String?,
                         ),
                       ),
                     );

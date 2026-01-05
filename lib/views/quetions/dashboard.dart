@@ -6,9 +6,16 @@ import 'package:try_out/widgets/ads/ads_manager.dart';
 import 'package:try_out/widgets/tools/box_quiz.dart';
 
 class DashboardQuetionView extends StatefulWidget {
-  final String level;
+  final String? level;
+  final String? initialCategory; // e.g. 'twk' | 'tiu' | 'tkp'
+  final Map<String, dynamic>? initialPackage; // pass a specific package object directly
 
-  const DashboardQuetionView({super.key, required this.level});
+  const DashboardQuetionView({
+    super.key,
+    this.level,
+    this.initialCategory,
+    this.initialPackage,
+  });
 
   @override
   State<DashboardQuetionView> createState() => _DashboardQuetionViewState();
@@ -19,11 +26,20 @@ class _DashboardQuetionViewState extends State<DashboardQuetionView> {
   bool _isLoading = true;
   String _error = '';
   String? _selectedQuizKey;
+  String? _forcedCategory; // when provided, only show questions for this category
 
   @override
   void initState() {
     super.initState();
-    _loadQuizData();
+    _forcedCategory = widget.initialCategory;
+    // If an initial package was provided, use it directly and skip network load
+    if (widget.initialPackage != null) {
+      quizData = {'package_0': Map<String, dynamic>.from(widget.initialPackage!)};
+      _selectedQuizKey = 'package_0';
+      _isLoading = false;
+    } else {
+      _loadQuizData();
+    }
   }
 
   @override
@@ -94,21 +110,42 @@ class _DashboardQuetionViewState extends State<DashboardQuetionView> {
 
   List<dynamic> _getAllQuizzes(Map<String, dynamic> selectedPackage) {
     List<dynamic> allQuizzes = [];
-    final List<dynamic>? categories =
-        selectedPackage['category'] as List<dynamic>?;
+    // If the selected package uses a 'category' list (older format)
+    final List<dynamic>? categories = selectedPackage['category'] as List<dynamic>?;
 
     if (categories != null) {
       for (var category in categories.where((e) => e != null && e is Map)) {
         final Map<String, dynamic> categoryMap = Map<String, dynamic>.from(
           category as Map,
         );
-        if (categoryMap.containsKey('quiz') && categoryMap['quiz'] is List) {
-          allQuizzes.addAll(
-            (categoryMap['quiz'] as List).where((q) => q != null),
-          );
+        final String catTitle = (categoryMap['title'] as String? ?? '').toLowerCase();
+        if (_forcedCategory != null) {
+          if (catTitle == _forcedCategory &&
+              categoryMap.containsKey('quiz') &&
+              categoryMap['quiz'] is List) {
+            allQuizzes.addAll(
+              (categoryMap['quiz'] as List).where((q) => q != null),
+            );
+          }
+        } else {
+          if (categoryMap.containsKey('quiz') && categoryMap['quiz'] is List) {
+            allQuizzes.addAll(
+              (categoryMap['quiz'] as List).where((q) => q != null),
+            );
+          }
         }
       }
+      return allQuizzes;
     }
+
+    // If no 'category' list, support packages that store categories as keys (twk/tiu/tkp)
+    for (final cat in ['twk', 'tiu', 'tkp']) {
+      if (_forcedCategory != null && _forcedCategory != cat) continue;
+      if (selectedPackage.containsKey(cat) && selectedPackage[cat] is List) {
+        allQuizzes.addAll((selectedPackage[cat] as List).where((q) => q != null));
+      }
+    }
+
     return allQuizzes;
   }
 
@@ -121,8 +158,8 @@ class _DashboardQuetionViewState extends State<DashboardQuetionView> {
       return counts;
     }
 
-    final List<dynamic>? categories =
-        selectedPackage['category'] as List<dynamic>?;
+    // Format 1: categories as list of {title, quiz}
+    final List<dynamic>? categories = selectedPackage['category'] as List<dynamic>?;
 
     if (categories != null) {
       for (var category in categories.where((e) => e != null && e is Map)) {
@@ -140,7 +177,16 @@ class _DashboardQuetionViewState extends State<DashboardQuetionView> {
           }
         }
       }
+      return counts;
     }
+
+    // Format 2: categories are keys (twk/tiu/tkp)
+    for (final cat in ['twk', 'tiu', 'tkp']) {
+      if (selectedPackage.containsKey(cat) && selectedPackage[cat] is List) {
+        counts[cat] = (selectedPackage[cat] as List).where((q) => q != null).length;
+      }
+    }
+
     return counts;
   }
 
@@ -215,7 +261,7 @@ class _DashboardQuetionViewState extends State<DashboardQuetionView> {
       backgroundColor: const Color(0xFF6A5AE0),
       appBar: AppBar(
         title: Text(
-          'Latihan Soal - ${widget.level}',
+          'Latihan Soal${widget.level != null && widget.level!.isNotEmpty ? ' - ${widget.level}' : ''}',
           style: const TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,
