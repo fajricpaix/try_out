@@ -4,6 +4,7 @@ import 'package:try_out/views/tryout/try_out.dart'; // Ensure this path is corre
 import 'package:try_out/widgets/ads/ads_constant.dart';
 import 'package:try_out/widgets/ads/ads_manager.dart';
 import 'package:try_out/widgets/tools/box_quiz.dart'; // Ensure this path is correct for BoxQuizComponents
+import 'dart:math';
 
 class SimulationView extends StatefulWidget {
   const SimulationView({super.key});
@@ -16,6 +17,10 @@ class _SimulationViewState extends State<SimulationView> {
   Map<String, dynamic> data = {};
   String? selectedKey;
   bool _isLoading = true; // Added loading state
+
+  // Prepared 5 simulation variants per selected simulation (each is a Map<String, dynamic> matching TryOutViews data shape)
+  List<Map<String, dynamic>> _simulationVariants = [];
+  int _selectedSimulationIndex = 0;
 
   // Firebase Database reference
   final DatabaseReference _databaseRef = FirebaseDatabase.instance.ref();
@@ -48,11 +53,9 @@ class _SimulationViewState extends State<SimulationView> {
               final Map<String, dynamic> packageData =
                   Map<String, dynamic>.from(item);
 
-              if (packageData.containsKey('type') &&
-                  packageData['type'] == 'simulasi') {
-                final String generatedKey = 'simulasi_${packageCounter++}';
-                filteredData[generatedKey] = packageData;
-              }
+              // No longer filter by 'type'; include all packages as simulations
+              final String generatedKey = 'simulasi_${packageCounter++}';
+              filteredData[generatedKey] = packageData;
             }
           }
         } else if (snapshot.value is Map) {
@@ -60,19 +63,109 @@ class _SimulationViewState extends State<SimulationView> {
             if (value is Map) {
               final Map<String, dynamic> packageData =
                   Map<String, dynamic>.from(value);
-              if (packageData.containsKey('type') &&
-                  packageData['type'] == 'simulasi') {
-                filteredData[key.toString()] = packageData;
-              }
+              // No longer filter by 'type'; include all packages as simulations
+              filteredData[key.toString()] = packageData;
             }
           });
         }
       }
 
+      // If Firebase contains separate packages for TWK/TIU/TKP (as in your JSON export),
+      // combine them into a single CPNS package so a full simulation (TWK+TIU+TKP) can be run.
+      bool hasFullPackage = false;
+      for (final v in filteredData.values) {
+        if (v is Map) {
+          final dynamic cats = v['category'];
+          if (cats is List) {
+            final titles = cats
+                .where((e) => e is Map && e.containsKey('title'))
+                .map((e) => (e['title'] as String).toLowerCase())
+                .toList();
+            if (titles.any((t) => t.contains('twk')) &&
+                titles.any((t) => t.contains('tiu')) &&
+                titles.any((t) => t.contains('tkp'))) {
+              hasFullPackage = true;
+              break;
+            }
+          } else {
+            if (v.containsKey('twk') && v.containsKey('tiu') && v.containsKey('tkp')) {
+              hasFullPackage = true;
+              break;
+            }
+          }
+        }
+      }
+
+      if (!hasFullPackage) {
+        final Map<String, List<dynamic>> combinedPools = {
+          'twk': [],
+          'tiu': [],
+          'tkp': []
+        };
+
+        for (final v in filteredData.values) {
+          if (v is Map) {
+            if (v.containsKey('twk') && v['twk'] is List && combinedPools['twk']!.isEmpty) {
+              combinedPools['twk'] = List<dynamic>.from(v['twk'] as List);
+            }
+            if (v.containsKey('tiu') && v['tiu'] is List && combinedPools['tiu']!.isEmpty) {
+              combinedPools['tiu'] = List<dynamic>.from(v['tiu'] as List);
+            }
+            if (v.containsKey('tkp') && v['tkp'] is List && combinedPools['tkp']!.isEmpty) {
+              combinedPools['tkp'] = List<dynamic>.from(v['tkp'] as List);
+            }
+
+            final dynamic cats = v['category'];
+            if (cats is List) {
+              for (var c in cats.where((e) => e != null)) {
+                if (c is Map) {
+                  final String title = (c['title'] as String? ?? '').toLowerCase();
+                  if (title.contains('twk') && combinedPools['twk']!.isEmpty && c['quiz'] is List) {
+                    combinedPools['twk'] = List<dynamic>.from(c['quiz']);
+                  }
+                  if (title.contains('tiu') && combinedPools['tiu']!.isEmpty && c['quiz'] is List) {
+                    combinedPools['tiu'] = List<dynamic>.from(c['quiz']);
+                  }
+                  if (title.contains('tkp') && combinedPools['tkp']!.isEmpty && c['quiz'] is List) {
+                    combinedPools['tkp'] = List<dynamic>.from(c['quiz']);
+                  }
+                }
+              }
+            }
+          }
+        }
+
+        if (combinedPools['twk']!.isNotEmpty ||
+            combinedPools['tiu']!.isNotEmpty ||
+            combinedPools['tkp']!.isNotEmpty) {
+          final Map<String, dynamic> combined = {};
+          combined['title'] = 'Simulasi CPNS';
+          final List<Map<String, dynamic>> cats = [];
+          if (combinedPools['twk']!.isNotEmpty) {
+            cats.add({'title': 'TWK', 'quiz': combinedPools['twk']});
+          }
+          if (combinedPools['tiu']!.isNotEmpty) {
+            cats.add({'title': 'TIU', 'quiz': combinedPools['tiu']});
+          }
+          if (combinedPools['tkp']!.isNotEmpty) {
+            cats.add({'title': 'TKP', 'quiz': combinedPools['tkp']});
+          }
+          combined['category'] = cats;
+          combined['duration'] = 100 * 60;
+          filteredData['simulasi_cpns_all'] = combined;
+        }
+      }
+
       setState(() {
         data = filteredData;
-        selectedKey = data.keys.isNotEmpty ? data.keys.first : null;
+        // If we created a combined CPNS package, prefer it by default
+        selectedKey = data.containsKey('simulasi_cpns_all')
+            ? 'simulasi_cpns_all'
+            : (data.keys.isNotEmpty ? data.keys.first : null);
         _isLoading = false;
+        if (selectedKey != null) {
+          _prepareSimulationVariants(data[selectedKey]);
+        }
       });
     } catch (e) {
       debugPrint('Error loading data from Firebase: $e');
@@ -80,6 +173,112 @@ class _SimulationViewState extends State<SimulationView> {
         _isLoading = false;
       });
     }
+  }
+
+  // Extract pools for twk/tiu/tkp from selectedData
+  Map<String, List<dynamic>> _extractCategoryPools(
+    Map<String, dynamic>? selectedData,
+  ) {
+    final Map<String, List<dynamic>> pools = {'twk': [], 'tiu': [], 'tkp': []};
+    if (selectedData == null) return pools;
+
+    final dynamic categories = selectedData['category'];
+    if (categories is List) {
+      for (var cat in categories.where((e) => e != null)) {
+        if (cat is Map) {
+          final Map<String, dynamic> categoryMap = Map<String, dynamic>.from(
+            cat,
+          );
+          final String title = (categoryMap['title'] as String? ?? '')
+              .toLowerCase();
+          if (categoryMap.containsKey('quiz') && categoryMap['quiz'] is List) {
+            if (title.contains('twk')) {
+              pools['twk'] = List<dynamic>.from(categoryMap['quiz']);
+            } else if (title.contains('tiu')) {
+              pools['tiu'] = List<dynamic>.from(categoryMap['quiz']);
+            } else if (title.contains('tkp')) {
+              pools['tkp'] = List<dynamic>.from(categoryMap['quiz']);
+            }
+          }
+        }
+      }
+    } else if (selectedData.containsKey('twk') ||
+        selectedData.containsKey('tiu') ||
+        selectedData.containsKey('tkp')) {
+      for (final cat in ['twk', 'tiu', 'tkp']) {
+        if (selectedData.containsKey(cat) && selectedData[cat] is List) {
+          pools[cat] = List<dynamic>.from(selectedData[cat] as List<dynamic>);
+        }
+      }
+    }
+
+    return pools;
+  }
+
+  // Prepare 5 simulation variants. Each variant contains sampled quizzes: 30 TWK, 35 TIU, 45 TKP (or fewer if pool is small).
+  void _prepareSimulationVariants(Map<String, dynamic>? selectedData) {
+    _simulationVariants = [];
+    _selectedSimulationIndex = 0;
+    if (selectedData == null) return;
+
+    final pools = _extractCategoryPools(selectedData);
+    final Map<String, int> sizes = {'twk': 30, 'tiu': 35, 'tkp': 45};
+
+    for (int i = 0; i < 5; i++) {
+      final List<Map<String, dynamic>> categories = [];
+
+      for (final catKey in ['twk', 'tiu', 'tkp']) {
+        final pool = List<dynamic>.from(pools[catKey]!);
+        pool.shuffle();
+        final int take = min(sizes[catKey]!, pool.length);
+        final List<dynamic> sample = pool.sublist(0, take);
+        categories.add({'title': catKey.toUpperCase(), 'quiz': sample});
+      }
+
+      // Build variant map cloning essential metadata from selectedData
+      final Map<String, dynamic> variant = Map<String, dynamic>.from(
+        selectedData,
+      );
+      variant['category'] = categories;
+      // Force duration to 100 minutes for each simulation (100 * 60 seconds)
+      variant['duration'] = 100 * 60;
+
+      _simulationVariants.add(variant);
+    }
+  }
+
+  // Helper to compute counts (TWK/TIU/TKP/total) from a variant-like map
+  Map<String, int> _getCountsFromVariantData(Map<String, dynamic>? variant) {
+    final Map<String, int> counts = {'twk': 0, 'tiu': 0, 'tkp': 0, 'total': 0};
+    if (variant == null) return counts;
+    final dynamic cats = variant['category'];
+    if (cats is List) {
+      for (var c in cats) {
+        if (c is Map &&
+            c.containsKey('title') &&
+            c.containsKey('quiz') &&
+            c['quiz'] is List) {
+          final String title = (c['title'] as String).toLowerCase();
+          final int len = (c['quiz'] as List).length;
+          if (title.contains('twk')) {
+            counts['twk'] = len;
+          } else if (title.contains('tiu')) {
+            counts['tiu'] = len;
+          } else if (title.contains('tkp')) {
+            counts['tkp'] = len;
+          }
+          counts['total'] = counts['total']! + len;
+        }
+      }
+    } else {
+      for (final key in ['twk', 'tiu', 'tkp']) {
+        if (variant.containsKey(key) && variant[key] is List) {
+          counts[key] = (variant[key] as List).length;
+          counts['total'] = counts['total']! + counts[key]!;
+        }
+      }
+    }
+    return counts;
   }
 
   @override
@@ -116,36 +315,6 @@ class _SimulationViewState extends State<SimulationView> {
 
     final selectedData = data[selectedKey!];
 
-    int jumlahSoal = 0;
-    if (selectedData != null) {
-      var categories = selectedData['category'];
-      if (categories is List) {
-        for (var cat in categories) {
-          if (cat is Map) {
-            final Map<String, dynamic> categoryMap = Map<String, dynamic>.from(
-              cat,
-            );
-            if (categoryMap.containsKey('quiz') &&
-                categoryMap['quiz'] is List) {
-              jumlahSoal += (categoryMap['quiz'] as List).length;
-            }
-          }
-        }
-      } else if (categories is Map) {
-        categories.forEach((key, value) {
-          if (value is Map) {
-            final Map<String, dynamic> categoryMap = Map<String, dynamic>.from(
-              value,
-            );
-            if (categoryMap.containsKey('quiz') &&
-                categoryMap['quiz'] is List) {
-              jumlahSoal += (categoryMap['quiz'] as List).length;
-            }
-          }
-        });
-      }
-    }
-
     return Scaffold(
       backgroundColor: const Color(0xFF6A5AE0),
       appBar: AppBar(
@@ -161,6 +330,7 @@ class _SimulationViewState extends State<SimulationView> {
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.only(bottomLeft: Radius.circular(22)),
         ),
+        titleSpacing: 0,
       ),
       body: Stack(
         children: [
@@ -181,7 +351,7 @@ class _SimulationViewState extends State<SimulationView> {
                   child: Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      'Pilih Tingkat Kesulitan Try Out',
+                      'Pilih Simulasi Try Out Anda',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         color: Colors.white,
@@ -196,31 +366,36 @@ class _SimulationViewState extends State<SimulationView> {
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  child: DropdownButton<String>(
-                    underline: const SizedBox(),
-                    isExpanded: true,
-                    value: selectedKey,
-                    icon: const Icon(
-                      Icons.arrow_drop_down,
-                      color: Color(0xFF6A5AE0),
-                    ),
-                    dropdownColor: Colors.white,
-                    style: const TextStyle(
-                      color: Color(0xFF6A5AE0),
-                      fontWeight: FontWeight.bold,
-                    ),
-                    items: data.entries.map((entry) {
-                      final level = entry.value['level'] ?? 'Unknown Level';
-                      return DropdownMenuItem<String>(
-                        value: entry.key,
-                        child: Text(level),
-                      );
-                    }).toList(),
-                    onChanged: (value) {
-                      setState(() {
-                        selectedKey = value!;
-                      });
-                    },
+                  child: Column(
+                    children: [
+                      DropdownButton<int>(
+                        underline: const SizedBox(),
+                        isExpanded: true,
+                        value: _selectedSimulationIndex,
+                        icon: const Icon(
+                          Icons.arrow_drop_down,
+                          color: Color(0xFF6A5AE0),
+                        ),
+                        dropdownColor: Colors.white,
+                        style: const TextStyle(
+                          color: Color(0xFF6A5AE0),
+                          fontWeight: FontWeight.bold,
+                        ),
+                        items: List<DropdownMenuItem<int>>.generate(5, (i) {
+                          return DropdownMenuItem<int>(
+                            value: i,
+                            child: Text(
+                              'Simulasi CPNS ${i + 1}',
+                            ),
+                          );
+                        }),
+                        onChanged: (v) {
+                          setState(() {
+                            _selectedSimulationIndex = v ?? 0;
+                          });
+                        },
+                      ),
+                    ],
                   ),
                 ),
                 Container(
@@ -246,14 +421,16 @@ class _SimulationViewState extends State<SimulationView> {
                       ),
                       const SizedBox(height: 8),
                       Text(
-                        selectedData['title'] ?? 'Judul Tidak Tersedia',
+                        'TWK, TIU, TKP',
                         style: const TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       const SizedBox(height: 4),
-                      Text(selectedData['desc'] ?? 'Deskripsi Tidak Tersedia'),
+                      Text(
+                        'Persiapan Ujian CPNS dengan simulasi soal TWK, TIU, dan TKP yang komprehensif untuk meningkatkan kemampuan Anda.',
+                      ),
                     ],
                   ),
                 ),
@@ -264,36 +441,20 @@ class _SimulationViewState extends State<SimulationView> {
                     children: [
                       BoxQuizComponents(
                         label: 'Jumlah Soal',
-                        text: '$jumlahSoal Soal',
+                        text:
+                            '${_simulationVariants.isNotEmpty ? _getCountsFromVariantData(_simulationVariants[_selectedSimulationIndex])['total'] : (_getCountsFromVariantData(selectedData)['total'])} Soal',
                       ),
                       const SizedBox(width: 16),
                       BoxQuizComponents(
                         label: 'Durasi',
-                        text: selectedData.containsKey('duration')
-                            ? '${(selectedData['duration'] / 60).round()} Menit'
-                            : 'N/A',
+                        text:
+                            '${(_simulationVariants.isNotEmpty ? (_simulationVariants[_selectedSimulationIndex]['duration'] ?? selectedData?['duration'] ?? 100 * 60) : (selectedData?['duration'] ?? 100 * 60)) ~/ 60} Menit',
                       ),
                     ],
                   ),
                 ),
                 const SizedBox(height: 16),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      BoxQuizComponents(
-                        label: 'Passing Grade',
-                        text: '${selectedData['passing_grade'] ?? 'N/A'}/1000',
-                      ),
-                      const SizedBox(width: 16),
-                      BoxQuizComponents(
-                        label: 'Tingkat Kesulitan',
-                        text: selectedData['level'] ?? 'N/A',
-                      ),
-                    ],
-                  ),
-                ),
+
                 Container(
                   width: double.infinity,
                   margin: const EdgeInsets.symmetric(
@@ -302,7 +463,25 @@ class _SimulationViewState extends State<SimulationView> {
                   ),
                   child: ElevatedButton(
                     onPressed: () {
-                      if (selectedData != null) {
+                      if (_simulationVariants.isNotEmpty &&
+                          _simulationVariants[_selectedSimulationIndex]
+                              .isNotEmpty) {
+                        final Map<String, dynamic> variant =
+                            Map<String, dynamic>.from(
+                              _simulationVariants[_selectedSimulationIndex],
+                            );
+                        if (!variant.containsKey('duration') &&
+                            selectedData != null &&
+                            selectedData.containsKey('duration')) {
+                          variant['duration'] = selectedData['duration'];
+                        }
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => TryOutViews(data: variant),
+                          ),
+                        );
+                      } else if (selectedData != null) {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -320,6 +499,7 @@ class _SimulationViewState extends State<SimulationView> {
                         );
                       }
                     },
+
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.white,
                       padding: const EdgeInsets.symmetric(vertical: 16),
