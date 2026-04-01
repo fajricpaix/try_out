@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:try_out/services/auth_session_service.dart';
 
 class GoogleAuthService {
   GoogleAuthService._();
@@ -101,7 +102,11 @@ class GoogleAuthService {
   }
 
   static Future<UserCredential> loginOrRegisterWithGoogle() async {
-    return _signInWithGoogle();
+    final credential = await _signInWithGoogle();
+    if (credential.user != null) {
+      await AuthSessionService.saveUserSession(credential.user!, 'google');
+    }
+    return credential;
   }
 
   static Future<UserCredential> loginAsUser(String userName) async {
@@ -112,6 +117,10 @@ class GoogleAuthService {
       if (user != null && (user.displayName ?? '').trim() != userName) {
         await user.updateDisplayName(userName);
         await user.reload();
+      if (credential.user != null) {
+        await AuthSessionService.saveUserSession(credential.user!, 'anonymous');
+      }
+
         // Force refresh to ensure displayName is synced before header renders
         await FirebaseAuth.instance.currentUser?.reload();
       }
@@ -129,6 +138,7 @@ class GoogleAuthService {
   }
 
   static Future<void> signOut() async {
+    await AuthSessionService.clearUserSession();
     await _auth.signOut();
     await _googleSignIn.signOut();
   }
