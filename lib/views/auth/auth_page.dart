@@ -60,6 +60,7 @@ class _AuthPageState extends State<AuthPage> {
         title: const Text('Login'),
         backgroundColor: const Color(0xFF5E00B0),
         foregroundColor: Colors.white,
+        titleSpacing: 0,
       ),
       body: Center(
         child: Padding(

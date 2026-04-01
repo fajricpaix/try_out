@@ -49,6 +49,7 @@ class _RegisterPageState extends State<RegisterPage> {
         title: const Text('Register'),
         backgroundColor: const Color(0xFF5E00B0),
         foregroundColor: Colors.white,
+        titleSpacing: 0,
       ),
       body: Center(
         child: Padding(

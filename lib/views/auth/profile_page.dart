@@ -15,6 +15,7 @@ class ProfilePage extends StatelessWidget {
         title: const Text('Profile'),
         backgroundColor: const Color(0xFF5E00B0),
         foregroundColor: Colors.white,
+        titleSpacing: 0,
       ),
       body: Padding(
         padding: const EdgeInsets.all(20),
