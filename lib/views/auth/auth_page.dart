@@ -23,10 +23,10 @@ class _AuthPageState extends State<AuthPage> {
     const String chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
     final Random random = Random.secure();
     final String suffix = List.generate(
-      8,
+      10,
       (_) => chars[random.nextInt(chars.length)],
     ).join();
-    return 'CPNS$suffix';
+    return 'CPNS-$suffix';
   }
 
   Future<void> _runAuth(Future<void> Function() action) async {
@@ -137,7 +137,7 @@ class _AuthPageState extends State<AuthPage> {
                                   );
                                 }),
                         icon: const Icon(Icons.person),
-                        label: Text('Login as user ($_generatedUserName)'),
+                        label: const Text('Login as user'),
                         style: OutlinedButton.styleFrom(
                           foregroundColor: const Color(0xFF5E00B0),
                           side: const BorderSide(color: Color(0xFF5E00B0)),

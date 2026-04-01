@@ -105,15 +105,27 @@ class GoogleAuthService {
   }
 
   static Future<UserCredential> loginAsUser(String userName) async {
-    final UserCredential credential = await _auth.signInAnonymously();
-    final User? user = credential.user;
+    try {
+      final UserCredential credential = await _auth.signInAnonymously();
+      final User? user = credential.user;
 
-    if (user != null && (user.displayName ?? '').trim() != userName) {
-      await user.updateDisplayName(userName);
-      await user.reload();
+      if (user != null && (user.displayName ?? '').trim() != userName) {
+        await user.updateDisplayName(userName);
+        await user.reload();
+        // Force refresh to ensure displayName is synced before header renders
+        await FirebaseAuth.instance.currentUser?.reload();
+      }
+
+      return credential;
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'operation-not-allowed' ||
+          e.code == 'admin-restricted-operation') {
+        throw Exception(
+          'Login as user belum diaktifkan. Aktifkan Anonymous di Firebase Console > Authentication > Sign-in method.',
+        );
+      }
+      throw Exception(_mapFirebaseAuthError(e));
     }
-
-    return credential;
   }
 
   static Future<void> signOut() async {

@@ -21,6 +21,7 @@ void main() async {
   MobileAds.instance.initialize();
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await FirebaseAuth.instance.setLanguageCode('id');
 
   runApp(const MyApp());
 }
