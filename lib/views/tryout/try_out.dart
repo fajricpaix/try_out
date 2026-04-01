@@ -7,7 +7,15 @@ import 'package:try_out/widgets/modal/quiz.dart';
 
 class TryOutViews extends StatefulWidget {
   final Map<String, dynamic> data;
-  const TryOutViews({super.key, required this.data});
+  final bool isSimulation;
+  final String? simulationLabel;
+
+  const TryOutViews({
+    super.key,
+    required this.data,
+    this.isSimulation = false,
+    this.simulationLabel,
+  });
 
   @override
   State<TryOutViews> createState() => _TryOutViewsState();
@@ -32,6 +40,7 @@ class _TryOutViewsState extends State<TryOutViews> {
 
   late int remainingSeconds;
   Timer? countdownTimer;
+  late DateTime _testStartedAt;
 
   Map<String, dynamic> get currentQuestion {
     // This is already safe because `categories` is now strongly typed.
@@ -42,6 +51,7 @@ class _TryOutViewsState extends State<TryOutViews> {
   void initState() {
     super.initState();
     _processIncomingData(); // Process data first to ensure strong types
+    _testStartedAt = DateTime.now();
 
     remainingSeconds = widget.data['duration'] as int;
     initialRemainingSeconds = widget.data['duration'] as int;
@@ -56,15 +66,22 @@ class _TryOutViewsState extends State<TryOutViews> {
     final dynamic rawCategories = widget.data['category'];
     if (rawCategories is List) {
       // Here's the key change: use .cast<Map<String, dynamic>>() on the list result
-      categories = rawCategories.map((cat) {
-        if (cat is Map) {
-          return _castMapToStrongType(cat);
-        }
-        return cat;
-      }).toList().cast<Map<String, dynamic>>(); // Explicit cast to List<Map<String, dynamic>>
+      categories = rawCategories
+          .map((cat) {
+            if (cat is Map) {
+              return _castMapToStrongType(cat);
+            }
+            return cat;
+          })
+          .toList()
+          .cast<
+            Map<String, dynamic>
+          >(); // Explicit cast to List<Map<String, dynamic>>
     } else {
       categories = [];
-      debugPrint('Warning: widget.data[\'category\'] is not a List. Check Firebase structure.');
+      debugPrint(
+        'Warning: widget.data[\'category\'] is not a List. Check Firebase structure.',
+      );
     }
   }
 
@@ -76,17 +93,21 @@ class _TryOutViewsState extends State<TryOutViews> {
           newMap[key] = _castMapToStrongType(value);
         } else if (value is List) {
           // Here's another key change: cast list elements if they are maps
-          newMap[key] = value.map((item) {
-            if (item is Map && item is! Map<String, dynamic>) {
-              return _castMapToStrongType(item);
-            }
-            return item;
-          }).toList(); // No need for .cast() here yet, as the individual items are handled.
+          newMap[key] = value.map(
+            (item) {
+              if (item is Map && item is! Map<String, dynamic>) {
+                return _castMapToStrongType(item);
+              }
+              return item;
+            },
+          ).toList(); // No need for .cast() here yet, as the individual items are handled.
         } else {
           newMap[key] = value;
         }
       } else {
-        debugPrint('Warning: Non-string key "$key" found in map. Converting key to string.');
+        debugPrint(
+          'Warning: Non-string key "$key" found in map. Converting key to string.',
+        );
         newMap[key.toString()] = value;
       }
     });
@@ -101,10 +122,13 @@ class _TryOutViewsState extends State<TryOutViews> {
       final List<dynamic> quizListDynamic = category['quiz'] as List<dynamic>;
       // Now, iterate through this dynamic list and cast each item
       final List<Map<String, dynamic>> quizList = quizListDynamic
-          .map((quizItem) => quizItem as Map<String, dynamic>) // Explicitly cast each item
+          .map(
+            (quizItem) => quizItem as Map<String, dynamic>,
+          ) // Explicitly cast each item
           .toList();
 
-      for (var quizItem in quizList) { // Now quizItem is definitely Map<String, dynamic>
+      for (var quizItem in quizList) {
+        // Now quizItem is definitely Map<String, dynamic>
         allQuestions.add({
           'questionText': quizItem['question']['text'],
           'options': quizItem['options'],
@@ -155,9 +179,13 @@ class _TryOutViewsState extends State<TryOutViews> {
       String? savedOptionLabel;
 
       if (existingAnswer['category'] == 'TKP') {
-        savedOptionLabel = options.firstWhereOrNull(
-          (opt) => (opt as Map<String, dynamic>)['score'] == existingAnswer['score'],
-        )?['label'] as String?;
+        savedOptionLabel =
+            options.firstWhereOrNull(
+                  (opt) =>
+                      (opt as Map<String, dynamic>)['score'] ==
+                      existingAnswer['score'],
+                )?['label']
+                as String?;
       } else {
         savedOptionLabel = existingAnswer['selectedOptionLabel'] as String?;
       }
@@ -212,7 +240,9 @@ class _TryOutViewsState extends State<TryOutViews> {
       answerSaved = false;
 
       // Accessing `quiz` and its length safely
-      if (currentQuestionIndex < (categories[currentCategoryIndex]['quiz'] as List<dynamic>).length - 1) {
+      if (currentQuestionIndex <
+          (categories[currentCategoryIndex]['quiz'] as List<dynamic>).length -
+              1) {
         currentQuestionIndex++;
       } else if (currentCategoryIndex < categories.length - 1) {
         currentCategoryIndex++;
@@ -238,14 +268,18 @@ class _TryOutViewsState extends State<TryOutViews> {
       } else if (currentCategoryIndex > 0) {
         currentCategoryIndex--;
         // Accessing `quiz` and its length safely
-        currentQuestionIndex = (categories[currentCategoryIndex]['quiz'] as List<dynamic>).length - 1;
+        currentQuestionIndex =
+            (categories[currentCategoryIndex]['quiz'] as List<dynamic>).length -
+            1;
       }
       _loadSavedAnswerForCurrentQuestion();
     });
   }
 
   void saveAnswer() {
-    final String questionCategory = categories[currentCategoryIndex]['title'].toString().toUpperCase();
+    final String questionCategory = categories[currentCategoryIndex]['title']
+        .toString()
+        .toUpperCase();
 
     if (selectedOptionLabel == null) return;
 
@@ -254,7 +288,9 @@ class _TryOutViewsState extends State<TryOutViews> {
     int currentOverall = _getCurrentOverallQuestionIndex();
 
     setState(() {
-      int existingAnswerIndex = userAnswers.indexWhere((ans) => ans['overallIndex'] == currentOverall);
+      int existingAnswerIndex = userAnswers.indexWhere(
+        (ans) => ans['overallIndex'] == currentOverall,
+      );
 
       final Map<String, dynamic> currentQ = currentQuestion;
       final String questionText = currentQ['question']['text'] as String;
@@ -267,7 +303,9 @@ class _TryOutViewsState extends State<TryOutViews> {
         'overallIndex': currentOverall,
         'category': questionCategory,
         'correct': questionCategory != 'TKP' ? isCorrect : null,
-        'score': questionCategory == 'TKP' ? selectedScore : (isCorrect ? 5 : 0),
+        'score': questionCategory == 'TKP'
+            ? selectedScore
+            : (isCorrect ? 5 : 0),
         'selectedOptionLabel': selectedOptionLabel,
         'questionText': questionText,
         'options': optionsData,
@@ -286,6 +324,7 @@ class _TryOutViewsState extends State<TryOutViews> {
 
   void showFinalScore() {
     countdownTimer?.cancel();
+    final DateTime finishedAt = DateTime.now();
 
     int totalScore = 0;
     int twkScore = 0;
@@ -296,7 +335,9 @@ class _TryOutViewsState extends State<TryOutViews> {
       final score = ans['score'];
       final category = ans['category'];
 
-      int currentQuestionScore = (score is int ? score : (score as num?)?.toInt() ?? 0);
+      int currentQuestionScore = (score is int
+          ? score
+          : (score as num?)?.toInt() ?? 0);
       totalScore += currentQuestionScore;
 
       if (category == 'TWK') {
@@ -326,6 +367,10 @@ class _TryOutViewsState extends State<TryOutViews> {
           tiuScore: tiuScore,
           tkpScore: tkpScore,
           allQuizQuestions: allQuestions,
+          persistSimulationResult: widget.isSimulation,
+          simulationLabel: widget.simulationLabel,
+          testStartedAt: _testStartedAt,
+          testFinishedAt: finishedAt,
         ),
       ),
     );
@@ -333,16 +378,19 @@ class _TryOutViewsState extends State<TryOutViews> {
 
   bool isLastQuestion() {
     return currentCategoryIndex == categories.length - 1 &&
-        currentQuestionIndex == (categories.last['quiz'] as List<dynamic>).length - 1; // Cast `quiz`
+        currentQuestionIndex ==
+            (categories.last['quiz'] as List<dynamic>).length -
+                1; // Cast `quiz`
   }
 
   @override
   Widget build(BuildContext context) {
     final String questionText = currentQuestion['question']['text'] as String;
     // Cast options here before mapping
-    final List<Map<String, dynamic>> options = (currentQuestion['options'] as List<dynamic>)
-        .map((opt) => opt as Map<String, dynamic>)
-        .toList();
+    final List<Map<String, dynamic>> options =
+        (currentQuestion['options'] as List<dynamic>)
+            .map((opt) => opt as Map<String, dynamic>)
+            .toList();
 
     int totalQuestions = categories.fold(
       0,
@@ -444,7 +492,8 @@ class _TryOutViewsState extends State<TryOutViews> {
                         final optionText = optionMap['text'] as String;
                         final int? optionScore = optionMap['score'] as int?;
 
-                        final bool isSelected = selectedOptionLabel == optionLabel;
+                        final bool isSelected =
+                            selectedOptionLabel == optionLabel;
 
                         final backgroundColor = isSelected
                             ? const Color(0xFF6A5AE0)
@@ -536,18 +585,20 @@ class _TryOutViewsState extends State<TryOutViews> {
                   padding: const EdgeInsets.symmetric(vertical: 12),
                   backgroundColor:
                       currentCategoryIndex == 0 && currentQuestionIndex == 0
-                          ? Colors.white60
-                          : const Color(0xFF6A5AE0),
+                      ? Colors.white60
+                      : const Color(0xFF6A5AE0),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8),
                   ),
                 ),
-                onPressed: (currentCategoryIndex == 0 && currentQuestionIndex == 0)
+                onPressed:
+                    (currentCategoryIndex == 0 && currentQuestionIndex == 0)
                     ? null
                     : previousQuestion,
                 child: Icon(
                   Icons.keyboard_arrow_left,
-                  color: (currentCategoryIndex == 0 && currentQuestionIndex == 0)
+                  color:
+                      (currentCategoryIndex == 0 && currentQuestionIndex == 0)
                       ? Colors.black26
                       : Colors.white,
                   size: 24,
@@ -557,54 +608,55 @@ class _TryOutViewsState extends State<TryOutViews> {
             const SizedBox(width: 16),
 
             ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              padding: const EdgeInsets.symmetric(vertical: 12),
-              backgroundColor: const Color(0xFFEFF1FE),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8),
+              style: ElevatedButton.styleFrom(
+                padding: const EdgeInsets.symmetric(vertical: 12),
+                backgroundColor: const Color(0xFFEFF1FE),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+              ),
+              onPressed: () async {
+                if (selectedOptionLabel != null && !answerSaved) {
+                  saveAnswer();
+                }
+
+                final int? selectedOverallIndex = await showDialog<int>(
+                  context: context,
+                  builder: (context) => QuizModal(
+                    totalQuestions: totalQuestions,
+                    currentIndex: currentOverallNumber - 1,
+                    userAnswers: userAnswers,
+                    onSelectQuestion: (overallIndex) {
+                      Navigator.of(context).pop(overallIndex);
+                    },
+                  ),
+                );
+
+                if (selectedOverallIndex != null) {
+                  setState(() {
+                    int tempOverallIndex = selectedOverallIndex;
+                    currentCategoryIndex = 0;
+                    currentQuestionIndex = 0;
+                    for (int i = 0; i < categories.length; i++) {
+                      final categoryQuizLength =
+                          (categories[i]['quiz'] as List<dynamic>).length;
+                      if (tempOverallIndex < categoryQuizLength) {
+                        currentCategoryIndex = i;
+                        currentQuestionIndex = tempOverallIndex;
+                        break;
+                      } else {
+                        tempOverallIndex -= categoryQuizLength;
+                      }
+                    }
+                    _loadSavedAnswerForCurrentQuestion();
+                  });
+                }
+              },
+              child: Text(
+                '$currentOverallNumber',
+                style: const TextStyle(color: Color(0xFF6A5AE0), fontSize: 16),
               ),
             ),
-            onPressed: () async {
-              if (selectedOptionLabel != null && !answerSaved) {
-                saveAnswer();
-              }
-
-              final int? selectedOverallIndex = await showDialog<int>(
-                context: context,
-                builder: (context) => QuizModal(
-                  totalQuestions: totalQuestions,
-                  currentIndex: currentOverallNumber - 1,
-                  userAnswers: userAnswers,
-                  onSelectQuestion: (overallIndex) {
-                    Navigator.of(context).pop(overallIndex);
-                  },
-                ),
-              );
-
-              if (selectedOverallIndex != null) {
-                setState(() {
-                  int tempOverallIndex = selectedOverallIndex;
-                  currentCategoryIndex = 0;
-                  currentQuestionIndex = 0;
-                  for (int i = 0; i < categories.length; i++) {
-                    final categoryQuizLength = (categories[i]['quiz'] as List<dynamic>).length;
-                    if (tempOverallIndex < categoryQuizLength) {
-                      currentCategoryIndex = i;
-                      currentQuestionIndex = tempOverallIndex;
-                      break;
-                    } else {
-                      tempOverallIndex -= categoryQuizLength;
-                    }
-                  }
-                  _loadSavedAnswerForCurrentQuestion();
-                });
-              }
-            },
-            child: Text(
-              '$currentOverallNumber',
-              style: const TextStyle(color: Color(0xFF6A5AE0), fontSize: 16),
-            ),
-          ),
 
             const SizedBox(width: 16),
             Expanded(

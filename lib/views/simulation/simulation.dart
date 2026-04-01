@@ -88,7 +88,9 @@ class _SimulationViewState extends State<SimulationView> {
               break;
             }
           } else {
-            if (v.containsKey('twk') && v.containsKey('tiu') && v.containsKey('tkp')) {
+            if (v.containsKey('twk') &&
+                v.containsKey('tiu') &&
+                v.containsKey('tkp')) {
               hasFullPackage = true;
               break;
             }
@@ -100,18 +102,24 @@ class _SimulationViewState extends State<SimulationView> {
         final Map<String, List<dynamic>> combinedPools = {
           'twk': [],
           'tiu': [],
-          'tkp': []
+          'tkp': [],
         };
 
         for (final v in filteredData.values) {
           if (v is Map) {
-            if (v.containsKey('twk') && v['twk'] is List && combinedPools['twk']!.isEmpty) {
+            if (v.containsKey('twk') &&
+                v['twk'] is List &&
+                combinedPools['twk']!.isEmpty) {
               combinedPools['twk'] = List<dynamic>.from(v['twk'] as List);
             }
-            if (v.containsKey('tiu') && v['tiu'] is List && combinedPools['tiu']!.isEmpty) {
+            if (v.containsKey('tiu') &&
+                v['tiu'] is List &&
+                combinedPools['tiu']!.isEmpty) {
               combinedPools['tiu'] = List<dynamic>.from(v['tiu'] as List);
             }
-            if (v.containsKey('tkp') && v['tkp'] is List && combinedPools['tkp']!.isEmpty) {
+            if (v.containsKey('tkp') &&
+                v['tkp'] is List &&
+                combinedPools['tkp']!.isEmpty) {
               combinedPools['tkp'] = List<dynamic>.from(v['tkp'] as List);
             }
 
@@ -119,14 +127,21 @@ class _SimulationViewState extends State<SimulationView> {
             if (cats is List) {
               for (var c in cats.where((e) => e != null)) {
                 if (c is Map) {
-                  final String title = (c['title'] as String? ?? '').toLowerCase();
-                  if (title.contains('twk') && combinedPools['twk']!.isEmpty && c['quiz'] is List) {
+                  final String title = (c['title'] as String? ?? '')
+                      .toLowerCase();
+                  if (title.contains('twk') &&
+                      combinedPools['twk']!.isEmpty &&
+                      c['quiz'] is List) {
                     combinedPools['twk'] = List<dynamic>.from(c['quiz']);
                   }
-                  if (title.contains('tiu') && combinedPools['tiu']!.isEmpty && c['quiz'] is List) {
+                  if (title.contains('tiu') &&
+                      combinedPools['tiu']!.isEmpty &&
+                      c['quiz'] is List) {
                     combinedPools['tiu'] = List<dynamic>.from(c['quiz']);
                   }
-                  if (title.contains('tkp') && combinedPools['tkp']!.isEmpty && c['quiz'] is List) {
+                  if (title.contains('tkp') &&
+                      combinedPools['tkp']!.isEmpty &&
+                      c['quiz'] is List) {
                     combinedPools['tkp'] = List<dynamic>.from(c['quiz']);
                   }
                 }
@@ -384,9 +399,7 @@ class _SimulationViewState extends State<SimulationView> {
                         items: List<DropdownMenuItem<int>>.generate(5, (i) {
                           return DropdownMenuItem<int>(
                             value: i,
-                            child: Text(
-                              'Simulasi CPNS ${i + 1}',
-                            ),
+                            child: Text('Simulasi CPNS ${i + 1}'),
                           );
                         }),
                         onChanged: (v) {
@@ -478,15 +491,25 @@ class _SimulationViewState extends State<SimulationView> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => TryOutViews(data: variant),
+                            builder: (context) => TryOutViews(
+                              data: variant,
+                              isSimulation: true,
+                              simulationLabel:
+                                  'Simulasi CPNS ${_selectedSimulationIndex + 1}',
+                            ),
                           ),
                         );
                       } else if (selectedData != null) {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) =>
-                                TryOutViews(data: selectedData),
+                            builder: (context) => TryOutViews(
+                              data: selectedData,
+                              isSimulation: true,
+                              simulationLabel:
+                                  selectedData['title'] as String? ??
+                                  'Simulasi CPNS',
+                            ),
                           ),
                         );
                       } else {
