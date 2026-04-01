@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:try_out/services/google_auth_service.dart';
+import 'dart:math';
 
 class AuthPage extends StatefulWidget {
   const AuthPage({super.key});
@@ -10,6 +11,23 @@ class AuthPage extends StatefulWidget {
 
 class _AuthPageState extends State<AuthPage> {
   bool _isProcessing = false;
+  late final String _generatedUserName;
+
+  @override
+  void initState() {
+    super.initState();
+    _generatedUserName = _buildUserName();
+  }
+
+  String _buildUserName() {
+    const String chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    final Random random = Random.secure();
+    final String suffix = List.generate(
+      8,
+      (_) => chars[random.nextInt(chars.length)],
+    ).join();
+    return 'CPNS$suffix';
+  }
 
   Future<void> _runAuth(Future<void> Function() action) async {
     setState(() {
@@ -39,7 +57,7 @@ class _AuthPageState extends State<AuthPage> {
     return Scaffold(
       backgroundColor: const Color(0xFF5E00B0),
       appBar: AppBar(
-        title: const Text('Login / Register'),
+        title: const Text('Login'),
         backgroundColor: const Color(0xFF5E00B0),
         foregroundColor: Colors.white,
       ),
@@ -83,7 +101,7 @@ class _AuthPageState extends State<AuthPage> {
                     ),
                     const SizedBox(height: 8),
                     const Text(
-                      'Pilih Sign in jika akun sudah terdaftar, atau Sign up untuk akun baru.',
+                      'Sign in Google untuk login atau registrasi otomatis dalam satu langkah.',
                       textAlign: TextAlign.center,
                     ),
                     const SizedBox(height: 24),
@@ -93,7 +111,7 @@ class _AuthPageState extends State<AuthPage> {
                         onPressed: _isProcessing
                             ? null
                             : () => _runAuth(() async {
-                                  await GoogleAuthService.loginWithGoogle();
+                                  await GoogleAuthService.loginOrRegisterWithGoogle();
                                 }),
                         icon: const Icon(Icons.login),
                         label: const Text('Sign in with Google'),
@@ -114,10 +132,12 @@ class _AuthPageState extends State<AuthPage> {
                         onPressed: _isProcessing
                             ? null
                             : () => _runAuth(() async {
-                                  await GoogleAuthService.registerWithGoogle();
+                                  await GoogleAuthService.loginAsUser(
+                                    _generatedUserName,
+                                  );
                                 }),
-                        icon: const Icon(Icons.person_add_alt_1),
-                        label: const Text('Sign up with Google'),
+                        icon: const Icon(Icons.person),
+                        label: Text('Login as user ($_generatedUserName)'),
                         style: OutlinedButton.styleFrom(
                           foregroundColor: const Color(0xFF5E00B0),
                           side: const BorderSide(color: Color(0xFF5E00B0)),

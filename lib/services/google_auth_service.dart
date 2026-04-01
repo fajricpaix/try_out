@@ -93,25 +93,24 @@ class GoogleAuthService {
   }
 
   static Future<UserCredential> loginWithGoogle() async {
-    final UserCredential credential = await _signInWithGoogle();
-    final bool isNewUser = credential.additionalUserInfo?.isNewUser ?? false;
-
-    if (isNewUser) {
-      await signOut();
-      throw Exception(
-        'Akun ini belum terdaftar. Silakan gunakan halaman Register terlebih dahulu.',
-      );
-    }
-
-    return credential;
+    return _signInWithGoogle();
   }
 
   static Future<UserCredential> registerWithGoogle() async {
-    final UserCredential credential = await _signInWithGoogle();
-    final bool isNewUser = credential.additionalUserInfo?.isNewUser ?? false;
+    return _signInWithGoogle();
+  }
 
-    if (!isNewUser) {
-      throw Exception('Akun Google ini sudah terdaftar. Silakan login.');
+  static Future<UserCredential> loginOrRegisterWithGoogle() async {
+    return _signInWithGoogle();
+  }
+
+  static Future<UserCredential> loginAsUser(String userName) async {
+    final UserCredential credential = await _auth.signInAnonymously();
+    final User? user = credential.user;
+
+    if (user != null && (user.displayName ?? '').trim() != userName) {
+      await user.updateDisplayName(userName);
+      await user.reload();
     }
 
     return credential;
