@@ -8,12 +8,33 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:620758831637:android:65a6d501818ebfc5f0f41c",
+        "mobilesdk_app_id": "1:620758831637:android:2ce1f584e275429ef0f41c",
         "android_client_info": {
           "package_name": "com.candramawa.try_out"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "620758831637-ge5itvvfa37s81nk51evrfdeg90aes0k.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.candramawa.try_out",
+            "certificate_hash": "c3425e351e9fa04149e74c851f5c4a4f972bbb9f"
+          }
+        },
+        {
+          "client_id": "620758831637-nmlhtce42qa8ipbhvqqe2c58a9olfcn3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.candramawa.try_out",
+            "certificate_hash": "71021d1026ade52c65d2322cbb33e419d45afba9"
+          }
+        },
+        {
+          "client_id": "620758831637-1apqdqeq71gc0qpie6avfdnp006lppt1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyBU522zmz72av5eRSZ4gZlDCniw8HT9eAQ"
@@ -21,7 +42,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "620758831637-1apqdqeq71gc0qpie6avfdnp006lppt1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

@@ -1,8 +1,11 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:try_out/views/home/content/menu.dart';
 import 'package:try_out/views/home/header/header.dart';
+import 'package:try_out/views/auth/auth_page.dart';
+import 'package:try_out/views/auth/profile_page.dart';
 import 'package:try_out/widgets/ads/ads_constant.dart';
 import 'package:try_out/widgets/ads/ads_manager.dart';
 
@@ -39,6 +42,21 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  Future<void> _openAccountPage(User? user) async {
+    if (user == null) {
+      await Navigator.push(
+        context,
+        MaterialPageRoute(builder: (_) => const AuthPage()),
+      );
+      return;
+    }
+
+    await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (_) => ProfilePage(user: user)),
+    );
+  }
+
   @override
   void dispose() {
     super.dispose();
@@ -46,39 +64,48 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xFF5E00B0),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.only(top: 32.0),
-        child: Column(
-          children: [
-            SizedBox(
-              child: Column(
-                children: [
-                  Header(),
-                  MenuContent(),
-                  Container(
-                    width: double.infinity,
-                    padding: const EdgeInsets.only(bottom: 16),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(36),
-                        topRight: Radius.circular(36),
+    return StreamBuilder<User?>(
+      stream: FirebaseAuth.instance.authStateChanges(),
+      builder: (context, snapshot) {
+        final User? currentUser = snapshot.data;
+
+        return Scaffold(
+          backgroundColor: const Color(0xFF5E00B0),
+          body: SingleChildScrollView(
+            padding: const EdgeInsets.only(top: 32.0),
+            child: Column(
+              children: [
+                SizedBox(
+                  child: Column(
+                    children: [
+                      Header(
+                        user: currentUser,
+                        onAccountPressed: () => _openAccountPage(currentUser),
                       ),
-                    ),
-                    child: AdManager(
-                      showBanner: true,
-                      bannerAdUnitId: AdsConstants
-                          .bannerAdUnitId, // Gunakan ID dari constants
-                    ),
+                      MenuContent(),
+                      Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.only(bottom: 16),
+                        decoration: const BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(36),
+                            topRight: Radius.circular(36),
+                          ),
+                        ),
+                        child: const AdManager(
+                          showBanner: true,
+                          bannerAdUnitId: AdsConstants.bannerAdUnitId,
+                        ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 }

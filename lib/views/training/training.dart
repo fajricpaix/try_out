@@ -15,10 +15,10 @@ class TrainingView extends StatelessWidget {
         final dynamic rawValue = snapshot.value;
         if (rawValue is List) {
           // Keep only valid map-like rows from RTDB list payloads.
-          return rawValue.where((e) => e != null && e is Map).toList();
+          return rawValue.whereType<Map>().toList();
         } else if (rawValue is Map) {
           // RTDB indexed children can arrive as Map<String, dynamic>.
-          return rawValue.values.where((e) => e is Map).toList();
+          return rawValue.values.whereType<Map>().toList();
         } else {
           debugPrint("Firebase node 'cpns' is not a List. It's a ${rawValue.runtimeType}.");
           return []; // Return empty list if format is incorrect
