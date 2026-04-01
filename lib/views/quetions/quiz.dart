@@ -32,6 +32,26 @@ class _QuizViewState extends State<QuizView> {
     _loadInterstitialAd();
   }
 
+  List<dynamic> _toListFromDynamic(dynamic value) {
+    if (value is List) {
+      return value.where((e) => e != null).toList();
+    }
+    if (value is Map) {
+      return value.values.where((e) => e != null).toList();
+    }
+    return [];
+  }
+
+  Map<String, dynamic> _toMapFromDynamic(dynamic value) {
+    if (value is Map<String, dynamic>) {
+      return value;
+    }
+    if (value is Map) {
+      return Map<String, dynamic>.from(value);
+    }
+    return <String, dynamic>{};
+  }
+
   void _loadQuizData() {
     setState(() {
       _quizQuestions = widget.quizData;
@@ -218,9 +238,15 @@ class _QuizViewState extends State<QuizView> {
       );
     }
 
-    var currentQuestion = _quizQuestions[_currentIndex];
-    final String questionText = currentQuestion['question']['text'];
-    final List options = currentQuestion['options'];
+    final Map<String, dynamic> currentQuestion = _toMapFromDynamic(
+      _quizQuestions[_currentIndex],
+    );
+    final Map<String, dynamic> questionMap = _toMapFromDynamic(
+      currentQuestion['question'],
+    );
+    final String questionText =
+        questionMap['text'] as String? ?? 'Soal tidak tersedia';
+    final List<dynamic> options = _toListFromDynamic(currentQuestion['options']);
     final String? correctAnswerLabel =
         currentQuestion['answer']; // Can be null for TKP
     final String? explanation =
@@ -317,10 +343,11 @@ class _QuizViewState extends State<QuizView> {
                     ),
                     child: Column(
                       children: options.map<Widget>((opt) {
-                        final optionLabel = opt['label'];
-                        final optionText = opt['text'];
+                        final Map<String, dynamic> option = _toMapFromDynamic(opt);
+                        final optionLabel = option['label'];
+                        final optionText = option['text'];
                         final int? optionScore =
-                            opt['score']; // Get score for TKP
+                            option['score'] as int?; // Get score for TKP
                         final bool isTKP = selectedScore != null;
                         return SelectQuizButton(
                           label: optionLabel,

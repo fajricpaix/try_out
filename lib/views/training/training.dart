@@ -14,9 +14,11 @@ class TrainingView extends StatelessWidget {
       if (snapshot.exists && snapshot.value != null) {
         final dynamic rawValue = snapshot.value;
         if (rawValue is List) {
-          // Filter out nulls and ensure items are Maps
-          // The .toList() creates a new List of the filtered items
+          // Keep only valid map-like rows from RTDB list payloads.
           return rawValue.where((e) => e != null && e is Map).toList();
+        } else if (rawValue is Map) {
+          // RTDB indexed children can arrive as Map<String, dynamic>.
+          return rawValue.values.where((e) => e is Map).toList();
         } else {
           debugPrint("Firebase node 'cpns' is not a List. It's a ${rawValue.runtimeType}.");
           return []; // Return empty list if format is incorrect
@@ -65,8 +67,8 @@ class TrainingView extends StatelessWidget {
 
           final List<dynamic> cpnsData = snapshot.data!;
 
-          // Find category objects (twk, tiu, tkp) from the fetched list
-          Map<String, dynamic>? findCategory(String key) {
+          // Find row that owns the category key (twk, tiu, tkp).
+          Map<String, dynamic>? findRowByCategoryKey(String key) {
             for (final item in cpnsData) {
               if (item is Map && item.containsKey(key)) {
                 return Map<String, dynamic>.from(item);
@@ -75,9 +77,9 @@ class TrainingView extends StatelessWidget {
             return null;
           }
 
-          final twkItem = findCategory('twk');
-          final tiuItem = findCategory('tiu');
-          final tkpItem = findCategory('tkp');
+          final twkItem = findRowByCategoryKey('twk');
+          final tiuItem = findRowByCategoryKey('tiu');
+          final tkpItem = findRowByCategoryKey('tkp');
 
           return SingleChildScrollView(
             child: Column(
@@ -93,7 +95,11 @@ class TrainingView extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                         builder: (_) => DashboardQuetionView(
-                          initialPackage: twkItem,
+                          initialPackage: {
+                            'title': twkItem?['title'],
+                            'desc': twkItem?['desc'],
+                            'twk': twkItem?['twk'],
+                          },
                           initialCategory: 'twk',
                           level: twkItem?['title'] as String?,
                         ),
@@ -112,7 +118,11 @@ class TrainingView extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                         builder: (_) => DashboardQuetionView(
-                          initialPackage: tiuItem,
+                          initialPackage: {
+                            'title': tiuItem?['title'],
+                            'desc': tiuItem?['desc'],
+                            'tiu': tiuItem?['tiu'],
+                          },
                           initialCategory: 'tiu',
                           level: tiuItem?['title'] as String?,
                         ),
@@ -131,7 +141,11 @@ class TrainingView extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                         builder: (_) => DashboardQuetionView(
-                          initialPackage: tkpItem,
+                          initialPackage: {
+                            'title': tkpItem?['title'],
+                            'desc': tkpItem?['desc'],
+                            'tkp': tkpItem?['tkp'],
+                          },
                           initialCategory: 'tkp',
                           level: tkpItem?['title'] as String?,
                         ),

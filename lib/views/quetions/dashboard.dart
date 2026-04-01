@@ -8,7 +8,7 @@ import 'dart:math';
 class DashboardQuetionView extends StatefulWidget {
   final String? level;
   final String? initialCategory; // e.g. 'twk' | 'tiu' | 'tkp'
-  final Map<String, dynamic>?
+  final dynamic
   initialPackage; // pass a specific package object directly
 
   const DashboardQuetionView({
@@ -40,8 +40,10 @@ class _DashboardQuetionViewState extends State<DashboardQuetionView> {
     _forcedCategory = widget.initialCategory;
     // If an initial package was provided, use it directly and skip network load
     if (widget.initialPackage != null) {
+      final Map<String, dynamic> normalizedInitialPackage =
+          _normalizePackage(widget.initialPackage, widget.initialCategory);
       quizData = {
-        'package_0': Map<String, dynamic>.from(widget.initialPackage!),
+        'package_0': normalizedInitialPackage,
       };
       _selectedQuizKey = 'package_0';
       _isLoading = false;
@@ -49,6 +51,35 @@ class _DashboardQuetionViewState extends State<DashboardQuetionView> {
     } else {
       _loadQuizData();
     }
+  }
+
+  List<dynamic> _toListFromDynamic(dynamic value) {
+    if (value is List) {
+      return value.where((e) => e != null).toList();
+    }
+    if (value is Map) {
+      return value.values.where((e) => e != null).toList();
+    }
+    return [];
+  }
+
+  Map<String, dynamic> _normalizePackage(dynamic raw, String? category) {
+    if (raw is Map<String, dynamic>) {
+      return raw;
+    }
+    if (raw is Map) {
+      return Map<String, dynamic>.from(raw);
+    }
+
+    // If raw package is list/map-indexed questions, wrap it under category key.
+    final normalized = <String, dynamic>{
+      'title': widget.level,
+      'desc': '',
+    };
+    if (category != null && category.isNotEmpty) {
+      normalized[category] = _toListFromDynamic(raw);
+    }
+    return normalized;
   }
 
   @override
@@ -153,10 +184,8 @@ class _DashboardQuetionViewState extends State<DashboardQuetionView> {
     // If no 'category' list, support packages that store categories as keys (twk/tiu/tkp)
     for (final cat in ['twk', 'tiu', 'tkp']) {
       if (_forcedCategory != null && _forcedCategory != cat) continue;
-      if (selectedPackage.containsKey(cat) && selectedPackage[cat] is List) {
-        allQuizzes.addAll(
-          (selectedPackage[cat] as List).where((q) => q != null),
-        );
+      if (selectedPackage.containsKey(cat)) {
+        allQuizzes.addAll(_toListFromDynamic(selectedPackage[cat]));
       }
     }
 
