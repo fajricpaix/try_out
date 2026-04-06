@@ -90,7 +90,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         decoration: const BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(36),
+                            // topLeft: Radius.circular(36),
                             topRight: Radius.circular(36),
                           ),
                         ),
