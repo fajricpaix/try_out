@@ -15,19 +15,11 @@
       },
       "oauth_client": [
         {
-          "client_id": "620758831637-ge5itvvfa37s81nk51evrfdeg90aes0k.apps.googleusercontent.com",
+          "client_id": "620758831637-ckhocrarm86gcqpernigpeglq14helnj.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.candramawa.try_out",
-            "certificate_hash": "c3425e351e9fa04149e74c851f5c4a4f972bbb9f"
-          }
-        },
-        {
-          "client_id": "620758831637-nmlhtce42qa8ipbhvqqe2c58a9olfcn3.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.candramawa.try_out",
-            "certificate_hash": "71021d1026ade52c65d2322cbb33e419d45afba9"
+            "certificate_hash": "94d30bb790e387469b1a5deb297631d205f6607d"
           }
         },
         {
