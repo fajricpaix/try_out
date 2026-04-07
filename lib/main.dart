@@ -1,3 +1,6 @@
+import 'dart:async';
+import 'dart:ui';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -31,7 +34,57 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(title: 'Bank Soal CPNS', home: const MyHomePage());
+    return MaterialApp(title: 'Bank Soal CPNS', home: const SplashPage());
+  }
+}
+
+class SplashPage extends StatefulWidget {
+  const SplashPage({super.key});
+
+  @override
+  State<SplashPage> createState() => _SplashPageState();
+}
+
+class _SplashPageState extends State<SplashPage> {
+  @override
+  void initState() {
+    super.initState();
+    Timer(const Duration(milliseconds: 1800), () {
+      if (!mounted) return;
+      Navigator.of(
+        context,
+      ).pushReplacement(MaterialPageRoute(builder: (_) => const MyHomePage()));
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return const Scaffold(
+      backgroundColor: Color(0xFF5E00B0),
+      body: Center(
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(26)),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black38,
+                blurRadius: 24,
+                spreadRadius: 2,
+                offset: Offset(0, 10),
+              ),
+            ],
+          ),
+          child: ClipRRect(
+            borderRadius: BorderRadius.all(Radius.circular(26)),
+            child: Image(
+              image: AssetImage('assets/icon/app_icon.png'),
+              width: 132,
+              height: 132,
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }
 
@@ -69,41 +122,62 @@ class _MyHomePageState extends State<MyHomePage> {
       stream: FirebaseAuth.instance.userChanges(),
       builder: (context, snapshot) {
         final User? currentUser = snapshot.data;
+        const double stickyTopBarHeight = 56;
 
         return Scaffold(
           backgroundColor: const Color(0xFF5E00B0),
-          body: SingleChildScrollView(
-            padding: const EdgeInsets.only(top: 32.0),
-            child: Column(
-              children: [
-                SizedBox(
-                  child: Column(
-                    children: [
-                      Header(
-                        user: currentUser,
-                        onAccountPressed: () => _openAccountPage(currentUser),
+          body: Stack(
+            children: [
+              SingleChildScrollView(
+                padding: const EdgeInsets.only(top: 88),
+                child: Column(
+                  children: [
+                    const Header(),
+                    MenuContent(),
+                    Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.only(bottom: 16),
+                      decoration: const BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.only(
+                          // topLeft: Radius.circular(36),
+                          topRight: Radius.circular(36),
+                        ),
                       ),
-                      MenuContent(),
-                      Container(
-                        width: double.infinity,
-                        padding: const EdgeInsets.only(bottom: 16),
-                        decoration: const BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.only(
-                            // topLeft: Radius.circular(36),
-                            topRight: Radius.circular(36),
+                      child: AdManager(
+                        showBanner: true,
+                        bannerAdUnitId: AdsConstants.bannerAdUnitId,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SafeArea(
+                bottom: false,
+                child: SizedBox(
+                  height: stickyTopBarHeight,
+                  child: ClipRect(
+                    child: BackdropFilter(
+                      filter: ImageFilter.blur(sigmaX: 12, sigmaY: 12),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: const Color(0xFF5E00B0).withValues(alpha: 0.2),
+                          border: Border(
+                            bottom: BorderSide(
+                              color: Colors.white.withValues(alpha: 0.18),
+                            ),
                           ),
                         ),
-                        child: AdManager(
-                          showBanner: true,
-                          bannerAdUnitId: AdsConstants.bannerAdUnitId,
+                        child: HeaderTopBar(
+                          user: currentUser,
+                          onAccountPressed: () => _openAccountPage(currentUser),
                         ),
                       ),
-                    ],
+                    ),
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         );
       },
