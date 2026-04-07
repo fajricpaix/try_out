@@ -1,5 +1,7 @@
 import 'package:firebase_database/firebase_database.dart'; // Firebase Realtime Database
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:try_out/services/energy_service.dart';
 import 'package:try_out/views/tryout/try_out.dart'; // Ensure this path is correct for TryOutViews
 import 'package:try_out/widgets/ads/ads_constant.dart';
 import 'package:try_out/widgets/ads/ads_manager.dart';
@@ -475,7 +477,10 @@ class _SimulationViewState extends State<SimulationView> {
                     vertical: 24,
                   ),
                   child: ElevatedButton(
-                    onPressed: () {
+                    onPressed: () async {
+                      late final Map<String, dynamic> launchData;
+                      late final String simulationLabel;
+
                       if (_simulationVariants.isNotEmpty &&
                           _simulationVariants[_selectedSimulationIndex]
                               .isNotEmpty) {
@@ -488,30 +493,13 @@ class _SimulationViewState extends State<SimulationView> {
                             selectedData.containsKey('duration')) {
                           variant['duration'] = selectedData['duration'];
                         }
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => TryOutViews(
-                              data: variant,
-                              isSimulation: true,
-                              simulationLabel:
-                                  'Simulasi CPNS ${_selectedSimulationIndex + 1}',
-                            ),
-                          ),
-                        );
+                        launchData = variant;
+                        simulationLabel =
+                            'Simulasi CPNS ${_selectedSimulationIndex + 1}';
                       } else if (selectedData != null) {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => TryOutViews(
-                              data: selectedData,
-                              isSimulation: true,
-                              simulationLabel:
-                                  selectedData['title'] as String? ??
-                                  'Simulasi CPNS',
-                            ),
-                          ),
-                        );
+                        launchData = Map<String, dynamic>.from(selectedData);
+                        simulationLabel =
+                            selectedData['title'] as String? ?? 'Simulasi CPNS';
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
@@ -520,7 +508,81 @@ class _SimulationViewState extends State<SimulationView> {
                             ),
                           ),
                         );
+                        return;
                       }
+
+                      final User? currentUser =
+                          FirebaseAuth.instance.currentUser;
+                      final int currentEnergy =
+                          await EnergyService.getCurrentEnergy(currentUser);
+
+                      if (currentEnergy < EnergyService.simulationCost) {
+                        if (!mounted) return;
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                              'Energy tidak cukup. Minimal ${EnergyService.simulationCost} energy untuk mulai simulasi.',
+                            ),
+                          ),
+                        );
+                        return;
+                      }
+
+                      if (!mounted) return;
+                      final bool? isConfirmed = await showDialog<bool>(
+                        context: context,
+                        builder: (dialogContext) {
+                          return AlertDialog(
+                            title: const Text('Konfirmasi Energy'),
+                            content: Text(
+                              'Mulai simulasi akan memakai ${EnergyService.simulationCost} energy. Lanjut?',
+                            ),
+                            actions: [
+                              TextButton(
+                                onPressed: () =>
+                                    Navigator.of(dialogContext).pop(false),
+                                child: const Text('Batal'),
+                              ),
+                              ElevatedButton(
+                                onPressed: () =>
+                                    Navigator.of(dialogContext).pop(true),
+                                child: const Text('Lanjut'),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+
+                      if (isConfirmed != true) return;
+
+                      final bool consumed =
+                          await EnergyService.consumeSimulationEnergy(
+                            currentUser,
+                          );
+
+                      if (!consumed) {
+                        if (!mounted) return;
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                              'Energy tidak cukup. Minimal ${EnergyService.simulationCost} energy untuk mulai simulasi.',
+                            ),
+                          ),
+                        );
+                        return;
+                      }
+
+                      if (!mounted) return;
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => TryOutViews(
+                            data: launchData,
+                            isSimulation: true,
+                            simulationLabel: simulationLabel,
+                          ),
+                        ),
+                      );
                     },
 
                     style: ElevatedButton.styleFrom(
