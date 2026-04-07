@@ -115,7 +115,7 @@ class _AuthPageState extends State<AuthPage> {
                                   await GoogleAuthService.loginOrRegisterWithGoogle();
                                 }),
                         icon: const Icon(Icons.login),
-                        label: const Text('Sign in with Google'),
+                        label: const Text('Sign In with Google'),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color(0xFF5E00B0),
                           foregroundColor: Colors.white,
@@ -138,7 +138,7 @@ class _AuthPageState extends State<AuthPage> {
                                   );
                                 }),
                         icon: const Icon(Icons.person),
-                        label: const Text('Login as user'),
+                        label: const Text('Sign In as Guest'),
                         style: OutlinedButton.styleFrom(
                           foregroundColor: const Color(0xFF5E00B0),
                           side: const BorderSide(color: Color(0xFF5E00B0)),

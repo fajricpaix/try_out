@@ -243,8 +243,8 @@ class _ResultPageState extends State<ResultPage> {
       final ui.Image image = await boundary.toImage(pixelRatio: 2.0);
       final byteData = await image.toByteData(format: ui.ImageByteFormat.png);
       if (byteData == null) {
-        // ignore: use_build_context_synchronously
         ScaffoldMessenger.of(
+          // ignore: use_build_context_synchronously
           context,
         ).showSnackBar(const SnackBar(content: Text('Gagal memproses gambar')));
         return;
@@ -267,8 +267,8 @@ class _ResultPageState extends State<ResultPage> {
         'sharedAt': DateTime.now().toIso8601String(),
       });
     } catch (e) {
-      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(
+      // ignore: use_build_context_synchronously
         context,
       ).showSnackBar(SnackBar(content: Text('Error: $e')));
     } finally {

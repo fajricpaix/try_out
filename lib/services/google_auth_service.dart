@@ -112,17 +112,18 @@ class GoogleAuthService {
   static Future<UserCredential> loginAsUser(String userName) async {
     try {
       final UserCredential credential = await _auth.signInAnonymously();
-      final User? user = credential.user;
+      User? user = credential.user;
 
       if (user != null && (user.displayName ?? '').trim() != userName) {
         await user.updateDisplayName(userName);
         await user.reload();
-      if (credential.user != null) {
-        await AuthSessionService.saveUserSession(credential.user!, 'anonymous');
+
+        // Read the latest instance after reload so UI/session use updated displayName.
+        user = _auth.currentUser;
       }
 
-        // Force refresh to ensure displayName is synced before header renders
-        await FirebaseAuth.instance.currentUser?.reload();
+      if (user != null) {
+        await AuthSessionService.saveUserSession(user, 'anonymous');
       }
 
       return credential;
