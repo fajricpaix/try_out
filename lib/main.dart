@@ -94,7 +94,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             topRight: Radius.circular(36),
                           ),
                         ),
-                        child: const AdManager(
+                        child: AdManager(
                           showBanner: true,
                           bannerAdUnitId: AdsConstants.bannerAdUnitId,
                         ),

@@ -506,7 +506,7 @@ class _DashboardQuetionViewState extends State<DashboardQuetionView> {
                   ),
                   
                   // your AdManager for the interstitial ad
-                  const AdManager(
+                  AdManager(
                     showBanner: false,
                     showInterstitial: true,
                     interstitialAdUnitId: AdsConstants.interstitialAdUnitId,

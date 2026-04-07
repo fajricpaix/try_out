@@ -574,7 +574,7 @@ class _ResultPageState extends State<ResultPage> {
         ),
       ),
       // Gunakan AdManager untuk menampilkan banner ad dan interstitial ad
-      bottomNavigationBar: const AdManager(
+      bottomNavigationBar: AdManager(
         showBanner: true,
         bannerAdUnitId: AdsConstants.bannerAdUnitId,
       ),

@@ -455,7 +455,7 @@ class _ScoreSummaryPageState extends State<ScoreSummaryPage> {
           ],
         ),
       ),
-      bottomNavigationBar: const AdManager(
+      bottomNavigationBar: AdManager(
         showBanner: true,
         bannerAdUnitId: AdsConstants.bannerAdUnitId, // Test ID Banner
         showInterstitial: true,

@@ -25,6 +25,7 @@ class AdManager extends StatefulWidget {
 class _AdManagerState extends State<AdManager> {
   BannerAd? _bannerAd;
   bool _isBannerAdLoaded = false;
+  static const int _noFillErrorCode = 3;
 
   InterstitialAd? _interstitialAd;
 
@@ -58,11 +59,26 @@ class _AdManagerState extends State<AdManager> {
           });
         },
         onAdFailedToLoad: (ad, err) {
-          debugPrint('BannerAd failed to load: $err');
+          if (err.code == _noFillErrorCode) {
+            debugPrint(
+              'BannerAd no fill (code 3). Ini normal saat inventory kosong; akan coba lagi.',
+            );
+          } else {
+            debugPrint('BannerAd failed to load: $err');
+          }
+
           ad.dispose();
           setState(() {
             _isBannerAdLoaded = false;
           });
+
+          if (mounted) {
+            Future<void>.delayed(const Duration(seconds: 30), () {
+              if (mounted && widget.showBanner) {
+                _loadBannerAd();
+              }
+            });
+          }
         },
       ),
     )..load();

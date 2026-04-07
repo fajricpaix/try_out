@@ -539,7 +539,7 @@ class _SimulationViewState extends State<SimulationView> {
               ],
             ),
           ),
-          const AdManager(
+          AdManager(
             showBanner: false,
             showInterstitial: true,
             interstitialAdUnitId: AdsConstants.interstitialAdUnitId,
