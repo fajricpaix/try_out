@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:try_out/views/auth/auth_page.dart';
+import 'package:try_out/views/tryout/report_question.dart';
 import 'package:try_out/widgets/ads/ads_constant.dart';
 // Import AdManager
 import 'package:try_out/widgets/ads/ads_manager.dart';
-
 
 class ScoreSummaryPage extends StatefulWidget {
   final List<Map<String, dynamic>> userAnswers;
@@ -27,10 +30,124 @@ class ScoreSummaryPage extends StatefulWidget {
 }
 
 class _ScoreSummaryPageState extends State<ScoreSummaryPage> {
+  final DatabaseReference _reportRef = FirebaseDatabase.instance.ref(
+    'report-user',
+  );
+  Set<String> _reportedQuestionIds = <String>{};
+  String? _activeReporterName;
+
+  String _resolveUserName(User user) {
+    final String displayName = user.displayName?.trim() ?? '';
+    if (displayName.isNotEmpty) return displayName;
+
+    final String email = user.email?.trim() ?? '';
+    if (email.isNotEmpty) return email;
+
+    return user.uid;
+  }
+
+  Future<void> _refreshReportedQuestionIds() async {
+    final User? user = FirebaseAuth.instance.currentUser;
+    if (user == null) {
+      if (!mounted) return;
+      setState(() {
+        _activeReporterName = null;
+        _reportedQuestionIds = <String>{};
+      });
+      return;
+    }
+
+    final String reporterName = _resolveUserName(user);
+    try {
+      final DataSnapshot snapshot = await _reportRef
+          .orderByChild('namaUser')
+          .equalTo(reporterName)
+          .get();
+
+      final Set<String> ids = <String>{};
+      final dynamic rawValue = snapshot.value;
+      if (rawValue is Map) {
+        for (final dynamic value in rawValue.values) {
+          if (value is Map && value['idSoal'] != null) {
+            ids.add(value['idSoal'].toString());
+          }
+        }
+      }
+
+      if (!mounted) return;
+      setState(() {
+        _activeReporterName = reporterName;
+        _reportedQuestionIds = ids;
+      });
+    } catch (_) {
+      // Keep UI responsive; if fetch fails, report button remains enabled.
+    }
+  }
+
+  Future<void> _openReportForm({
+    required String questionId,
+    required String questionText,
+    required String explanation,
+    required List<dynamic> options,
+    required String? selectedOptionLabel,
+  }) async {
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Silakan login dulu untuk report soal.')),
+      );
+      await Navigator.push(
+        context,
+        MaterialPageRoute(builder: (_) => const AuthPage()),
+      );
+      user = FirebaseAuth.instance.currentUser;
+      if (user == null || !mounted) return;
+      await _refreshReportedQuestionIds();
+    }
+
+    if (!mounted) return;
+
+    final User loggedInUser = user;
+    final String reporterName = _resolveUserName(loggedInUser);
+    if (_activeReporterName == reporterName &&
+        _reportedQuestionIds.contains(questionId)) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Soal ini sudah pernah kamu report.')),
+      );
+      return;
+    }
+
+    final List<Map<String, dynamic>> normalizedOptions = options
+        .map((opt) => Map<String, dynamic>.from(opt as Map))
+        .toList();
+
+    final bool? didSubmit = await Navigator.push<bool>(
+      context,
+      MaterialPageRoute(
+        builder: (_) => ReportQuestionPage(
+          questionId: questionId,
+          userName: _resolveUserName(loggedInUser),
+          questionText: questionText,
+          options: normalizedOptions,
+          explanation: explanation,
+          selectedOptionLabel: selectedOptionLabel,
+        ),
+      ),
+    );
+
+    if (didSubmit == true && mounted) {
+      setState(() {
+        _activeReporterName = reporterName;
+        _reportedQuestionIds.add(questionId);
+      });
+    }
+  }
+
   @override
   void initState() {
     super.initState();
     // Interstitial ad akan dimuat dan ditampilkan oleh AdManager saat ScoreSummaryPage ini dibuat
+    _refreshReportedQuestionIds();
   }
 
   @override
@@ -109,7 +226,8 @@ class _ScoreSummaryPageState extends State<ScoreSummaryPage> {
         Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            if (optionLabelDisplay.isNotEmpty && optionLabelDisplay != value) ...[
+            if (optionLabelDisplay.isNotEmpty &&
+                optionLabelDisplay != value) ...[
               Text(
                 optionLabelDisplay,
                 style: const TextStyle(
@@ -121,7 +239,10 @@ class _ScoreSummaryPageState extends State<ScoreSummaryPage> {
             ],
             Expanded(
               child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 10),
+                padding: const EdgeInsets.symmetric(
+                  vertical: 4,
+                  horizontal: 10,
+                ),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(6),
                   color: valueColor,
@@ -240,10 +361,7 @@ class _ScoreSummaryPageState extends State<ScoreSummaryPage> {
             ),
             const Text(
               'Note: TKP tidak ada jawaban yang salah atau benar',
-              style: TextStyle(
-                fontSize: 12,
-                color: Colors.black54,
-              ),
+              style: TextStyle(fontSize: 12, color: Colors.black54),
             ),
             const SizedBox(height: 8),
             Row(
@@ -273,14 +391,31 @@ class _ScoreSummaryPageState extends State<ScoreSummaryPage> {
                 final userAnswerData = userAnswersMap[index];
 
                 final questionNumber = index + 1;
-                final questionText = currentQuestionData['questionText'] ?? 'Soal tidak tersedia.';
-                final allOptions = currentQuestionData['options'] as List<dynamic>;
-                final correctOptionLabel = currentQuestionData['answer'] as String?;
-                final explanation = currentQuestionData['explanation'] ?? 'Tidak ada penjelasan.';
-                final questionCategory = currentQuestionData['category'] as String?;
-                final selectedUserOptionLabel = userAnswerData?['selectedOptionLabel'] as String?;
+                final questionText =
+                    currentQuestionData['questionText'] ??
+                    'Soal tidak tersedia.';
+                final allOptions =
+                    currentQuestionData['options'] as List<dynamic>;
+                final correctOptionLabel =
+                    currentQuestionData['answer'] as String?;
+                final explanation =
+                    currentQuestionData['explanation'] ??
+                    'Tidak ada penjelasan.';
+                final questionCategory =
+                    currentQuestionData['category'] as String?;
+                final selectedUserOptionLabel =
+                    userAnswerData?['selectedOptionLabel'] as String?;
+                final String questionId =
+                    '${questionCategory ?? 'N/A'}-$questionNumber';
+                final User? currentUser = FirebaseAuth.instance.currentUser;
+                final bool isAlreadyReported =
+                    currentUser != null &&
+                    _activeReporterName == _resolveUserName(currentUser) &&
+                    _reportedQuestionIds.contains(questionId);
 
-                final tkpUserScore = (questionCategory == 'TKP') ? (userAnswerData?['score'] ?? 0) : null;
+                final tkpUserScore = (questionCategory == 'TKP')
+                    ? (userAnswerData?['score'] ?? 0)
+                    : null;
 
                 bool isCorrect = false;
                 if (questionCategory != 'TKP' &&
@@ -289,7 +424,10 @@ class _ScoreSummaryPageState extends State<ScoreSummaryPage> {
                 }
 
                 final formattedUserAnswer = selectedUserOptionLabel != null
-                    ? _getFormattedOptionText( selectedUserOptionLabel, allOptions)
+                    ? _getFormattedOptionText(
+                        selectedUserOptionLabel,
+                        allOptions,
+                      )
                     : 'Tidak Dijawab';
 
                 final formattedCorrectAnswer = correctOptionLabel != null
@@ -309,12 +447,52 @@ class _ScoreSummaryPageState extends State<ScoreSummaryPage> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          'Soal No. $questionNumber (${questionCategory ?? 'N/A'})',
-                          style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Color(0xFF6A5AE0),
-                          ),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Text(
+                                'Soal No. $questionNumber (${questionCategory ?? 'N/A'})',
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Color(0xFF6A5AE0),
+                                ),
+                              ),
+                            ),
+                            TextButton.icon(
+                              onPressed: isAlreadyReported
+                                  ? null
+                                  : () {
+                                      _openReportForm(
+                                        questionId: questionId,
+                                        questionText: questionText,
+                                        explanation: explanation,
+                                        options: allOptions,
+                                        selectedOptionLabel:
+                                            selectedUserOptionLabel,
+                                      );
+                                    },
+                              icon: Icon(
+                                isAlreadyReported
+                                    ? Icons.check_circle_outline
+                                    : Icons.flag_outlined,
+                                size: 18,
+                              ),
+                              label: Text(
+                                isAlreadyReported ? 'Reported' : 'Report',
+                              ),
+                              style: TextButton.styleFrom(
+                                foregroundColor: isAlreadyReported
+                                    ? Colors.grey
+                                    : Colors.redAccent,
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 8,
+                                  vertical: 4,
+                                ),
+                                minimumSize: const Size(0, 28),
+                                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                              ),
+                            ),
+                          ],
                         ),
                         const SizedBox(height: 8),
                         Text(
@@ -328,9 +506,9 @@ class _ScoreSummaryPageState extends State<ScoreSummaryPage> {
                           formattedUserAnswer,
                           selectedUserOptionLabel == null
                               ? Colors.grey
-                                : (isTKP ? Colors.blueAccent
-                                  : (isCorrect ? Colors.green : Colors.red)
-                                  ),
+                              : (isTKP
+                                    ? Colors.blueAccent
+                                    : (isCorrect ? Colors.green : Colors.red)),
                         ),
 
                         if (!isTKP) ...[
@@ -339,7 +517,10 @@ class _ScoreSummaryPageState extends State<ScoreSummaryPage> {
                             margin: const EdgeInsets.symmetric(vertical: 8),
                             decoration: const BoxDecoration(
                               border: Border(
-                                bottom: BorderSide(color: Colors.grey, width: 1.0),
+                                bottom: BorderSide(
+                                  color: Colors.grey,
+                                  width: 1.0,
+                                ),
                               ),
                             ),
                           ),
@@ -382,7 +563,8 @@ class _ScoreSummaryPageState extends State<ScoreSummaryPage> {
                               final optionLabel = option['label'] as String;
                               final optionText = option['text'] as String;
                               final optionScore = option['score'] as int;
-                              final bool isSelected = selectedUserOptionLabel == optionLabel;
+                              final bool isSelected =
+                                  selectedUserOptionLabel == optionLabel;
 
                               return Padding(
                                 padding: const EdgeInsets.only(bottom: 4),
@@ -404,13 +586,19 @@ class _ScoreSummaryPageState extends State<ScoreSummaryPage> {
                                           horizontal: 4,
                                         ),
                                         decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(4),
-                                          color: isSelected ? Colors.blueAccent : Colors.transparent,
+                                          borderRadius: BorderRadius.circular(
+                                            4,
+                                          ),
+                                          color: isSelected
+                                              ? Colors.blueAccent
+                                              : Colors.transparent,
                                         ),
                                         child: Text(
                                           optionText,
                                           style: TextStyle(
-                                            color: isSelected ? Colors.white : Colors.black87,
+                                            color: isSelected
+                                                ? Colors.white
+                                                : Colors.black87,
                                           ),
                                         ),
                                       ),
@@ -460,7 +648,8 @@ class _ScoreSummaryPageState extends State<ScoreSummaryPage> {
         bannerAdUnitId: AdsConstants.bannerAdUnitId, // Test ID Banner
         showInterstitial: true,
         interstitialAdUnitId: AdsConstants.interstitialAdUnitId,
-        interstitialCooldownKey: 'lastScoreSummaryAdShownTime', // Kunci unik untuk cooldown interstitial
+        interstitialCooldownKey:
+            'lastScoreSummaryAdShownTime', // Kunci unik untuk cooldown interstitial
       ),
     );
   }
