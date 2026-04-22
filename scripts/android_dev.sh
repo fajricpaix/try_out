@@ -3,12 +3,19 @@ set -euo pipefail
 
 PROJECT_ROOT="/Volumes/SSDFajri/DEV/Projects/try_out"
 FLUTTER_BIN="/Volumes/SSDFajri/DEV/SDKs/flutter/bin/flutter"
-ANDROID_SDK_ROOT="/opt/homebrew/share/android-commandlinetools"
+ANDROID_SDK_ROOT="$HOME/Library/Android/sdk"
+JAVA_HOME="${JAVA_HOME:-/opt/homebrew/opt/openjdk@17/libexec/openjdk.jdk/Contents/Home}"
 DEFAULT_DEVICE_ID="10DG3G0BJC000U7"
 
 export ANDROID_HOME="$ANDROID_SDK_ROOT"
 export ANDROID_SDK_ROOT="$ANDROID_SDK_ROOT"
-export PATH="$ANDROID_SDK_ROOT/platform-tools:/Volumes/SSDFajri/DEV/SDKs/flutter/bin:$PATH"
+export JAVA_HOME="$JAVA_HOME"
+export PATH="$ANDROID_SDK_ROOT/platform-tools:$ANDROID_SDK_ROOT/emulator:$ANDROID_SDK_ROOT/cmdline-tools/latest/bin:/Volumes/SSDFajri/DEV/SDKs/flutter/bin:$PATH"
+
+if ! command -v adb >/dev/null 2>&1; then
+  echo "adb tidak ditemukan di PATH. Pastikan Android SDK terpasang di: $ANDROID_SDK_ROOT"
+  exit 1
+fi
 
 usage() {
   cat <<'EOF'

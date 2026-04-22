@@ -518,6 +518,7 @@ class _SimulationViewState extends State<SimulationView> {
 
                       if (currentEnergy < EnergyService.simulationCost) {
                         if (!mounted) return;
+                        // ignore: use_build_context_synchronously
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
                             content: Text(
@@ -530,6 +531,7 @@ class _SimulationViewState extends State<SimulationView> {
 
                       if (!mounted) return;
                       final bool? isConfirmed = await showDialog<bool>(
+                        // ignore: use_build_context_synchronously
                         context: context,
                         builder: (dialogContext) {
                           return AlertDialog(
@@ -562,6 +564,7 @@ class _SimulationViewState extends State<SimulationView> {
 
                       if (!consumed) {
                         if (!mounted) return;
+                        // ignore: use_build_context_synchronously
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
                             content: Text(
@@ -574,6 +577,7 @@ class _SimulationViewState extends State<SimulationView> {
 
                       if (!mounted) return;
                       Navigator.push(
+                        // ignore: use_build_context_synchronously
                         context,
                         MaterialPageRoute(
                           builder: (context) => TryOutViews(
