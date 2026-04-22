@@ -56,6 +56,7 @@ class _ResultPageState extends State<ResultPage> {
       .child('simulation-result');
 
   bool _isSharing = false;
+  bool _isCapturingForShare = false;
   bool _didShareResult = false;
   int _summaryPageDurationSeconds = 0;
   String? _resultRecordKey;
@@ -230,7 +231,11 @@ class _ResultPageState extends State<ResultPage> {
     try {
       setState(() {
         _isSharing = true;
+        _isCapturingForShare = true;
       });
+
+      await WidgetsBinding.instance.endOfFrame;
+
       final boundary =
           _repaintBoundaryKey.currentContext?.findRenderObject()
               as RenderRepaintBoundary?;
@@ -272,9 +277,12 @@ class _ResultPageState extends State<ResultPage> {
         context,
       ).showSnackBar(SnackBar(content: Text('Error: $e')));
     } finally {
-      setState(() {
-        _isSharing = false;
-      });
+      if (mounted) {
+        setState(() {
+          _isSharing = false;
+          _isCapturingForShare = false;
+        });
+      }
     }
   }
 
@@ -292,6 +300,7 @@ class _ResultPageState extends State<ResultPage> {
         child: RepaintBoundary(
           key: _repaintBoundaryKey,
           child: Container(
+            color: Colors.white,
             margin: const EdgeInsets.only(top: 48),
             padding: const EdgeInsets.all(20.0),
             width: MediaQuery.of(context).size.width,
@@ -439,135 +448,137 @@ class _ResultPageState extends State<ResultPage> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 16),
+                if (!_isCapturingForShare) ...[
+                  const SizedBox(height: 16),
 
-                // Button Check Summary Answers
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: () async {
-                      final stopwatch = Stopwatch()..start();
-                      await Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => ScoreSummaryPage(
-                            userAnswers: widget.userAnswers,
-                            totalQuestions: widget.totalQuestions,
-                            twkScore: widget.twkScore,
-                            tiuScore: widget.tiuScore,
-                            tkpScore: widget.tkpScore,
-                            allQuizQuestions: widget.allQuizQuestions,
+                  // Button Check Summary Answers
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: () async {
+                        final stopwatch = Stopwatch()..start();
+                        await Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => ScoreSummaryPage(
+                              userAnswers: widget.userAnswers,
+                              totalQuestions: widget.totalQuestions,
+                              twkScore: widget.twkScore,
+                              tiuScore: widget.tiuScore,
+                              tkpScore: widget.tkpScore,
+                              allQuizQuestions: widget.allQuizQuestions,
+                            ),
                           ),
+                        );
+                        stopwatch.stop();
+                        _summaryPageDurationSeconds +=
+                            stopwatch.elapsed.inSeconds;
+                        await _updateSimulationResultRecord({
+                          'summaryPageDurationSeconds':
+                              _summaryPageDurationSeconds,
+                        });
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Color(0xFFFFE500),
+                        padding: const EdgeInsets.symmetric(vertical: 16),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
                         ),
-                      );
-                      stopwatch.stop();
-                      _summaryPageDurationSeconds +=
-                          stopwatch.elapsed.inSeconds;
-                      await _updateSimulationResultRecord({
-                        'summaryPageDurationSeconds':
-                            _summaryPageDurationSeconds,
-                      });
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Color(0xFFFFE500),
-                      padding: const EdgeInsets.symmetric(vertical: 16),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
                       ),
-                    ),
-                    child: const Text(
-                      'Lihat Detail Jawaban',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
+                      child: const Text(
+                        'Lihat Detail Jawaban',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                        ),
                       ),
                     ),
                   ),
-                ),
-                const SizedBox(height: 20),
+                  const SizedBox(height: 20),
 
-                // Button Shared and Back to Home
-                Container(
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                  margin: const EdgeInsets.only(top: 20),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            padding: const EdgeInsets.symmetric(vertical: 12),
-                            backgroundColor: const Color(0xFFEFF1FE),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                          ),
-                          onPressed: _isSharing
-                              ? null
-                              : () {
-                                  _shareResult();
-                                },
-                          child: _isSharing
-                              ? SizedBox(
-                                  height: 24,
-                                  child: Center(
-                                    child: SizedBox(
-                                      width: 16,
-                                      height: 16,
-                                      child: CircularProgressIndicator(
-                                        strokeWidth: 2.0,
-                                        color: Color(0xFF6A5AE0),
-                                      ),
-                                    ),
-                                  ),
-                                )
-                              : Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Icon(
-                                      Icons.share_outlined,
-                                      color: Color(0xFF6A5AE0),
-                                      size: 20,
-                                    ),
-                                    SizedBox(width: 8),
-                                    Text(
-                                      'Shared',
-                                      style: TextStyle(
-                                        color: Color(0xFF6A5AE0),
-                                        fontSize: 14,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                        ),
-                      ),
-                      const SizedBox(width: 16),
-                      Expanded(
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            padding: const EdgeInsets.symmetric(vertical: 12),
-                            backgroundColor: const Color(0xFF6A5AE0),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                          ),
-                          onPressed: () {
-                            Navigator.pushAndRemoveUntil(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const MyHomePage(),
+                  // Button Shared and Back to Home
+                  Container(
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    margin: const EdgeInsets.only(top: 20),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              padding: const EdgeInsets.symmetric(vertical: 12),
+                              backgroundColor: const Color(0xFFEFF1FE),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8),
                               ),
-                              (Route<dynamic> route) => false,
-                            );
-                          },
-                          child: const Text(
-                            'Kembali ke Beranda',
-                            style: TextStyle(fontSize: 14, color: Colors.white),
+                            ),
+                            onPressed: _isSharing
+                                ? null
+                                : () {
+                                    _shareResult();
+                                  },
+                            child: _isSharing
+                                ? SizedBox(
+                                    height: 24,
+                                    child: Center(
+                                      child: SizedBox(
+                                        width: 16,
+                                        height: 16,
+                                        child: CircularProgressIndicator(
+                                          strokeWidth: 2.0,
+                                          color: Color(0xFF6A5AE0),
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                : Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Icon(
+                                        Icons.share_outlined,
+                                        color: Color(0xFF6A5AE0),
+                                        size: 20,
+                                      ),
+                                      SizedBox(width: 8),
+                                      Text(
+                                        'Shared',
+                                        style: TextStyle(
+                                          color: Color(0xFF6A5AE0),
+                                          fontSize: 14,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                           ),
                         ),
-                      ),
-                    ],
+                        const SizedBox(width: 16),
+                        Expanded(
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              padding: const EdgeInsets.symmetric(vertical: 12),
+                              backgroundColor: const Color(0xFF6A5AE0),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                            ),
+                            onPressed: () {
+                              Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const MyHomePage(),
+                                ),
+                                (Route<dynamic> route) => false,
+                              );
+                            },
+                            child: const Text(
+                              'Kembali ke Beranda',
+                              style: TextStyle(fontSize: 14, color: Colors.white),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
+                ],
               ],
             ),
           ),

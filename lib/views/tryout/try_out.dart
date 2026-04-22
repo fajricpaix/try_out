@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:try_out/views/tryout/result.dart';
+import 'package:try_out/widgets/ads/ads_constant.dart';
+import 'package:try_out/widgets/ads/ads_manager.dart';
 import 'package:try_out/widgets/modal/confirm_finish.dart';
 import 'package:try_out/widgets/modal/confirmation_dialog.dart';
 import 'package:try_out/widgets/modal/quiz.dart';
@@ -479,6 +481,7 @@ class _TryOutViewsState extends State<TryOutViews> {
                       ],
                     ),
                   ),
+                  
                   Container(
                     transform: Matrix4.translationValues(0, 24, 0),
                     margin: const EdgeInsets.symmetric(
@@ -546,6 +549,7 @@ class _TryOutViewsState extends State<TryOutViews> {
                       }).toList(),
                     ),
                   ),
+                  
                   Container(
                     width: double.infinity,
                     margin: const EdgeInsets.all(20),
@@ -568,6 +572,11 @@ class _TryOutViewsState extends State<TryOutViews> {
                         ),
                       ),
                     ),
+                  ),
+
+                  AdManager(
+                    showBanner: true,
+                    bannerAdUnitId: AdsConstants.bannerAdUnitId,
                   ),
                 ],
               ),

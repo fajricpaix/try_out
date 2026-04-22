@@ -315,6 +315,7 @@ class _SimulationViewState extends State<SimulationView> {
             'Simulasi',
             style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
           ),
+          titleSpacing: 0,
           leading: IconButton(
             icon: const Icon(Icons.close, color: Colors.white),
             onPressed: () => Navigator.of(context).pop(),
