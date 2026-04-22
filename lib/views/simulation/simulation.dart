@@ -613,6 +613,10 @@ class _SimulationViewState extends State<SimulationView> {
           ),
         ],
       ),
+      bottomNavigationBar: AdManager(
+        showBanner: true,
+        bannerAdUnitId: AdsConstants.bannerAdUnitId,
+      ),
     );
   }
 }

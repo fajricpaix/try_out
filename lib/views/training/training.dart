@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:try_out/views/quetions/dashboard.dart';
+import 'package:try_out/widgets/ads/ads_constant.dart';
+import 'package:try_out/widgets/ads/ads_manager.dart';
 import 'package:try_out/widgets/thumbnail/thumbnail_training.dart';
 import 'package:firebase_database/firebase_database.dart'; // Import Firebase Database
 
@@ -164,6 +166,10 @@ class TrainingView extends StatelessWidget {
             ),
           );
         },
+      ),
+      bottomNavigationBar: AdManager(
+        showBanner: true,
+        bannerAdUnitId: AdsConstants.bannerAdUnitId,
       ),
     );
   }

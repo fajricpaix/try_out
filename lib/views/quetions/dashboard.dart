@@ -518,6 +518,10 @@ class _DashboardQuetionViewState extends State<DashboardQuetionView> {
           ),
         ],
       ),
+      bottomNavigationBar: AdManager(
+        showBanner: true,
+        bannerAdUnitId: AdsConstants.bannerAdUnitId,
+      ),
     );
   }
 }
