@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:try_out/main.dart';
+import 'package:try_out/widgets/ads/ads_constant.dart';
+import 'package:try_out/widgets/ads/ads_manager.dart';
 import 'package:try_out/widgets/modal/confirmation_dialog.dart';
 import 'package:try_out/widgets/modal/quiz.dart';
 import 'package:try_out/widgets/tools/select_quiz_button.dart';
@@ -224,9 +226,10 @@ class _QuizViewState extends State<QuizView> {
       return Scaffold(
         appBar: AppBar(
           title: const Text(
-            'Latihan Soal',
-            style: TextStyle(color: Colors.white),
+            'Try Out CPNS',
+            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
           ),
+          titleSpacing: 0,
           backgroundColor: const Color(0xFF6A5AE0),
         ),
         body: const Center(
@@ -259,10 +262,11 @@ class _QuizViewState extends State<QuizView> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         title: const Text(
-          'Latihan Soal',
+          'Try Out CPNS',
           style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
         backgroundColor: const Color(0xFF6A5AE0),
+        titleSpacing: 0,
         leading: IconButton(
           icon: const Icon(Icons.close, color: Colors.white),
           onPressed: () async {
@@ -454,6 +458,13 @@ class _QuizViewState extends State<QuizView> {
                         ],
                       ),
                     ),
+
+                  // Ads Banner
+                  AdManager(
+                    showBanner: true,
+                    bannerAdUnitId: AdsConstants.bannerAdUnitId,
+                  ),
+
                 ],
               ),
             ),

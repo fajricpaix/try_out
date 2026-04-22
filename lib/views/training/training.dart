@@ -41,7 +41,7 @@ class TrainingView extends StatelessWidget {
       backgroundColor: Colors.white,
       appBar: AppBar(
         title: const Text(
-          'Latihan Soal',
+          'Try Out CPNS Training',
           style: TextStyle(
             color: Color(0xFF6A5AE0),
             fontWeight: FontWeight.bold,
