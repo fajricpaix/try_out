@@ -157,6 +157,7 @@ class _HeaderTopBarState extends State<HeaderTopBar> {
   }
 
   Future<InterstitialAd?> _loadTopUpAd() async {
+    if (!AdsConstants.adsSupported) return null;
     final Completer<InterstitialAd?> completer = Completer<InterstitialAd?>();
 
     InterstitialAd.load(

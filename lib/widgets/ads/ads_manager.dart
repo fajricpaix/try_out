@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:try_out/widgets/ads/ads_constant.dart';
 
 class AdManager extends StatefulWidget {
   final bool showBanner;
@@ -32,6 +33,7 @@ class _AdManagerState extends State<AdManager> {
   @override
   void initState() {
     super.initState();
+    if (!AdsConstants.adsSupported) return;
     if (widget.showBanner && widget.bannerAdUnitId != null) {
       _loadBannerAd();
     }

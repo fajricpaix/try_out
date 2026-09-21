@@ -13,7 +13,7 @@ class InterstitialAdsBackButton {
   InterstitialAdsBackButton({this.onAdDismissed});
 
   void loadAd() {
-    if (_isAdLoaded || _interstitialAd != null) {
+    if (_isAdLoaded || _interstitialAd != null || !AdsConstants.adsSupported) {
       return;
     }
 

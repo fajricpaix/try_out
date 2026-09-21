@@ -68,6 +68,7 @@ class _QuizViewState extends State<QuizView> {
   }
 
   void _loadInterstitialAd() {
+    if (!AdsConstants.adsSupported) return;
     InterstitialAd.load(
       adUnitId: 'ca-app-pub-2602479093941928/6425837737',
       request: const AdRequest(),

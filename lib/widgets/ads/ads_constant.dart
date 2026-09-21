@@ -1,6 +1,14 @@
 import 'package:flutter/foundation.dart';
 
 class AdsConstants {
+  // google_mobile_ads only ships Android/iOS platform channels; calling it
+  // anywhere else (macOS/web/desktop) throws MissingPluginException and
+  // blanks the screen.
+  static bool get adsSupported =>
+      !kIsWeb &&
+      (defaultTargetPlatform == TargetPlatform.android ||
+          defaultTargetPlatform == TargetPlatform.iOS);
+
   // Official Google test IDs for Android while developing.
   static const String _testBannerAdUnitId =
       'ca-app-pub-3940256099942544/6300978111';

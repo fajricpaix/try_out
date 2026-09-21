@@ -21,7 +21,9 @@ void main() async {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
-  MobileAds.instance.initialize();
+  if (AdsConstants.adsSupported) {
+    MobileAds.instance.initialize();
+  }
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await FirebaseAuth.instance.setLanguageCode('id');
